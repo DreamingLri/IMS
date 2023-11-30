@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/IMS.iml" filepath="$PROJECT_DIR$/IMS.iml" />
-      <module fileurl="file://$PROJECT_DIR$/IMS-frontend/IMS-frontend.iml" filepath="$PROJECT_DIR$/IMS-frontend/IMS-frontend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/IMS-frontend/IMS-backend.iml" filepath="$PROJECT_DIR$/IMS-frontend/IMS-backend.iml" />
     </modules>
   </component>
 </project>
