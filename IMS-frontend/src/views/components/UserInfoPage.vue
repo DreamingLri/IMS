@@ -4,9 +4,9 @@ import {onMounted, ref} from "vue";
 import request from "@/utils/request";
 import {ElMessage} from "element-plus";
 
-const userList = ref([
+const userList = ref([])
 
-])
+const select = ref('1')
 
 const getList = () => {
   request.get("/user/listUser").then(res => {
@@ -28,7 +28,14 @@ onMounted(() => {
   <div class="main-wrapper">
     <div class="header-wrapper">
       <div style="width: 100%; height: 40%; display: flex">
-        <el-input placeholder="用户名" clearable style="height: 30px; width: 200px"/>
+        <el-input placeholder="请输入" class="input-with-select" style="height: 30px; width: 300px">
+          <template #append>
+            <el-select v-model="select" placeholder="Select" style="width: 100px">
+              <el-option label="姓名" value="1" />
+              <el-option label="Net Id" value="2" />
+            </el-select>
+          </template>
+        </el-input>
       </div>
       <div style="height: 15%; width: 100%"/>
       <div style="width: 100%; height: 50%; display: flex">
