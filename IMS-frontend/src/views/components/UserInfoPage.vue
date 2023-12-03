@@ -1,0 +1,77 @@
+<script setup>
+import {Delete, Edit, EditPen, Plus, Refresh, Search} from "@element-plus/icons-vue";
+import {onMounted, ref} from "vue";
+import request from "@/utils/request";
+import {ElMessage} from "element-plus";
+
+const userList = ref([
+
+])
+
+const getList = () => {
+  request.get("/user/listUser").then(res => {
+    if(res.code === 200){
+      userList.value = res.data
+      console.log(res.data)
+    } else {
+      ElMessage.error(res.message)
+    }
+  })
+}
+
+onMounted(() => {
+  getList()
+})
+</script>
+
+<template>
+  <div class="main-wrapper">
+    <div class="header-wrapper">
+      <div style="width: 100%; height: 40%; display: flex">
+        <el-input placeholder="用户名" clearable style="height: 30px; width: 200px"/>
+      </div>
+      <div style="height: 15%; width: 100%"/>
+      <div style="width: 100%; height: 50%; display: flex">
+        <el-button type="primary" plain><el-icon style="margin-right: 3px"><Search /></el-icon>搜索</el-button>
+        <el-button type="danger" plain><el-icon style="margin-right: 3px"><Refresh /></el-icon>重置</el-button>
+        <el-button type="success" plain><el-icon style="margin-right: 3px"><Plus /></el-icon>新增</el-button>
+      </div>
+    </div>
+    <div style="height: 5%; width: 100%"/>
+    <el-scrollbar class="table-wrapper">
+      <el-table :data="userList" stripe style="width: 100%" border>
+        <el-table-column prop="id" label="ID" width="50" />
+        <el-table-column prop="netId" label="Net Id" width="70"/>
+        <el-table-column prop="username" label="姓名" width="100"/>
+        <el-table-column prop="code" label="学号" width="100"/>
+        <el-table-column prop="address" label="住址" width="180"/>
+        <el-table-column prop="gender" label="性别" width="60"/>
+        <el-table-column prop="birthday" label="生日" width="180"/>
+        <el-table-column label="操作">
+          <el-button type="primary" plain><el-icon style="margin-right: 5px"><Edit /></el-icon>修改</el-button>
+          <el-button type="danger" plain><el-icon style="margin-right: 5px"><Delete /></el-icon>删除</el-button>
+        </el-table-column>
+      </el-table>
+    </el-scrollbar>
+  </div>
+</template>
+
+<style scoped>
+.main-wrapper{
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  border-radius: 8px;
+  box-sizing: border-box;
+  padding: 20px;
+}
+
+.header-wrapper{
+  width: 100%;
+  height: 10%;
+}
+.table-wrapper{
+  height: 85%;
+  width: 100%;
+}
+</style>

@@ -29,10 +29,10 @@ function logout(){
         <div>
           <el-scrollbar class="el-scrollbar">
             <el-menu
-                default-active="2"
+                default-active="0"
                 class="el-menu-vertical-demo"
             >
-              <el-menu-item index="0">
+              <el-menu-item index="0" @click="router.push('/')">
                 <template #title>
                   <el-icon><House /></el-icon>
                   <span>首页</span>
@@ -44,9 +44,10 @@ function logout(){
                   <span>学生管理</span>
                 </template>
                 <el-menu-item-group>
-                  <el-menu-item index="1-1">学生信息</el-menu-item>
+                  <el-menu-item index="1-1" @click="router.push('/index/user-info')">学生信息</el-menu-item>
                   <el-menu-item index="1-2">学生选课</el-menu-item>
                   <el-menu-item index="1-3">学生成绩</el-menu-item>
+                  <el-menu-item index="1-4">学生课表</el-menu-item>
                 </el-menu-item-group>
               </el-sub-menu>
               <el-sub-menu index="2">

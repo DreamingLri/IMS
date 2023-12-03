@@ -12,6 +12,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class AuthUserInfoVO {
     private int id;
+    private String netId;
     private String username;
     private String password;
     private String address;
