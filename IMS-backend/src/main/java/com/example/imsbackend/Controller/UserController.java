@@ -5,7 +5,9 @@ import com.example.imsbackend.entity.dto.InsertUserDTO;
 import com.example.imsbackend.entity.dto.UpdateUserDTO;
 import com.example.imsbackend.entity.vo.AuthUserInfoVO;
 import com.example.imsbackend.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,6 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor
+@Validated
 public class UserController {
 
     private final UserService userService;
@@ -28,12 +31,12 @@ public class UserController {
     }
     //新增
     @PostMapping("/insertUser")
-    public boolean insertUser(@RequestBody InsertUserDTO insertUserDTO){
+    public boolean insertUser(@Valid @RequestBody InsertUserDTO insertUserDTO){
         return userService.insertUser(insertUserDTO);
     }
     //更新
     @PostMapping("/updateUserById")
-    public boolean updateUserById(@RequestBody UpdateUserDTO updateUserDTO){
+    public boolean updateUserById(@Valid @RequestBody UpdateUserDTO updateUserDTO){
         return userService.updateUserById(updateUserDTO);
     }
     //删除
