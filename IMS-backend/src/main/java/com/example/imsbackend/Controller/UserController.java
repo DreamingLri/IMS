@@ -1,6 +1,9 @@
 package com.example.imsbackend.Controller;
 
 import com.example.imsbackend.entity.User;
+import com.example.imsbackend.entity.dto.InsertUserDTO;
+import com.example.imsbackend.entity.dto.UpdateUserDTO;
+import com.example.imsbackend.entity.vo.AuthUserInfoVO;
 import com.example.imsbackend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -14,24 +17,24 @@ public class UserController {
 
     private final UserService userService;
     @GetMapping("/listUser")
-    public List<User> userList(){
+    public List<AuthUserInfoVO> userList(){
         return userService.listUser();
     }
 
     //查询
     @GetMapping("/getUserById/{id}")
-    public User getUserById(@PathVariable Integer id){
+    public AuthUserInfoVO getUserById(@PathVariable Integer id){
         return userService.getUserById(id);
     }
     //新增
     @PostMapping("/insertUser")
-    public boolean insertUser(@RequestBody User user){
-        return userService.insertUser(user);
+    public boolean insertUser(@RequestBody InsertUserDTO insertUserDTO){
+        return userService.insertUser(insertUserDTO);
     }
     //更新
     @PostMapping("/updateUserById")
-    public boolean updateUserById(@RequestBody User user){
-        return userService.updateUserById(user);
+    public boolean updateUserById(@RequestBody UpdateUserDTO updateUserDTO){
+        return userService.updateUserById(updateUserDTO);
     }
     //删除
     @DeleteMapping("/deleteUserById/{id}")

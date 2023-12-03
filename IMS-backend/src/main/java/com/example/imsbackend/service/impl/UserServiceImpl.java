@@ -2,7 +2,11 @@ package com.example.imsbackend.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.imsbackend.entity.User;
+import com.example.imsbackend.entity.dto.InsertUserDTO;
+import com.example.imsbackend.entity.dto.UpdateUserDTO;
+import com.example.imsbackend.entity.vo.AuthUserInfoVO;
 import com.example.imsbackend.mapper.UserMapper;
+import com.example.imsbackend.mapper.struct.BeanCopyUtil;
 import org.springframework.stereotype.Service;
 import com.example.imsbackend.service.UserService;
 
@@ -18,22 +22,27 @@ import java.util.List;
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
     @Override
-    public List<User> listUser() {
-        return baseMapper.selectList(null);
+    public List<AuthUserInfoVO> listUser() {
+        return baseMapper.selectList(null)
+                .stream()
+                .map(BeanCopyUtil.INSTANCE::toAuthUserInfo)
+                .toList();
     }
 
     @Override
-    public User getUserById(Integer id) {
-        return baseMapper.selectById(id);
+    public AuthUserInfoVO getUserById(Integer id) {
+        return BeanCopyUtil.INSTANCE.toAuthUserInfo(baseMapper.selectById(id));
     }
 
     @Override
-    public boolean insertUser(User user) {
+    public boolean insertUser(InsertUserDTO insertUserDTO) {
+        User user =  BeanCopyUtil.INSTANCE.toUser(insertUserDTO);
         return baseMapper.insert(user) == 1;
     }
 
     @Override
-    public boolean updateUserById(User user) {
+    public boolean updateUserById(UpdateUserDTO updateUserDTO) {
+        User user =  BeanCopyUtil.INSTANCE.toUser(updateUserDTO);
         return baseMapper.updateById(user) == 1;
     }
 

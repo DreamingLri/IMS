@@ -1,4 +1,4 @@
-package com.example.imsbackend.entity.vo.response;
+package com.example.imsbackend.entity.vo;
 
 
 import lombok.AllArgsConstructor;
@@ -8,7 +8,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthUserInfoVO {
-    private int id;
+public class LoginVO {
+
     private String username;
+    private String password;
 }
