@@ -1,6 +1,7 @@
 package com.example.imsbackend.entity.vo;
 
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,4 +23,6 @@ public class AuthUserInfoVO {
     private String gender;
     private Date entryTime;
     private Date finishTime;
+
+
 }

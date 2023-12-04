@@ -20,8 +20,8 @@ public class UserController {
 
     private final UserService userService;
     @GetMapping("/listUser")
-    public List<AuthUserInfoVO> userList(){
-        return userService.listUser();
+    public List<AuthUserInfoVO> userList(String username){
+        return userService.listUser(username);
     }
 
     //查询

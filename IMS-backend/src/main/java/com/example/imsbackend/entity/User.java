@@ -1,5 +1,6 @@
 package com.example.imsbackend.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
@@ -16,8 +17,9 @@ import java.util.Date;
 public class User {
     @TableId
     private int id;
-
+    @TableField("net_id")
     private String netId;
+
     private String username;
     private String password;
     private String address;
