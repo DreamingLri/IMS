@@ -9,7 +9,7 @@ create table user
     code                varchar(20)      null,
     identification_code varchar(18)      null,
     birthday            date             null,
-    gender              char             null,
+    gender              varchar(255)     null,
     entry_time          datetime         null,
     finish_time         datetime         null,
     create_time         datetime         null,
