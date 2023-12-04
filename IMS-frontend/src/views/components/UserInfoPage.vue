@@ -30,6 +30,17 @@ const reset = () =>{
   getList()
 }
 
+const removeUser = (id) =>{
+  request.delete("/user/deleteUserById/" + id).then(res => {
+    if(res.code === 200){
+      ElMessage.success("删除成功")
+      reset()
+    } else {
+      ElMessage.error(res.message)
+    }
+  })
+}
+
 onMounted(() => {
   getList()
 })
@@ -47,10 +58,11 @@ onMounted(() => {
             </el-select>
           </template>
         </el-input>
+        <el-button @click="getList" type="primary" plain style="margin-left: 10px; height: 30px"><el-icon style="margin-right: 3px"><Search /></el-icon>搜索</el-button>
       </div>
       <div style="height: 15%; width: 100%"/>
       <div style="width: 100%; height: 50%; display: flex">
-        <el-button @click="getList" type="primary" plain><el-icon style="margin-right: 3px"><Search /></el-icon>搜索</el-button>
+
         <el-button @click="reset" type="danger" plain><el-icon style="margin-right: 3px"><Refresh /></el-icon>重置</el-button>
         <el-button type="success" plain><el-icon style="margin-right: 3px"><Plus /></el-icon>新增</el-button>
       </div>
@@ -66,8 +78,15 @@ onMounted(() => {
         <el-table-column prop="gender" label="性别" width="60"/>
         <el-table-column prop="birthday" label="生日" width="180"/>
         <el-table-column label="操作">
-          <el-button type="primary" plain><el-icon style="margin-right: 5px"><Edit /></el-icon>修改</el-button>
-          <el-button type="danger" plain><el-icon style="margin-right: 5px"><Delete /></el-icon>删除</el-button>
+          <template v-slot="scope">
+            <el-button type="primary" plain><el-icon style="margin-right: 5px"><Edit /></el-icon>修改</el-button>
+            <el-popconfirm title="你确定要删除这个用户吗?" @confirm="removeUser(scope.row.id)" confirm-button-text="确定" cancel-button-text="取消">
+              <template #reference>
+                <el-button type="danger" plain><el-icon style="margin-right: 5px"><Delete /></el-icon>删除</el-button>
+              </template>
+            </el-popconfirm>
+
+          </template>
         </el-table-column>
       </el-table>
     </el-scrollbar>
