@@ -46,7 +46,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public boolean updateUserById(UpdateUserDTO updateUserDTO) {
-        User user =  BeanCopyUtil.INSTANCE.toUser(updateUserDTO);
+        User user = BeanCopyUtil.INSTANCE.toUser(updateUserDTO);
         return baseMapper.updateById(user) == 1;
     }
 

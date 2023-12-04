@@ -27,7 +27,6 @@ const updateUserForm = reactive({
   id: '',
   username: '',
   netId: '',
-  password: '',
   address: '',
   code: '',
   identificationCode: '',
@@ -89,12 +88,26 @@ const closeAddDialog = () =>{
 const closeUpdateDialog = () =>{
   updateUserDialog.value = false
 }
+const openUpdateDialog = (row) =>{
+  updateUserDialog.value = true
+
+  updateUserForm.id = row.id
+  updateUserForm.username = row.username
+  updateUserForm.netId = row.netId
+  updateUserForm.address = row.address
+  updateUserForm.code = row.code
+  updateUserForm.identificationCode = row.identificationCode
+  updateUserForm.gender = row.gender
+  updateUserForm.birthday = row.birthday
+  updateUserForm.entryTime = row.entryTime
+  updateUserForm.finishTime = row.finishTime
+}
 
 const submitForm = async (formEl) => {
   if (!formEl) return
   await formEl.validate((valid, fields) => {
     if (valid) {
-      request.post('/user/insertUser' , addUserForm).then(res =>{
+      request.post('/user/insertUser' , updateUserForm).then(res =>{
         if(res.code === 200){
           ElMessage.success('添加成功')
           closeAddDialog()
@@ -116,7 +129,7 @@ const updateForm = async (formEl) => {
   if (!formEl) return
   await formEl.validate((valid, fields) => {
     if (valid) {
-      request.post('/user/updateUserById'+updateUserForm.id , updateUserForm).then(res =>{
+      request.post('/user/updateUserById', updateUserForm).then(res =>{
         if(res.code === 200){
           ElMessage.success('更新成功')
           closeAddDialog()
@@ -124,6 +137,7 @@ const updateForm = async (formEl) => {
         } else {
           ElMessage.error('更新失败')
           console.log(res.message)
+          console.log(updateUserForm)
           reset()
         }
       })
@@ -209,12 +223,15 @@ onMounted(() => {
         <el-table-column prop="netId" label="Net Id" width="100"/>
         <el-table-column prop="username" label="姓名" width="100"/>
         <el-table-column prop="code" label="学号" width="100"/>
+        <el-table-column prop="identificationCode" label="身份证" width="200"/>
         <el-table-column prop="address" label="住址" width="180"/>
         <el-table-column prop="gender" label="性别" width="60"/>
-        <el-table-column prop="birthday" label="生日" width="180"/>
+        <el-table-column prop="birthday" label="生日" width="100"/>
+        <el-table-column prop="entryTime" label="入学日期" width="100"/>
+        <el-table-column prop="finishTime" label="离校日期" width="100"/>
         <el-table-column label="操作">
           <template v-slot="scope">
-            <el-button type="primary" plain @click="updateUserDialog = true"><el-icon style="margin-right: 5px"><Edit /></el-icon>修改</el-button>
+            <el-button type="primary" plain @click="openUpdateDialog(scope.row)"><el-icon style="margin-right: 5px"><Edit /></el-icon>修改</el-button>
             <el-popconfirm title="你确定要删除这个用户吗?" @confirm="removeUser(scope.row.id)" confirm-button-text="确定" cancel-button-text="取消">
               <template #reference>
                 <el-button type="danger" plain><el-icon style="margin-right: 5px"><Delete /></el-icon>删除</el-button>
@@ -359,7 +376,7 @@ onMounted(() => {
         </el-form-item>
 
         <el-form-item>
-          <el-button type="primary" @click="submitForm(ruleForm)">更新</el-button>
+          <el-button type="primary" @click="updateForm(ruleForm)">更新</el-button>
           <el-button @click="resetForm(ruleForm)">重置</el-button>
         </el-form-item>
 
@@ -367,7 +384,7 @@ onMounted(() => {
     </div>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="closeAddDialog">取消</el-button>
+        <el-button @click="closeUpdateDialog">取消</el-button>
       </span>
     </template>
   </el-dialog>

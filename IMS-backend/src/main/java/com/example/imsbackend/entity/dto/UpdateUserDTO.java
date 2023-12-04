@@ -13,6 +13,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateUserDTO {
+
     @NotNull(message = "id不能为空")
     private int id;
     @NotBlank(message = "NetId不能为空")
@@ -33,15 +34,15 @@ public class UpdateUserDTO {
 //    message = "身份证格式错误")
     private String identificationCode;
 
-    @NotBlank(message = "生日不能为空")
+//    @NotBlank(message = "生日不能为空")
     private Date birthday;
 
     @NotBlank(message = "性别不能为空")
     private String gender;
 
-    @NotBlank(message = "入学日期不能为空")
+//    @NotBlank(message = "入学日期不能为空")
     private Date entryTime;
 
-    @NotBlank(message = "离校日期不能为空")
+//    @NotBlank(message = "离校日期不能为空")
     private Date finishTime;
 }
