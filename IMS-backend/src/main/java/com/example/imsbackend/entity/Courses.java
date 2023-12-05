@@ -2,6 +2,8 @@ package com.example.imsbackend.entity;
 
 import java.util.Date;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.AllArgsConstructor;
@@ -13,16 +15,19 @@ import lombok.experimental.Accessors;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Accessors(chain = true)
 @TableName("courses")
 public class Courses{
-
+    @TableId
     private Integer id;
     private String name;
+    @TableField("start_time")
     private Date startTime;
+    @TableField("end_time")
     private Date endTime;
-    private Integer studentNumber;
+    @TableField("student_number")
+    private Object studentNumber;
     private Double credit;
+    @TableField("opened_by")
     private String openedBy;
 
     private Date createTime;

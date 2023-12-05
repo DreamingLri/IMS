@@ -43,3 +43,19 @@ create table user_course
     net_id    varchar(255) null,
     course_id int          null
 );
+
+create table level
+(
+    id         int auto_increment
+        primary key,
+    level_name varchar(255) null,
+    level      varchar(255) null
+);
+
+create table user_level
+(
+    net_id   varchar(255) null,
+    level_id int          null,
+    constraint user_level_pk
+        unique (net_id, level_id)
+);

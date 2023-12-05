@@ -14,7 +14,7 @@ import java.util.Objects;
 
 @RestController
 @RequiredArgsConstructor
-class TestController {
+class LoginController {
     private final UserMapper userMapper;
     @PostMapping("/login")
     public AuthUserInfoVO login(@RequestBody LoginVO loginVO) {

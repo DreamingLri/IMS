@@ -23,6 +23,4 @@ public class AuthUserInfoVO {
     private String gender;
     private Date entryTime;
     private Date finishTime;
-
-
 }

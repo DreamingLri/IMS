@@ -3,6 +3,8 @@ package com.example.imsbackend.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.imsbackend.entity.Courses;
 
+import java.util.List;
+
 /**
  * (Courses)表服务接口
  *
@@ -11,5 +13,12 @@ import com.example.imsbackend.entity.Courses;
  */
 public interface CoursesService extends IService<Courses> {
 
+    List<Courses> listCourse(String name);
+
+    boolean insertCourse(Courses courses);
+
+    boolean updateCourseById(Courses courses);
+
+    boolean deleteCourseById(Integer id);
 }
 

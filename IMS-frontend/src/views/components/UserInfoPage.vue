@@ -107,7 +107,7 @@ const submitForm = async (formEl) => {
   if (!formEl) return
   await formEl.validate((valid, fields) => {
     if (valid) {
-      request.post('/user/insertUser' , updateUserForm).then(res =>{
+      request.post('/user/insertUser' , addUserForm).then(res =>{
         if(res.code === 200){
           ElMessage.success('添加成功')
           closeAddDialog()

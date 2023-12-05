@@ -1,5 +1,6 @@
 package com.example.imsbackend.mapper.struct;
 
+import com.example.imsbackend.entity.Courses;
 import com.example.imsbackend.entity.User;
 import com.example.imsbackend.entity.dto.InsertUserDTO;
 import com.example.imsbackend.entity.dto.UpdateUserDTO;
