@@ -77,7 +77,7 @@ function logout(){
                   <span>课程管理</span>
                 </template>
                 <el-menu-item-group>
-                  <el-menu-item index="4-1">课程信息</el-menu-item>
+                  <el-menu-item index="4-1" @click="router.push('/index/course')">课程信息</el-menu-item>
                   <el-menu-item index="4-2">任课老师</el-menu-item>
                   <el-menu-item index="4-3">选课情况</el-menu-item>
                 </el-menu-item-group>
