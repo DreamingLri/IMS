@@ -132,7 +132,7 @@ const updateForm = async (formEl) => {
       request.post('/user/updateUserById', updateUserForm).then(res =>{
         if(res.code === 200){
           ElMessage.success('更新成功')
-          closeAddDialog()
+          closeUpdateDialog()
           reset()
         } else {
           ElMessage.error('更新失败')

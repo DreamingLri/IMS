@@ -21,3 +21,25 @@ create table user
         unique (code)
 );
 
+create table courses
+(
+    id             int auto_increment
+        primary key,
+    name           varchar(50)      null,
+    start_time     datetime         null,
+    end_time       datetime         null,
+    student_number int              null,
+    credit         double(10, 2)    null,
+    opened_by      varchar(50)      null,
+    create_time    datetime         null,
+    create_by      varchar(255)     null,
+    update_time    datetime         null,
+    update_by      varchar(255)     null,
+    del_flag       char default '0' null
+);
+
+create table user_course
+(
+    net_id    varchar(255) null,
+    course_id int          null
+);

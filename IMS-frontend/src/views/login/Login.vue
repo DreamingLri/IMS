@@ -8,13 +8,14 @@ import router from "@/router";
 const login = () =>{
   request.post("/login", loginForm).then(res =>{
     if(res.code === 200){
+      sessionStorage.setItem('user', res.data)
+      ElMessage.success("登录成功")
       router.push('/index')
     } else {
       ElMessage.error(res.message)
     }
   })
 }
-
 const loginForm = reactive({
   username: '',
   password: ''
