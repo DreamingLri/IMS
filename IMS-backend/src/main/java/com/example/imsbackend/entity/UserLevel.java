@@ -6,14 +6,14 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Accessors(chain = true)
 @TableName("user_level")
 public class UserLevel {
-    @TableField("net_id")
-    private String netId;
-    @TableField("level_id")
+    private Integer userId;
     private Integer levelId;
 }

@@ -36,15 +36,15 @@ public class InsertUserDTO {
 //    message = "身份证格式错误")
     private String identificationCode;
 
-    @NotNull(message = "生日不能为空")
+//    @NotNull(message = "生日不能为空")
     private Date birthday;
 
     @NotBlank(message = "性别不能为空")
     private String gender;
 
-    @NotNull(message = "入学日期不能为空")
+//    @NotNull(message = "入学日期不能为空")
     private Date entryTime;
 
-    @NotNull(message = "离校日期不能为空")
+//    @NotNull(message = "离校日期不能为空")
     private Date finishTime;
 }
