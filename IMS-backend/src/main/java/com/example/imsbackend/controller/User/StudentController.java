@@ -1,6 +1,5 @@
-package com.example.imsbackend.Controller;
+package com.example.imsbackend.controller.User;
 
-import com.example.imsbackend.entity.User;
 import com.example.imsbackend.entity.dto.InsertUserDTO;
 import com.example.imsbackend.entity.dto.UpdateUserDTO;
 import com.example.imsbackend.entity.vo.AuthUserInfoVO;
@@ -13,15 +12,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/student")
 @RequiredArgsConstructor
 @Validated
-public class UserController {
+public class StudentController {
 
     private final UserService userService;
-    @GetMapping("/listUser")
-    public List<AuthUserInfoVO> userList(String username){
-        return userService.listUser(username);
+    @GetMapping("/listStudent")
+    public List<AuthUserInfoVO> studentList(String username){
+        return userService.listStudent(username);
     }
 
     //查询
@@ -31,8 +30,8 @@ public class UserController {
     }
     //新增
     @PostMapping("/insertUser")
-    public boolean insertUser(@Valid @RequestBody InsertUserDTO insertUserDTO){
-        return userService.insertUser(insertUserDTO);
+    public boolean insertStudent(@Valid @RequestBody InsertUserDTO insertUserDTO){
+        return userService.insertStudent(insertUserDTO);
     }
     //更新
     @PostMapping("/updateUserById")
@@ -45,3 +44,4 @@ public class UserController {
         return userService.deleteUserById(id);
     }
 }
+

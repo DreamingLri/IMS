@@ -1,4 +1,4 @@
-package com.example.imsbackend.Controller;
+package com.example.imsbackend.controller;
 
 import com.example.imsbackend.entity.Courses;
 import com.example.imsbackend.service.CoursesService;

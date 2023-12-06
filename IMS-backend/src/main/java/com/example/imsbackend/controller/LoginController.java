@@ -1,4 +1,4 @@
-package com.example.imsbackend.Controller;
+package com.example.imsbackend.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.example.imsbackend.entity.User;

@@ -21,7 +21,7 @@ import org.springframework.util.StringUtils;
 import java.util.List;
 import java.util.Objects;
 
-import static com.example.imsbackend.constants.OtherConstants.STUDENT_ID;
+import static com.example.imsbackend.constants.OtherConstants.*;
 
 /**
  * (User)表服务实现类
@@ -36,7 +36,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private final UserLevelMapper userLevelMapper;
 
     @Override
-    public List<AuthUserInfoVO> listUser(String username) {
+    @Transactional
+    public List<AuthUserInfoVO> listAll(String username) {
+        LambdaQueryWrapper<User> like = new LambdaQueryWrapper<User>()
+                .like(StringUtils.hasText(username), User::getUsername, username);
+        return baseMapper.selectList(like)
+                .stream()
+                .map(BeanCopyUtil.INSTANCE::toAuthUserInfo)
+                .toList();
+    }
+
+    @Override
+    @Transactional
+    public List<AuthUserInfoVO> listStudent(String username) {
         LambdaQueryWrapper<User> like = new LambdaQueryWrapper<User>()
                 .like(StringUtils.hasText(username), User::getUsername, username);
         return baseMapper.selectList(like)
@@ -54,17 +66,58 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
+    @Transactional
+    public List<AuthUserInfoVO> listTeacher(String username) {
+        LambdaQueryWrapper<User> like = new LambdaQueryWrapper<User>()
+                .like(StringUtils.hasText(username), User::getUsername, username);
+        return baseMapper.selectList(like)
+                .stream()
+                .filter(user -> {
+                    LambdaQueryWrapper<UserLevel> userLevelLambdaQueryWrapper = new LambdaQueryWrapper<>();
+                    userLevelLambdaQueryWrapper.eq(UserLevel::getUserId, user.getId());
+                    UserLevel userLevel = userLevelMapper.selectOne(userLevelLambdaQueryWrapper);
+                    if(userLevel == null)
+                        return false;
+                    return Objects.equals(userLevel.getLevelId(), TEACHER_ID);
+                })
+                .map(BeanCopyUtil.INSTANCE::toAuthUserInfo)
+                .toList();
+    }
+
+    @Override
     public AuthUserInfoVO getUserById(Integer id) {
         return BeanCopyUtil.INSTANCE.toAuthUserInfo(baseMapper.selectById(id));
     }
 
     @Override
-    public boolean insertUser(InsertUserDTO insertUserDTO) {
-        User user =  BeanCopyUtil.INSTANCE.toUser(insertUserDTO);
+    public boolean insertStudent(InsertUserDTO insertUserDTO) {
+        User user = BeanCopyUtil.INSTANCE.toUser(insertUserDTO);
         if(baseMapper.insert(user) == 0){
             throw new InsertStudentException();
         }
         if(userLevelMapper.insert(new UserLevel(user.getId(), STUDENT_ID)) == 0){
+            throw new InsertStudentException();
+        }
+        return true;
+    }
+
+    @Override
+    public boolean insertTeacher(InsertUserDTO insertUserDTO) {
+        User user = BeanCopyUtil.INSTANCE.toUser(insertUserDTO);
+        if(baseMapper.insert(user) == 0){
+            throw new InsertStudentException();
+        }
+        if(userLevelMapper.insert(new UserLevel(user.getId(), TEACHER_ID)) == 0){
+            throw new InsertStudentException();
+        }
+        return true;
+    }
+
+    @Override
+    @Transactional
+    public boolean insertUser(InsertUserDTO insertUserDTO) {
+        User user = BeanCopyUtil.INSTANCE.toUser(insertUserDTO);
+        if(baseMapper.insert(user) == 0){
             throw new InsertStudentException();
         }
         return true;

@@ -10,14 +10,19 @@ import java.util.List;
 
 public interface UserService extends IService<User> {
 
-    List<AuthUserInfoVO> listUser(String username);
+    List<AuthUserInfoVO> listStudent(String username);
+    List<AuthUserInfoVO> listTeacher(String username);
 
     AuthUserInfoVO getUserById(Integer id);
 
+    boolean insertStudent(InsertUserDTO insertUserDTO);
+    boolean insertTeacher(InsertUserDTO insertUserDTO);
     boolean insertUser(InsertUserDTO insertUserDTO);
 
     boolean updateUserById(UpdateUserDTO updateUserDTO);
 
     boolean deleteUserById(Integer id);
+
+    List<AuthUserInfoVO> listAll(String username);
 }
 

@@ -44,7 +44,7 @@ function logout(){
                   <span>学生管理</span>
                 </template>
                 <el-menu-item-group>
-                  <el-menu-item index="1-1" @click="router.push('/index/user-info')">学生信息</el-menu-item>
+                  <el-menu-item index="1-1" @click="router.push('/index/student-info')">学生信息</el-menu-item>
                   <el-menu-item index="1-2">学生选课</el-menu-item>
                   <el-menu-item index="1-3">学生成绩</el-menu-item>
                   <el-menu-item index="1-4">学生课表</el-menu-item>
@@ -56,7 +56,7 @@ function logout(){
                   <span>教师管理</span>
                 </template>
                 <el-menu-item-group>
-                  <el-menu-item index="2-1">教师信息</el-menu-item>
+                  <el-menu-item index="2-1" @click="router.push('/index/teacher-info')">教师信息</el-menu-item>
                   <el-menu-item index="2-2">教师课表</el-menu-item>
                 </el-menu-item-group>
               </el-sub-menu>

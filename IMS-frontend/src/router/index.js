@@ -20,14 +20,19 @@ const routes = [
         component: () => import('@/views/components/DashBoard.vue')
       },
       {
-        path: 'user-info',
-        name: 'user-info',
-        component: () => import('@/views/components/UserInfoPage.vue')
+        path: 'student-info',
+        name: 'student-info',
+        component: () => import('@/views/components/StudentInfoPage.vue')
       },
       {
         path: 'course',
         name: 'course',
         component: () => import('@/views/components/CoursePage.vue')
+      },
+      {
+        path: 'teacher-info',
+        name: 'teacher-info',
+        component: () => import('@/views/components/TeacherInfoPage.vue')
       }
     ]
   }

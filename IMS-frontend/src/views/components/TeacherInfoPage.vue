@@ -107,7 +107,7 @@ const submitForm = async (formEl) => {
   if (!formEl) return
   await formEl.validate((valid, fields) => {
     if (valid) {
-      request.post('/user/insertUser' , addUserForm).then(res =>{
+      request.post('/teacher/insertUser' , addUserForm).then(res =>{
         if(res.code === 200){
           ElMessage.success('添加成功')
           closeAddDialog()
@@ -129,7 +129,7 @@ const updateForm = async (formEl) => {
   if (!formEl) return
   await formEl.validate((valid, fields) => {
     if (valid) {
-      request.post('/user/updateUserById', updateUserForm).then(res =>{
+      request.post('/teacher/updateUserById', updateUserForm).then(res =>{
         if(res.code === 200){
           ElMessage.success('更新成功')
           closeUpdateDialog()
@@ -163,7 +163,7 @@ const selectFrom = reactive({
 })
 
 const getList = () => {
-  request.get("/user/listUser?username="+selectFrom.username).then(res => {
+  request.get("/teacher/listTeacher?username="+selectFrom.username).then(res => {
     if(res.code === 200){
       userList.value = res.data
       console.log(res.data)
@@ -180,7 +180,7 @@ const reset = () =>{
 }
 
 const removeUser = (id) =>{
-  request.delete("/user/deleteUserById/" + id).then(res => {
+  request.delete("/teacher/deleteUserById/" + id).then(res => {
     if(res.code === 200){
       ElMessage.success("删除成功")
       reset()
@@ -273,12 +273,12 @@ onMounted(() => {
           <el-input v-model="addUserForm.identificationCode" />
         </el-form-item>
         <el-form-item label="出生日期" prop="birthday">
-            <el-date-picker
-                v-model="addUserForm.birthday"
-                type="date"
-                placeholder="请选择生日"
-                style="width: 100%"
-            />
+          <el-date-picker
+              v-model="addUserForm.birthday"
+              type="date"
+              placeholder="请选择生日"
+              style="width: 100%"
+          />
         </el-form-item>
         <el-form-item label="性别" prop="gender">
           <el-select v-model="addUserForm.gender" placeholder="请选择您的性别">
@@ -288,13 +288,13 @@ onMounted(() => {
           </el-select>
         </el-form-item>
         <el-form-item label="入学日期" prop="entryTime">
-        <el-date-picker
-            v-model="addUserForm.entryTime"
-            type="date"
-            placeholder="请选择入学日期"
-            style="width: 100%"
-        />
-      </el-form-item>
+          <el-date-picker
+              v-model="addUserForm.entryTime"
+              type="date"
+              placeholder="请选择入学日期"
+              style="width: 100%"
+          />
+        </el-form-item>
         <el-form-item label="毕业日期" prop="finishTime">
           <el-date-picker
               v-model="addUserForm.finishTime"
