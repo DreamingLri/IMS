@@ -5,6 +5,7 @@ import com.example.imsbackend.entity.User;
 import com.example.imsbackend.entity.dto.InsertUserDTO;
 import com.example.imsbackend.entity.dto.UpdateUserDTO;
 import com.example.imsbackend.entity.vo.AuthUserInfoVO;
+import com.example.imsbackend.entity.vo.TeacherNameVO;
 
 import java.util.List;
 
@@ -24,5 +25,7 @@ public interface UserService extends IService<User> {
     boolean deleteUserById(Integer id);
 
     List<AuthUserInfoVO> listAll(String username);
+
+    List<TeacherNameVO> listTeacherName();
 }
 

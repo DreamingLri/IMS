@@ -18,6 +18,8 @@ const addCourseForm = reactive({
   studentNumber: '',
   startTime: '',
   endTime: '',
+  teacher: '',
+  period: '',
 })
 const updateCourseForm = reactive({
   id: '',
@@ -27,6 +29,8 @@ const updateCourseForm = reactive({
   studentNumber: '',
   startTime: '',
   endTime: '',
+  teacher: '',
+  period: '',
 })
 
 const rules = reactive({
@@ -50,6 +54,8 @@ const openUpdateDialog = (row) =>{
   updateCourseForm.studentNumber = row.studentNumber
   updateCourseForm.startTime = row.startTime
   updateCourseForm.endTime = row.endTime
+  updateCourseForm.teacher = row.teacher
+  updateCourseForm.period = row.period
 }
 
 const submitForm = async (formEl) => {
@@ -103,6 +109,9 @@ const resetForm = (formEl) => {
 }
 
 
+const selectFrom = reactive({
+  name: ''
+})
 
 const name = ref('')
 
@@ -117,9 +126,22 @@ const getList = () => {
   })
 }
 
+const teacherList = ref([])
+const getTeacherList = () =>{
+  request.get("/teacher/listTeacherName").then(res => {
+    if(res.code === 200){
+      teacherList.value = res.data
+      console.log(teacherList.value)
+    } else {
+      ElMessage.error("listTeacherError")
+    }
+  })
+}
+
 const reset = () =>{
   name.value = ''
   getList()
+  getTeacherList()
 }
 
 const removeCourse = (id) =>{
@@ -135,6 +157,7 @@ const removeCourse = (id) =>{
 
 onMounted(() => {
   getList()
+  getTeacherList()
 })
 </script>
 
@@ -158,8 +181,10 @@ onMounted(() => {
         <el-table-column prop="id" label="ID" width="50" />
         <el-table-column prop="name" label="课程名称" width="130" />
         <el-table-column prop="openedBy" label="开课学院" width="130" />
+        <el-table-column prop="teacher" label="开课老师" width="130" />
         <el-table-column prop="credit" label="学分" width="70" />
         <el-table-column prop="studentNumber" label="选课人数" width="100" />
+        <el-table-column prop="period" label="学时" width="100" />
         <el-table-column prop="startTime" label="开始日期" width="100" />
         <el-table-column prop="endTime" label="结束日期" width="100" />
         <el-table-column label="操作">
@@ -193,8 +218,21 @@ onMounted(() => {
         <el-form-item label="开课学院" prop="name">
           <el-input v-model="addCourseForm.openedBy" />
         </el-form-item>
+        <el-form-item label="开课老师" prop="name">
+          <el-select v-model="updateCourseForm.teacher" class="m-2" placeholder="请选择开课老师">
+            <el-option
+                v-for="item in teacherList"
+                :key="item.value"
+                :label="item.username"
+                :value="item.username"
+            />
+          </el-select>
+        </el-form-item>
         <el-form-item label="学分" prop="name">
           <el-input v-model="addCourseForm.credit" />
+        </el-form-item>
+        <el-form-item label="学时" prop="name">
+          <el-input v-model="addCourseForm.period" />
         </el-form-item>
         <el-form-item label="学生人数" prop="name">
           <el-input v-model="addCourseForm.studentNumber" />
@@ -250,8 +288,21 @@ onMounted(() => {
         <el-form-item label="开课学院" prop="name">
           <el-input v-model="updateCourseForm.openedBy" />
         </el-form-item>
+        <el-form-item label="开课老师" prop="name">
+          <el-select v-model="updateCourseForm.teacher" class="m-2" placeholder="请选择开课老师">
+            <el-option
+                v-for="item in teacherList"
+                :key="item.id"
+                :label="item.username"
+                :value="item.username"
+            />
+          </el-select>
+        </el-form-item>
         <el-form-item label="学分" prop="name">
           <el-input v-model="updateCourseForm.credit" />
+        </el-form-item>
+        <el-form-item label="学时" prop="name">
+          <el-input v-model="updateCourseForm.period" />
         </el-form-item>
         <el-form-item label="学生人数" prop="name">
           <el-input v-model="updateCourseForm.studentNumber" />

@@ -32,8 +32,9 @@ public class CourseController {
         return coursesService.updateCourseById(courses);
     }
 
-    @DeleteMapping("deleteCourseById/{id}")
+    @DeleteMapping("/deleteCourseById/{id}")
     public boolean deleteCourseById(@PathVariable Integer id){
         return coursesService.deleteCourseById(id);
     }
+
 }

@@ -3,6 +3,7 @@ package com.example.imsbackend.controller.User;
 import com.example.imsbackend.entity.dto.InsertUserDTO;
 import com.example.imsbackend.entity.dto.UpdateUserDTO;
 import com.example.imsbackend.entity.vo.AuthUserInfoVO;
+import com.example.imsbackend.entity.vo.TeacherNameVO;
 import com.example.imsbackend.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -42,5 +43,10 @@ public class TeacherController {
     @DeleteMapping("/deleteUserById/{id}")
     public boolean deleteUserById(@PathVariable Integer id){
         return userService.deleteUserById(id);
+    }
+
+    @GetMapping("/listTeacherName")
+    public List<TeacherNameVO> listTeacherName(){
+        return userService.listTeacherName();
     }
 }

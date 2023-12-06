@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 import com.example.imsbackend.entity.Courses;
 import com.example.imsbackend.entity.User;
+import com.example.imsbackend.handler.exception.InsertStudentException;
 import com.example.imsbackend.mapper.CoursesMapper;
 import com.example.imsbackend.mapper.struct.BeanCopyUtil;
 import com.example.imsbackend.service.CoursesService;
@@ -26,8 +27,7 @@ public class CoursesServiceImpl extends ServiceImpl<CoursesMapper, Courses> impl
     public List<Courses> listCourse(String name) {
         LambdaQueryWrapper<Courses> like = new LambdaQueryWrapper<Courses>()
                 .like(StringUtils.hasText(name), Courses::getName, name);
-        List<Courses> list = baseMapper.selectList(like);
-        return list;
+        return baseMapper.selectList(like);
     }
 
     @Override

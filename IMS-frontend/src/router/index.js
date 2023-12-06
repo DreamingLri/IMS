@@ -13,9 +13,10 @@ const routes = [
     path: '/index',
     name: 'index',
     component: () => import('@/views/home/index.vue'),
+    redirect: '/index/dashboard',
     children: [
       {
-        path: '',
+        path: 'dashboard',
         name: 'dashboard',
         component: () => import('@/views/components/DashBoard.vue')
       },

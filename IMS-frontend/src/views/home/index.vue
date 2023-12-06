@@ -9,9 +9,12 @@ import {
   User,
   Notebook,
   EditPen,
-  Position,
+  Position, Collection,
 } from "@element-plus/icons-vue";
 import router from "@/router";
+
+import { useInfoStore } from "@/stores/pinna";
+const userInfo = useInfoStore()
 
 function logout(){
   router.push('/')
@@ -32,7 +35,7 @@ function logout(){
                 default-active="0"
                 class="el-menu-vertical-demo"
             >
-              <el-menu-item index="0" @click="router.push('/')">
+              <el-menu-item index="0" @click="router.push('/index/dashboard')">
                 <template #title>
                   <el-icon><House /></el-icon>
                   <span>首页</span>
@@ -73,7 +76,7 @@ function logout(){
               </el-sub-menu>
               <el-sub-menu index="4">
                 <template #title>
-                  <el-icon><setting /></el-icon>
+                  <el-icon><Collection /></el-icon>
                   <span>课程管理</span>
                 </template>
                 <el-menu-item-group>
@@ -89,17 +92,19 @@ function logout(){
       <el-container>
         <el-header class="el-header">
           <div class="header-wrapper">
-            <el-dropdown>
+            <div>
+              <el-dropdown>
               <el-avatar class="el-avatar"
                          src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
               />
               <template #dropdown>
                 <el-dropdown-menu>
-                  <el-dropdown-item>个人中心</el-dropdown-item>
+                  <el-dropdown-item @click="router.push('/index/dashboard')">个人中心</el-dropdown-item>
                   <el-dropdown-item @click="logout">退出登录</el-dropdown-item>
                 </el-dropdown-menu>
               </template>
-            </el-dropdown>
+            </el-dropdown></div>
+
           </div>
         </el-header>
         <el-main class="el-main">

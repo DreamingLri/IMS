@@ -4,11 +4,15 @@ import Title from "@/components/Title.vue";
 import request from "@/utils/request";
 import {ElMessage} from "element-plus";
 import router from "@/router";
+import {useInfoStore} from "@/stores/pinna"
+
+const useStore = useInfoStore();
 
 const login = () =>{
   request.post("/login", loginForm).then(res =>{
     if(res.code === 200){
-      sessionStorage.setItem('user', res.data)
+      useStore.user = res.data;
+      console.log(useStore.user)
       ElMessage.success("登录成功")
       router.push('/index')
     } else {

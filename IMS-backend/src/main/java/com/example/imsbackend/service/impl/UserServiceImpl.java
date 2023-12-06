@@ -7,6 +7,7 @@ import com.example.imsbackend.entity.UserLevel;
 import com.example.imsbackend.entity.dto.InsertUserDTO;
 import com.example.imsbackend.entity.dto.UpdateUserDTO;
 import com.example.imsbackend.entity.vo.AuthUserInfoVO;
+import com.example.imsbackend.entity.vo.TeacherNameVO;
 import com.example.imsbackend.handler.exception.DeleteStudentException;
 import com.example.imsbackend.handler.exception.InsertStudentException;
 import com.example.imsbackend.mapper.UserLevelMapper;
@@ -43,6 +44,22 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         return baseMapper.selectList(like)
                 .stream()
                 .map(BeanCopyUtil.INSTANCE::toAuthUserInfo)
+                .toList();
+    }
+
+    @Override
+    public List<TeacherNameVO> listTeacherName() {
+        return baseMapper.selectList(new LambdaQueryWrapper<User>())
+                .stream()
+                .filter(user -> {
+                    LambdaQueryWrapper<UserLevel> userLevelLambdaQueryWrapper = new LambdaQueryWrapper<>();
+                    userLevelLambdaQueryWrapper.eq(UserLevel::getUserId, user.getId());
+                    UserLevel userLevel = userLevelMapper.selectOne(userLevelLambdaQueryWrapper);
+                    if(userLevel == null)
+                        return false;
+                    return Objects.equals(userLevel.getLevelId(), TEACHER_ID);
+                })
+                .map(BeanCopyUtil.INSTANCE::toTeacherNameVO)
                 .toList();
     }
 

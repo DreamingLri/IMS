@@ -20,6 +20,7 @@ public class Courses{
     @TableId
     private Integer id;
     private String name;
+    private String teacher;
     @TableField("start_time")
     private Date startTime;
     @TableField("end_time")
@@ -27,6 +28,7 @@ public class Courses{
     @TableField("student_number")
     private Object studentNumber;
     private Double credit;
+    private Double period;
     @TableField("opened_by")
     private String openedBy;
 
