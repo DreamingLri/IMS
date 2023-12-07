@@ -13,7 +13,14 @@ export const useInfoStore = defineStore('userInfo', ()=>{
             identificationCode: '1111111111111111111',
             netId: 'admin',
             password: '123456',
-            username: 'admin',
+            username: '测试员',
+            total_credit: '166',
+            earned_credit: '56',
+            grade_points: '3.4',
+            affiliated_school: '软件工程学院',
+            evaluation_score: '90.3',
+            qualification: '副教授助理',
+            research_direction: '人工智能、机器学习'
         }
     }
 })

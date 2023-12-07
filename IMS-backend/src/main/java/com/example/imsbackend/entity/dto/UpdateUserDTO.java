@@ -45,4 +45,20 @@ public class UpdateUserDTO {
 
     @NotNull(message = "离校日期不能为空")
     private Date finishTime;
+
+    //Student Field
+    private Double totalCredit; //总学分
+    private Double earnedCredit; //已获得学分
+    private Double gradePoints; //平均绩点
+    private String affiliatedSchool; //所属学院
+
+    private Double evaluationScore; //评教分数
+    private String qualification; //职称
+    private String researchDirection; //研究方向
+
+    //Teacher Field
+    private Date createTime;
+    private String createBy;
+    private Date updateTime;
+    private String updateBy;
 }
