@@ -117,11 +117,6 @@ const resetForm = (formEl) => {
   formEl.resetFields()
 }
 
-
-const selectFrom = reactive({
-  name: ''
-})
-
 const name = ref('')
 
 const getList = () => {
@@ -150,7 +145,6 @@ const getTeacherList = () =>{
 const reset = () =>{
   name.value = ''
   getList()
-  // getTeacherList()
 }
 
 const removeExam = (id) =>{

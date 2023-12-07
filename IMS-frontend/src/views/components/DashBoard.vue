@@ -4,6 +4,8 @@ import { useInfoStore } from "@/stores/pinna";
 import {ElMessage} from "element-plus";
 import CreditChart from "@/views/echarts/credit-chart.vue";
 import {Bell, Calendar, DataAnalysis, PieChart, School} from "@element-plus/icons-vue";
+import GradePointsChart from "@/views/echarts/grade-points-chart.vue";
+import ClassTable from "@/views/components/ClassTable.vue";
 
 const userInfo = useInfoStore()
 let user = ref({})
@@ -133,7 +135,7 @@ const selectDate = (val) => {
             </div>
           </template>
           <div>
-
+            <grade-points-chart style="height: 10px"/>
           </div>
         </el-card>
       </el-col>
@@ -150,7 +152,7 @@ const selectDate = (val) => {
             </div>
           </template>
           <div>
-
+            <class-table/>
           </div>
         </el-card>
       </el-col>
