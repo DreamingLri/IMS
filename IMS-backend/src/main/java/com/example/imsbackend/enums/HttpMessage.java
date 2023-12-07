@@ -14,7 +14,10 @@ public enum HttpMessage {
     UPDATE_STUDENT_ERROR(HTTP_STATUS_500, "update student error"),
     INSERT_COURSE_ERROR(HTTP_STATUS_500, "insert course error"),
     DELETE_COURSE_ERROR(HTTP_STATUS_500, "delete course error"),
-    UPDATE_COURSE_ERROR(HTTP_STATUS_500, "update course error");
+    UPDATE_COURSE_ERROR(HTTP_STATUS_500, "update course error"),
+    INSERT_EXAM_ERROR(HTTP_STATUS_500, "insert exam error"),
+    DELETE_EXAM_ERROR(HTTP_STATUS_500, "delete exam error"),
+    UPDATE_EXAM_ERROR(HTTP_STATUS_500, "update exam error");
 
     final Integer code;
     final String message;
