@@ -23,8 +23,10 @@ public class Exams  {
     @TableId
     private Integer id;
 
-    private Integer name;
+    private String name;
     private Date date;
+    private Date startTime;
+    private Date endTime;
     private String examPlace;
     private Double examDuration;
     private String invigilator;

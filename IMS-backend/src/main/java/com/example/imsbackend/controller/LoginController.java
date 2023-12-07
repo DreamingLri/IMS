@@ -19,7 +19,7 @@ class LoginController {
     @PostMapping("/login")
     public AuthUserInfoVO login(@RequestBody LoginVO loginVO) {
         LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(User::getUsername, loginVO.getUsername());
+        wrapper.eq(User::getNetId, loginVO.getUsername());
         User dbUser = userMapper.selectOne(wrapper);
         if(dbUser == null || !Objects.equals(dbUser.getPassword(), loginVO.getPassword())){
             throw new UsernamePasswordException();

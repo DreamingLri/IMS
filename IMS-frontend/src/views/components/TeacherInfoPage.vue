@@ -193,6 +193,14 @@ const removeUser = (id) =>{
 onMounted(() => {
   getList()
 })
+
+function formatDate(row ,col){
+  let data = row[col.property]
+  if(data == null)
+    return null
+  let date_time = new Date(data);
+  return date_time.toLocaleDateString()
+}
 </script>
 
 <template>
@@ -226,9 +234,9 @@ onMounted(() => {
         <el-table-column prop="identificationCode" label="身份证" width="200"/>
         <el-table-column prop="address" label="住址" width="180"/>
         <el-table-column prop="gender" label="性别" width="60"/>
-        <el-table-column prop="birthday" label="生日" width="100"/>
-        <el-table-column prop="entryTime" label="入学日期" width="100"/>
-        <el-table-column prop="finishTime" label="离校日期" width="100"/>
+        <el-table-column prop="birthday" label="生日" width="100" :formatter="formatDate"/>
+        <el-table-column prop="entryTime" label="入学日期" width="100" :formatter="formatDate"/>
+        <el-table-column prop="finishTime" label="离校日期" width="100" :formatter="formatDate"/>
         <el-table-column label="操作">
           <template v-slot="scope">
             <el-button type="primary" plain @click="openUpdateDialog(scope.row)"><el-icon style="margin-right: 5px"><Edit /></el-icon>修改</el-button>

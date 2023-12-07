@@ -69,7 +69,7 @@ function logout(){
                   <span>考试管理</span>
                 </template>
                 <el-menu-item-group>
-                  <el-menu-item index="3-1">考试信息</el-menu-item>
+                  <el-menu-item index="3-1" @click="router.push('/index/exam')">考试信息</el-menu-item>
                   <el-menu-item index="3-2">考试学生</el-menu-item>
                   <el-menu-item index="3-3">监考老师</el-menu-item>
                 </el-menu-item-group>
