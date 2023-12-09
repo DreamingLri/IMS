@@ -45,6 +45,21 @@ const routes = [
         path: 'exam',
         name: 'exam',
         component: () => import('@/views/components/ExamPage.vue')
+      },
+      {
+        path: 'course-time',
+        name: 'course-time',
+        component: () => import('@/views/components/CourseTimePage.vue')
+      },
+      {
+        path: 'select-course',
+        name: 'select-course',
+        component: () => import('@/views/components/SelectCoursePage.vue')
+      },
+      {
+        path: 'class-table',
+        name: 'class-table',
+        component: () => import('@/views/components/ClassTable.vue')
       }
     ]
   }

@@ -13,8 +13,8 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @TableName("user_course")
 public class UserCourse {
-    @TableField("net_id")
-    private String netId;
+    @TableField("user_id")
+    private Integer userId;
     @TableField("course_id")
-    private int courseId;
+    private Integer courseId;
 }

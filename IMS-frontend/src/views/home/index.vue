@@ -48,9 +48,9 @@ function logout(){
                 </template>
                 <el-menu-item-group>
                   <el-menu-item index="1-1" @click="router.push('/index/student-info')">学生信息</el-menu-item>
-                  <el-menu-item index="1-2">学生选课</el-menu-item>
+                  <el-menu-item index="1-2" @click="router.push('/index/select-course')">学生选课</el-menu-item>
                   <el-menu-item index="1-3">学生成绩</el-menu-item>
-                  <el-menu-item index="1-4">学生课表</el-menu-item>
+                  <el-menu-item index="1-4" @click="router.push('/index/class-table')">学生课表</el-menu-item>
                 </el-menu-item-group>
               </el-sub-menu>
               <el-sub-menu index="2">
@@ -81,7 +81,7 @@ function logout(){
                 </template>
                 <el-menu-item-group>
                   <el-menu-item index="4-1" @click="router.push('/index/course')">课程信息</el-menu-item>
-                  <el-menu-item index="4-2">任课老师</el-menu-item>
+                  <el-menu-item index="4-2" @click="router.push('/index/course-time')">课程时间</el-menu-item>
                   <el-menu-item index="4-3">选课情况</el-menu-item>
                 </el-menu-item-group>
               </el-sub-menu>

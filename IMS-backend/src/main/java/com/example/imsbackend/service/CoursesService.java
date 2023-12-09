@@ -20,5 +20,9 @@ public interface CoursesService extends IService<Courses> {
     boolean updateCourseById(Courses courses);
 
     boolean deleteCourseById(Integer id);
+
+    List<Courses> selectCourseById(Integer id);
+
+    Courses listCourseById(Integer CourseId);
 }
 

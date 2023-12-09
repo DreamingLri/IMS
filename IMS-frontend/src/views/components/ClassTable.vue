@@ -3,17 +3,19 @@ import {reactive} from "vue";
 import {Location, User} from "@element-plus/icons-vue";
 
 const tableData = reactive([
-  {session: {num: '第一节', time: '8:00-8:45'}, mon: {course: '离散数学', room: '教学楼 C301', teacher: '何笑雨'}}
+  {
+    session: {num: '第一节', time: '8:00-8:45'}, mon: {course: '离散数学', room: '教学楼 C301', teacher: '何笑雨'}
+  }
 ])
 </script>
 
 <template>
-<el-table border stripe :data="tableData" >
+<el-table border stripe :data="tableData" :header-cell-style="{background:'#eee',color:'#606266'}">
   <el-table-column label="节次">
     <template v-slot="scope">
       <div v-if="scope.row.session">
-        <div style="margin: 10px 0">{{scope.row.session.num}}</div>
-        <div style="margin: 10px 0">{{scope.row.session.time}}</div>
+        <div style="margin: 10px 0; text-align: center;">{{scope.row.session.num}}</div>
+        <div style="margin: 10px 0; text-align: center; color: rgb(145,208,164)">{{scope.row.session.time}}</div>
       </div>
     </template>
   </el-table-column>
@@ -84,5 +86,7 @@ const tableData = reactive([
 </template>
 
 <style scoped>
-
+.headerBg{
+  background: #eee!important;
+}
 </style>

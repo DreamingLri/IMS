@@ -46,6 +46,13 @@
             <artifactId>lombok</artifactId>
         </dependency>
 
+        <!--引入hutool-->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>4.5.15</version>
+        </dependency>
+
         <!--引入fastjson2-->
         <dependency>
             <groupId>com.alibaba.fastjson2</groupId>
