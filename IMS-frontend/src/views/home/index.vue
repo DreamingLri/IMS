@@ -70,7 +70,7 @@ function logout(){
                 </template>
                 <el-menu-item-group>
                   <el-menu-item index="3-1" @click="router.push('/index/exam')">考试信息</el-menu-item>
-                  <el-menu-item index="3-2">考试学生</el-menu-item>
+                  <el-menu-item index="3-2" @click="router.push('/index/exam-student')">考试学生</el-menu-item>
                   <el-menu-item index="3-3">监考老师</el-menu-item>
                 </el-menu-item-group>
               </el-sub-menu>

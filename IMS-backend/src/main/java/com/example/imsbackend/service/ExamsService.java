@@ -1,7 +1,9 @@
 package com.example.imsbackend.service;
 
+import cn.hutool.json.JSONObject;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.imsbackend.entity.Exams;
+import com.example.imsbackend.entity.dto.ExamAddStudentDTO;
 
 import java.util.List;
 
@@ -23,4 +25,6 @@ public interface ExamsService extends IService<Exams> {
     boolean updateExam(Exams exams);
 
     boolean deleteExamById(Integer id);
+
+    boolean addStudent(ExamAddStudentDTO examAddStudentDTO);
 }

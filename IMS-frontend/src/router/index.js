@@ -60,6 +60,11 @@ const routes = [
         path: 'class-table',
         name: 'class-table',
         component: () => import('@/views/components/ClassTable.vue')
+      },
+      {
+        path: 'exam-student',
+        name: 'exam-student',
+        component:() => import ('@/views/components/ExamStudentPage.vue')
       }
     ]
   }

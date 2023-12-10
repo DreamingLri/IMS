@@ -19,7 +19,7 @@ const addExamForm = reactive({
   examPlace: '',
   examDuration: '',
   invigilator: '',
-  course_id: '',
+  courseId: '',
 })
 const updateExamForm = reactive({
   id: '',
@@ -30,7 +30,7 @@ const updateExamForm = reactive({
   examPlace: '',
   examDuration: '',
   invigilator: '',
-  course_id: '',
+  courseId: '',
 })
 
 const rules = reactive({
@@ -47,7 +47,7 @@ const closeAddDialog = () =>{
   addExamForm.examPlace = ''
   addExamForm.examDuration = ''
   addExamForm.invigilator = ''
-  addExamForm.course_id = ''
+  addExamForm.courseId = ''
 }
 
 const closeUpdateDialog = () =>{
@@ -64,7 +64,7 @@ const openUpdateDialog = (row) =>{
   updateExamForm.examPlace = row.examPlace
   updateExamForm.examDuration = row.examDuration
   updateExamForm.invigilator = row.invigilator
-  updateExamForm.course_id = row.course_id
+  updateExamForm.courseId = row.courseId
 }
 
 const submitForm = async (formEl) => {
@@ -78,7 +78,6 @@ const submitForm = async (formEl) => {
           reset()
         } else {
           ElMessage.error('添加失败')
-          // console.log(res.message)
           reset()
         }
       })
@@ -142,9 +141,23 @@ const getTeacherList = () =>{
   })
 }
 
+const courseList = ref([])
+function getCourseList(){
+  request.get("/course/listCourse").then(res =>{
+    if(res.code === 200){
+      courseList.value = res.data
+      console.log(teacherList.value)
+    } else {
+      ElMessage.error("listCourseError")
+    }
+  })
+}
+
 const reset = () =>{
   name.value = ''
   getList()
+  getTeacherList()
+  getCourseList()
 }
 
 const removeExam = (id) =>{
@@ -161,6 +174,7 @@ const removeExam = (id) =>{
 onMounted(() => {
   getList()
   getTeacherList()
+  getCourseList()
 })
 
 function formatDate(row ,col){
@@ -208,7 +222,7 @@ function formatTime(row, col){
         <el-table-column label="操作">
           <template v-slot="scope">
             <el-button type="primary" plain @click="openUpdateDialog(scope.row)"><el-icon style="margin-right: 5px"><Edit /></el-icon>修改</el-button>
-            <el-popconfirm title="你确定要删除这个课程吗?" @confirm="removeExam(scope.row.id)" confirm-button-text="确定" cancel-button-text="取消">
+            <el-popconfirm title="你确定要删除这个考试吗?" @confirm="removeExam(scope.row.id)" confirm-button-text="确定" cancel-button-text="取消">
               <template #reference>
                 <el-button type="danger" plain><el-icon style="margin-right: 5px"><Delete /></el-icon>删除</el-button>
               </template>
@@ -236,7 +250,6 @@ function formatTime(row, col){
         <el-form-item label="考试日期" prop="entryTime">
           <el-date-picker
               v-model="addExamForm.date"
-              type="date"
               placeholder="请选择考试日期"
               style="width: 100%"
           />
@@ -269,9 +282,19 @@ function formatTime(row, col){
           <el-select v-model="updateExamForm.invigilator" class="m-2" placeholder="请选择监考老师">
             <el-option
                 v-for="item in teacherList"
-                :key="item.value"
+                :key="item.id"
                 :label="item.username"
                 :value="item.username"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="绑定课程" prop="name">
+          <el-select v-model="updateExamForm.courseId" class="m-2" placeholder="请选择绑定的课程">
+            <el-option
+                v-for="item in courseList"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
             />
           </el-select>
         </el-form-item>
@@ -304,7 +327,6 @@ function formatTime(row, col){
         <el-form-item label="考试日期" prop="entryTime">
           <el-date-picker
               v-model="updateExamForm.date"
-              type="date"
               placeholder="请选择考试日期"
               style="width: 100%"
           />
@@ -346,6 +368,17 @@ function formatTime(row, col){
                 :key="item.value"
                 :label="item.username"
                 :value="item.username"
+            />
+          </el-select>
+        </el-form-item>
+
+        <el-form-item label="绑定课程" prop="name">
+          <el-select v-model="updateExamForm.courseId" class="m-2" placeholder="请选择绑定的课程">
+            <el-option
+                v-for="item in courseList"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
             />
           </el-select>
         </el-form-item>

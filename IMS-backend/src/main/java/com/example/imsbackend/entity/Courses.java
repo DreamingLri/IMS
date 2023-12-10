@@ -31,6 +31,7 @@ public class Courses{
     private Double period;
     @TableField("opened_by")
     private String openedBy;
+    private String place;
 
     private Date createTime;
     private String createBy;

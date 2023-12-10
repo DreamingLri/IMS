@@ -95,7 +95,6 @@ onMounted(()=> {
         <el-table-column prop="period" label="学时" width="100" />
         <el-table-column prop="startTime" label="开始日期" width="100" :formatter="formatDate"/>
         <el-table-column prop="endTime" label="结束日期" width="100" :formatter="formatDate"/>
-        <el-table-column prop="selected" label="是否选课" width="100"/>
         <el-table-column label="操作">
           <template v-slot="scope">
             <el-button v-if="scope.row.selected === true" type="danger" plain @click="withdrawCourse(scope.row)"><el-icon style="margin-right: 5px"><CircleClose /></el-icon>退课</el-button>

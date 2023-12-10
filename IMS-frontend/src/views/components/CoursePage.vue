@@ -10,18 +10,19 @@ const userList = ref([])
 const addCourseDialog = ref(false)
 const updateCourseDialog = ref(false)
 
+
 const ruleForm = ref()
 const addCourseForm = reactive({
+  id: '',
   name: '',
   openedBy: '',
   credit: '',
   studentNumber: '',
   startTime: '',
   endTime: '',
-  weekday: '',
-  session: '',
   teacher: '',
   period: '',
+  place: ''
 })
 const updateCourseForm = reactive({
   id: '',
@@ -33,6 +34,7 @@ const updateCourseForm = reactive({
   endTime: '',
   teacher: '',
   period: '',
+  place: ''
 })
 const rules = reactive({
 
@@ -47,10 +49,9 @@ const closeAddDialog = () =>{
   addCourseForm.studentNumber = ''
   addCourseForm.startTime = ''
   addCourseForm.endTime = ''
-  addTimeFrom.weekday = ''
-  addTimeFrom.session = ''
   addCourseForm.teacher = ''
   addCourseForm.period = ''
+  addCourseForm.place = ''
 }
 
 const closeUpdateDialog = () =>{
@@ -66,10 +67,9 @@ const openUpdateDialog = (row) =>{
   updateCourseForm.studentNumber = row.studentNumber
   updateCourseForm.startTime = row.startTime
   updateCourseForm.endTime = row.endTime
-  updateTimeForm.weekday = row.weekday
-  updateTimeForm.session = row.session
   updateCourseForm.teacher = row.teacher
   updateCourseForm.period = row.period
+  updateCourseForm.place = row.place
 }
 
 const submitForm = async (formEl) => {
@@ -206,6 +206,7 @@ const courseTime = ref([]);
         <el-table-column prop="name" label="课程名称" width="130" />
         <el-table-column prop="openedBy" label="开课学院" width="130" />
         <el-table-column prop="teacher" label="开课老师" width="130" />
+        <el-table-column prop="place" label="上课地点" width="100"/>
         <el-table-column prop="credit" label="学分" width="70" />
         <el-table-column prop="studentNumber" label="选课人数" width="100" />
         <el-table-column prop="period" label="学时" width="100" />
@@ -252,6 +253,9 @@ const courseTime = ref([]);
             />
           </el-select>
         </el-form-item>
+        <el-form-item label="上课地点" prop="name">
+          <el-input v-model="addCourseForm.place" />
+        </el-form-item>
         <el-form-item label="学分" prop="name">
           <el-input v-model="addCourseForm.credit" />
         </el-form-item>
@@ -281,16 +285,6 @@ const courseTime = ref([]);
             />
           </el-col>
         </el-form-item>
-          <el-form-item label="星期">
-            <el-select clearable v-model="addCourseForm.weekday" placeholder="请选择">
-              <el-option v-for="item in ['周一','周二','周三','周四','周五','周六','周日']" :key="item" :value="item" :label="item"/>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="节次">
-            <el-select clearable v-model="addCourseForm.session" placeholder="请选择">
-              <el-option v-for="item in ['一','二','三','四','五','六','七','八','九','十','十一']" :key="item" :value="item" :label="item"/>
-            </el-select>
-          </el-form-item>
 
         <el-form-item>
           <el-button type="primary" @click="submitForm(ruleForm)">新建</el-button>
@@ -332,6 +326,9 @@ const courseTime = ref([]);
             />
           </el-select>
         </el-form-item>
+        <el-form-item label="上课地点" prop="name">
+          <el-input v-model="updateCourseForm.place" />
+        </el-form-item>
         <el-form-item label="学分" prop="name">
           <el-input v-model="updateCourseForm.credit" />
         </el-form-item>
@@ -360,17 +357,6 @@ const courseTime = ref([]);
                 style="width: 100%"
             />
           </el-col>
-        </el-form-item>
-
-        <el-form-item label="星期">
-          <el-select clearable v-model="updateCourseForm.weekday" placeholder="请选择">
-            <el-option v-for="item in ['周一','周二','周三','周四','周五','周六','周日']" :key="item" :value="item" :label="item"/>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="节次">
-          <el-select clearable v-model="updateCourseForm.session" placeholder="请选择">
-            <el-option v-for="item in ['第一节','第二节','第三节','第四节','第五节','第六节','第七节','第八节','第九节','第十节','第十一节']" :key="item" :value="item" :label="item"/>
-          </el-select>
         </el-form-item>
 
         <el-form-item>

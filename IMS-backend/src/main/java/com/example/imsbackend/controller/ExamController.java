@@ -1,7 +1,11 @@
 package com.example.imsbackend.controller;
 
+import cn.hutool.json.JSONObject;
 import com.example.imsbackend.entity.Exams;
+import com.example.imsbackend.entity.User;
+import com.example.imsbackend.entity.dto.ExamAddStudentDTO;
 import com.example.imsbackend.service.ExamsService;
+import com.example.imsbackend.service.UserExamsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +18,7 @@ import java.util.List;
 @Validated
 public class ExamController {
     private final ExamsService examsService;
+    private final UserExamsService userExamsService;
 
     @GetMapping("/listExam")
     public List<Exams> listExam(String name){
@@ -35,8 +40,18 @@ public class ExamController {
         return examsService.updateExam(exams);
     }
 
-    @DeleteMapping("deleteExamById")
+    @DeleteMapping("/deleteExamById")
     public boolean deleteExamById(@PathVariable Integer id){
         return examsService.deleteExamById(id);
+    }
+
+    @PostMapping("/addStudent")
+    public boolean addStudent(@RequestBody ExamAddStudentDTO examAddStudentDTO){
+        return examsService.addStudent(examAddStudentDTO);
+    }
+
+    @GetMapping("/listStudentByExamId")
+    public List<User> listStudentByExamId(Integer examId){
+        return userExamsService.listStudentByExamId(examId);
     }
 }

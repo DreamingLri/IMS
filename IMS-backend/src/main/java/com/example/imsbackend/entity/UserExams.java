@@ -22,6 +22,4 @@ public class UserExams  {
 
     private Integer userId;
     private Integer examId;
-
-    private String delFlag;
 }
