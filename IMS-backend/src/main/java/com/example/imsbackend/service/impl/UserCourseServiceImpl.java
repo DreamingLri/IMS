@@ -1,6 +1,7 @@
 package com.example.imsbackend.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.imsbackend.entity.Courses;
@@ -29,7 +30,14 @@ public class UserCourseServiceImpl extends ServiceImpl<UserCourseMapper, UserCou
 
     @Override
     public boolean withdrawCourse(UserCourse userCourse) {
-        if(baseMapper.deleteById(userCourse) == 0){
+//        if(baseMapper.deleteById(userCourse) == 0){
+//            throw new WithdrawCourseException();
+//        }
+//        return true;
+        if(baseMapper.delete(new LambdaQueryWrapper<UserCourse>()
+                .eq(UserCourse::getCourseId, userCourse.getCourseId())
+                .eq(UserCourse::getUserId, userCourse.getUserId()))
+                == 0){
             throw new WithdrawCourseException();
         }
         return true;

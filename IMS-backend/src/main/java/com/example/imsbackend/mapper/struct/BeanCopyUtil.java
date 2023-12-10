@@ -5,6 +5,7 @@ import com.example.imsbackend.entity.User;
 import com.example.imsbackend.entity.dto.InsertUserDTO;
 import com.example.imsbackend.entity.dto.UpdateUserDTO;
 import com.example.imsbackend.entity.vo.AuthUserInfoVO;
+import com.example.imsbackend.entity.vo.CourseVO;
 import com.example.imsbackend.entity.vo.TeacherNameVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -16,6 +17,8 @@ public interface BeanCopyUtil {
     AuthUserInfoVO toAuthUserInfo(User user);
     TeacherNameVO toTeacherNameVO(User user);
     User toUser(InsertUserDTO insertUserDTO);
+
+    CourseVO toCourseVO(Courses courses);
 
     User toUser(UpdateUserDTO updateUserDTO);
 }

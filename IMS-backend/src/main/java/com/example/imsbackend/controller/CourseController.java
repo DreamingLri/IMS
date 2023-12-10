@@ -6,6 +6,7 @@ import cn.hutool.json.JSONObject;
 import com.example.imsbackend.entity.CourseTime;
 import com.example.imsbackend.entity.Courses;
 import com.example.imsbackend.entity.UserCourse;
+import com.example.imsbackend.entity.vo.CourseVO;
 import com.example.imsbackend.service.CourseTimeService;
 import com.example.imsbackend.service.CoursesService;
 import com.example.imsbackend.service.UserCourseService;
@@ -85,7 +86,7 @@ public class CourseController {
     }
 
     @GetMapping("/listCourseById")
-    public List<Courses> getCourseId(int id){
+    public List<CourseVO> getCourseId(int id){
         return coursesService.selectCourseById(id);
     }
 

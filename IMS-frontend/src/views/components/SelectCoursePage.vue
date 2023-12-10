@@ -10,15 +10,6 @@ const courseSelectedList = ref([])
 const userInfo = useInfoStore()
 
 const name = ref('')
-function getCourseList(){
-  request.get("/course/listCourse"+name.value).then(res => {
-    if(res.code === 200){
-      courseList.value = res.data
-    } else {
-      ElMessage.error(res.message)
-    }
-  })
-}
 
 function getSelectedCourse(){
   request.get("/course/listCourseById?id="+userInfo.user.id).then(res =>{
@@ -31,7 +22,6 @@ function getSelectedCourse(){
 }
 
 function reset(){
-  getCourseList()
   getSelectedCourse()
   name.value = ''
 }
@@ -44,8 +34,39 @@ function formatDate(row ,col){
   return date_time.toLocaleDateString()
 }
 
+function withdrawCourse(row){
+  let useCourse = {}
+  useCourse.userId = userInfo.user.id
+  useCourse.courseId = row.id
+
+  request.post("/course/withdrawCourse", useCourse).then(res =>{
+    if(res.code === 200){
+      ElMessage.success("退课成功")
+      getSelectedCourse()
+      console.log(courseSelectedList)
+    } else {
+      console.log(res.message)
+    }
+  })
+}
+
+function selectCourse(row){
+  let useCourse = {}
+  useCourse.userId = userInfo.user.id
+  useCourse.courseId = row.id
+
+  request.post("/course/selectCourse", useCourse).then(res =>{
+    if(res.code === 200){
+      ElMessage.success("选课成功")
+      getSelectedCourse()
+      console.log(courseSelectedList)
+    } else {
+      console.log(res.message)
+    }
+  })
+}
+
 onMounted(()=> {
-  getCourseList()
   getSelectedCourse()
 })
 </script>
@@ -54,19 +75,17 @@ onMounted(()=> {
   <div class="main-wrapper">
     <div class="header-wrapper">
       <div style="width: 100%; height: 40%; display: flex">
-        <el-input v-model="name" placeholder="请输入" class="input-with-select" style="height: 30px; width: 300px"></el-input>
-        <el-button @click="getCourseList" type="primary" plain style="margin-left: 10px; height: 30px"><el-icon style="margin-right: 3px"><Search /></el-icon>搜索</el-button>
+        <el-input v-model="name" placeholder="搜索课程" class="input-with-select" style="height: 30px; width: 300px"></el-input>
+        <el-button @click="getSelectedCourse" type="primary" plain style="margin-left: 10px; height: 30px"><el-icon style="margin-right: 3px"><Search /></el-icon>搜索</el-button>
+        <el-button @click="reset" type="danger" plain style="margin-left: 10px; height: 30px"><el-icon style="margin-right: 3px"><Refresh /></el-icon>重置</el-button>
       </div>
       <div style="height: 15%; width: 100%"/>
-      <div style="width: 100%; height: 50%; display: flex">
-        <el-button @click="reset" type="danger" plain><el-icon style="margin-right: 3px"><Refresh /></el-icon>重置</el-button>
-      </div>
     </div>
-
-    <div style="height: 5%; width: 100%"/>
-    <h2>已选课程</h2>
+    <div class="title">选课列表</div>
     <el-scrollbar class="table-wrapper1">
-      <el-table :data="courseSelectedList" stripe style="width: 100%" border>
+      <el-table :data="courseSelectedList" stripe style="width: 100%" border
+                :default-sort="{ prop: 'selected', order: 'descending' }"
+      >
         <el-table-column prop="id" label="ID" width="50"/>
         <el-table-column prop="name" label="课程名称" width="130" />
         <el-table-column prop="openedBy" label="开课学院" width="130" />
@@ -76,30 +95,11 @@ onMounted(()=> {
         <el-table-column prop="period" label="学时" width="100" />
         <el-table-column prop="startTime" label="开始日期" width="100" :formatter="formatDate"/>
         <el-table-column prop="endTime" label="结束日期" width="100" :formatter="formatDate"/>
+        <el-table-column prop="selected" label="是否选课" width="100"/>
         <el-table-column label="操作">
           <template v-slot="scope">
-            <el-button type="danger" plain @click="withdrawCourse(scope.row)"><el-icon style="margin-right: 5px"><CircleClose /></el-icon>退课</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-    </el-scrollbar>
-
-    <el-divider/>
-    <h2>可选课程</h2>
-    <el-scrollbar class="table-wrapper2">
-      <el-table :data="courseList" stripe style="width: 100%" border>
-        <el-table-column prop="id" label="ID" width="50"/>
-        <el-table-column prop="name" label="课程名称" width="130" />
-        <el-table-column prop="openedBy" label="开课学院" width="130" />
-        <el-table-column prop="teacher" label="开课老师" width="130" />
-        <el-table-column prop="credit" label="学分" width="70" />
-        <el-table-column prop="studentNumber" label="选课人数" width="100" />
-        <el-table-column prop="period" label="学时" width="100" />
-        <el-table-column prop="startTime" label="开始日期" width="100" :formatter="formatDate"/>
-        <el-table-column prop="endTime" label="结束日期" width="100" :formatter="formatDate"/>
-        <el-table-column label="操作">
-          <template v-slot="scope">
-            <el-button type="primary" plain @click="selectCourse(scope.row)"><el-icon style="margin-right: 5px"><CircleCheck /></el-icon>选课</el-button>
+            <el-button v-if="scope.row.selected === true" type="danger" plain @click="withdrawCourse(scope.row)"><el-icon style="margin-right: 5px"><CircleClose /></el-icon>退课</el-button>
+            <el-button v-if="scope.row.selected === false" type="primary" plain @click="selectCourse(scope.row)"><el-icon style="margin-right: 5px"><CircleCheck /></el-icon>选课</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -123,11 +123,12 @@ onMounted(()=> {
 }
 
 .table-wrapper1{
-  height: 25%;
+  height: 85%;
   width: 100%;
 }
-.table-wrapper2{
-  height: 40%;
-  width: 100%;
+.title{
+  text-align: left;
+  margin-bottom: 10px;
+  font-size: large;
 }
 </style>

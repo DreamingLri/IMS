@@ -9,7 +9,7 @@ export const useInfoStore = defineStore('userInfo', ()=>{
             entryTime: '2023-11-00',
             finishTime: '2023-11-01',
             gender: '男',
-            id: '1',
+            id: 1,
             identificationCode: '1111111111111111111',
             netId: 'admin',
             password: '123456',

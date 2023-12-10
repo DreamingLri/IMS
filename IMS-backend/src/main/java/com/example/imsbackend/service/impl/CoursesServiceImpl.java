@@ -1,24 +1,23 @@
 package com.example.imsbackend.service.impl;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
 import com.example.imsbackend.entity.Courses;
-import com.example.imsbackend.entity.User;
 import com.example.imsbackend.entity.UserCourse;
+import com.example.imsbackend.entity.vo.CourseVO;
 import com.example.imsbackend.handler.exception.InsertCourseException;
-import com.example.imsbackend.handler.exception.InsertStudentException;
 import com.example.imsbackend.mapper.CoursesMapper;
 import com.example.imsbackend.mapper.UserCourseMapper;
-import com.example.imsbackend.mapper.UserLevelMapper;
 import com.example.imsbackend.mapper.struct.BeanCopyUtil;
 import com.example.imsbackend.service.CoursesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * (Courses)表服务实现类
@@ -57,20 +56,21 @@ public class CoursesServiceImpl extends ServiceImpl<CoursesMapper, Courses> impl
     }
 
     @Override
-    public List<Courses> selectCourseById(Integer id) {
-        return baseMapper.selectList(new LambdaQueryWrapper<>())
-                .stream()
-                .filter(courses -> {
-                    LambdaQueryWrapper<UserCourse> userCourseLambdaQueryWrapper = new LambdaQueryWrapper<>();
-                    userCourseLambdaQueryWrapper.eq(UserCourse::getCourseId, courses.getId());
-                    List<UserCourse> userCourses = userCourseMapper.selectList(userCourseLambdaQueryWrapper).stream().toList();
-                    for(UserCourse i : userCourses){
-                        if(Objects.equals(i.getUserId(), id))
-                            return true;
+    public List<CourseVO> selectCourseById(Integer id) {
+        List<CourseVO> courseVOS = new ArrayList<>();
+        baseMapper.selectList(new LambdaQueryWrapper<>())
+                .forEach(courses -> {
+                    CourseVO courseVO = BeanCopyUtil.INSTANCE.toCourseVO(courses);
+                    courseVO.setSelected(false);
+                    List<UserCourse> list = userCourseMapper.selectList(new LambdaQueryWrapper<UserCourse>().eq(UserCourse::getCourseId, courseVO.getId()));
+                    for (UserCourse i : list){
+                        if(i.getUserId() == id){
+                            courseVO.setSelected(true);
+                        }
                     }
-                    return false;
-                })
-                .toList();
+                    courseVOS.add(courseVO);
+                });
+        return courseVOS;
     }
 
     @Override
