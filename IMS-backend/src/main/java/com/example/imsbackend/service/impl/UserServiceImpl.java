@@ -3,6 +3,7 @@ package com.example.imsbackend.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.imsbackend.entity.User;
+import com.example.imsbackend.entity.UserCourse;
 import com.example.imsbackend.entity.UserLevel;
 import com.example.imsbackend.entity.dto.InsertUserDTO;
 import com.example.imsbackend.entity.dto.UpdateUserDTO;
@@ -10,6 +11,7 @@ import com.example.imsbackend.entity.vo.AuthUserInfoVO;
 import com.example.imsbackend.entity.vo.TeacherNameVO;
 import com.example.imsbackend.handler.exception.DeleteStudentException;
 import com.example.imsbackend.handler.exception.InsertStudentException;
+import com.example.imsbackend.mapper.UserCourseMapper;
 import com.example.imsbackend.mapper.UserLevelMapper;
 import com.example.imsbackend.mapper.UserMapper;
 import com.example.imsbackend.mapper.struct.BeanCopyUtil;
@@ -19,6 +21,7 @@ import com.example.imsbackend.service.UserService;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -35,6 +38,7 @@ import static com.example.imsbackend.constants.OtherConstants.*;
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
     private final UserLevelMapper userLevelMapper;
+    private final UserCourseMapper userCourseMapper;
 
     @Override
     @Transactional
@@ -61,6 +65,22 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 })
                 .map(BeanCopyUtil.INSTANCE::toTeacherNameVO)
                 .toList();
+    }
+
+    @Override
+    public List<AuthUserInfoVO> listStudentByCourseId(Integer courseId) {
+        LambdaQueryWrapper<UserCourse> userCourseLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        userCourseLambdaQueryWrapper.eq(UserCourse::getCourseId, courseId);
+        List<UserCourse> userCourses = userCourseMapper.selectList(userCourseLambdaQueryWrapper);
+        List<AuthUserInfoVO> list = new ArrayList<>();
+        for(UserCourse i : userCourses){
+            User user = baseMapper.selectOne(new LambdaQueryWrapper<User>().eq(User::getCode, i.getUserId()));
+            UserLevel userLevel = userLevelMapper.selectOne(new LambdaQueryWrapper<UserLevel>().eq(UserLevel::getUserId, user.getId()));
+            if(Objects.equals(userLevel.getLevelId(), STUDENT_ID)){
+                list.add(BeanCopyUtil.INSTANCE.toAuthUserInfo(user));
+            }
+        }
+        return list;
     }
 
     @Override

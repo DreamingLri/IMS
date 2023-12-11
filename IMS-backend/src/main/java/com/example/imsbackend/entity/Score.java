@@ -7,23 +7,19 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-/**
- * (UserCourse)表实体类
- *
- * @author makejava
- * @since 2023-12-11 22:29:08
- */
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
-@TableName("user_course")
-public class UserCourse  {
+@TableName("score")
+public class Score  {
+    @TableId
+    private Integer id;
 
     private Integer userId;
     private Integer courseId;
-    private Integer studyScore;
     private Integer examScore;
-    private Integer scoreFunction;
+    private Integer studyScore;
     private Double totalScore;
 }
