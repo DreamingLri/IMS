@@ -6,9 +6,9 @@ import request from "@/utils/request";
 import {ElMessage} from "element-plus";
 
 const examList = ref([])
-const studentList = ref([])
 const selectedStudent = ref([])
 const dialogVisible = ref(false)
+const examId = ref()
 
 function getExamList(){
   request.get("/exam/listExam").then(res =>{
@@ -20,9 +20,9 @@ function getExamList(){
   })
 }
 
-function getSelectStudentList(row){
-  request.get("/exam/listStudentByExamId?examId=" + row.id).then(res => {
-    if(res === 200){
+function getSelectStudentList(id){
+  request.get("/user-exam/listUserSelectedExam?examId=" + id).then(res => {
+    if(res.code === 200){
       selectedStudent.value = res.data
     } else {
       ElMessage.error("selectStudentError")
@@ -31,24 +31,13 @@ function getSelectStudentList(row){
   return selectedStudent;
 }
 
-function getStudentList(){
-  request.get("student/listStudent?name=" + '').then(res =>{
-    if(res.code === 200){
-      studentList.value = res.data
-    } else {
-      ElMessage.error("listStudentError")
-    }
-  })
-}
 
 onMounted(()=>{
   getExamList()
-  getStudentList()
 })
 
 function reset(){
   getExamList()
-  getStudentList()
   name.value = ''
 }
 
@@ -60,28 +49,54 @@ function formatDate(row ,col){
   return date_time.toLocaleDateString()
 }
 
-function formatTime(row, col){
-  let data = row[col.property]
-  if(data == null)
-    return null
-  let date_time = new Date(data)
-  return date_time.toLocaleString()
-}
 
-function addStudent(row){
+function addStudent(id){
   dialogVisible.value = true
+  getSelectStudentList(id)
+  examId.value = id;
 }
 
 function selectExam(row){
+  let returnFrom = {}
+  returnFrom.userId = row.id
+  returnFrom.examId = examId.value
 
+  request.post('/exam/selectExam' , returnFrom).then(res =>{
+    if(res.code === 200){
+      ElMessage.success("选考成功")
+      getSelectStudentList(examId.value)
+    } else {
+      ElMessage.error("选考失败")
+    }
+  })
 }
 
 function withdrawExam(row){
+  let returnFrom = {}
+  returnFrom.userId = row.id
+  returnFrom.examId = examId.value
 
+  request.post("/exam/withdrawExam" , returnFrom).then(res =>{
+    if(res.code === 200){
+      ElMessage.warning("退考成功")
+      getSelectStudentList(examId.value)
+    } else {
+      ElMessage.error("退考失败")
+    }
+  })
 }
 
 function handleClose(){
   dialogVisible.value = false
+}
+
+function formatSelected(row, col){
+  let data = row[col.property]
+  if(data === true){
+    return "是"
+  } else {
+    return "否"
+  }
 }
 </script>
 
@@ -104,7 +119,7 @@ function handleClose(){
           <el-table-column prop="invigilator" label="监考老师" width="130"/>
           <el-table-column label="操作">
             <template v-slot="scope">
-              <el-button type="primary" plain @click="addStudent(scope.row)"><el-icon style="margin-right: 5px"><CircleClose /></el-icon>添加学生</el-button>
+              <el-button type="primary" plain @click="addStudent(scope.row.id)"><el-icon style="margin-right: 5px"><CircleClose /></el-icon>添加学生</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -113,15 +128,20 @@ function handleClose(){
   <el-dialog
       v-model="dialogVisible"
       title="添加选考学生"
-      width="30%"
+      width="25%"
+      height="60%"
       :before-close="handleClose"
   >
-    <el-table :data="studentList" stripe style="width: 100%" border>
+    <el-table :data="selectedStudent" stripe style="width: 100%" border
+              :default-sort="{ prop: 'selected', order: 'descending' }"
+    >
+      <el-table-column prop="id" label="ID" width="50"/>
       <el-table-column prop="username" label="姓名" width="100"/>
+      <el-table-column prop="selected" label="是否选考" width="100" :formatter="formatSelected"/>
       <el-table-column label="操作">
-        <template v-slot="scope">
-          <el-button type="primary" plain @click=""><el-icon style="margin-right: 5px"><CircleClose /></el-icon>选考</el-button>
-          <el-button type="danger" plain @click=""><el-icon style="margin-right: 5px"><CircleClose /></el-icon>退考</el-button>
+        <template v-slot="scope1">
+          <el-button v-if="scope1.row.selected === false" type="primary" plain @click="selectExam(scope1.row)"><el-icon style="margin-right: 5px"><CircleClose /></el-icon>选考</el-button>
+          <el-button v-if="scope1.row.selected === true" type="danger" plain @click="withdrawExam(scope1.row)"><el-icon style="margin-right: 5px"><CircleClose /></el-icon>退考</el-button>
         </template>
       </el-table-column>
     </el-table>

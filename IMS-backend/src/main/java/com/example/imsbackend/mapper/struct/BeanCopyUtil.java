@@ -7,8 +7,8 @@ import com.example.imsbackend.entity.dto.InsertUserDTO;
 import com.example.imsbackend.entity.dto.UpdateUserDTO;
 import com.example.imsbackend.entity.vo.AuthUserInfoVO;
 import com.example.imsbackend.entity.vo.CourseVO;
-import com.example.imsbackend.entity.vo.ExamsVO;
 import com.example.imsbackend.entity.vo.TeacherNameVO;
+import com.example.imsbackend.entity.vo.UserExamVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -20,8 +20,8 @@ public interface BeanCopyUtil {
     TeacherNameVO toTeacherNameVO(User user);
     User toUser(InsertUserDTO insertUserDTO);
 
+    UserExamVO toUserExamVO(User user);
     CourseVO toCourseVO(Courses courses);
-    ExamsVO toExamVO(Exams exams);
 
     User toUser(UpdateUserDTO updateUserDTO);
 }

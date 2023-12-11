@@ -56,12 +56,12 @@ public class ExamController {
     }
 
     @PostMapping("/selectExam")
-    public boolean selectExam(UserExams userExams){
+    public boolean selectExam(@RequestBody UserExams userExams){
         return userExamsService.selectExam(userExams);
     }
 
     @PostMapping("/withdrawExam")
-    public boolean withdrawExam(UserExams userExams){
+    public boolean withdrawExam(@RequestBody UserExams userExams){
         return userExamsService.withdrawExam(userExams);
     }
 }
