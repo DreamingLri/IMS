@@ -16,6 +16,8 @@ public interface CourseTimeService extends IService<CourseTime> {
 
     List<CourseTime> getCourseTimeById(int id);
 
+    List<CourseTime> getCourseTimeByUserId(int id);
+
     boolean updateCourseTimeById(CourseTime courseTime);
 
     boolean deleteCourseTimeById(Integer id);

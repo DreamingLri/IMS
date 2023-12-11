@@ -3,6 +3,7 @@ package com.example.imsbackend.controller;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.example.imsbackend.entity.CourseTime;
 import com.example.imsbackend.entity.Courses;
 import com.example.imsbackend.entity.UserCourse;
@@ -103,7 +104,8 @@ public class CourseController {
 
     @GetMapping("/getCourseTable/{id}")
     public List<JSONObject> getCourseTable(@PathVariable Integer id){
-        List<CourseTime> courseTimes = courseTimeService.getCourseTimeById(id);
+        List<CourseTime> courseTimes = courseTimeService.getCourseTimeByUserId(id);
+
         List<JSONObject> list = CollUtil.newArrayList();
         JSONObject jsonObject1 = new JSONObject();
         JSONObject jsonObject2 = new JSONObject();
@@ -127,17 +129,17 @@ public class CourseController {
         list.add(jsonObject9);
         list.add(jsonObject10);
         list.add(jsonObject11);
-        jsonObject1.put("session", "{\"num\": \"第一节\", \"time\": \"8:00~8:45\"}");
-        jsonObject2.put("session", "{\"num\": \"第二节\", \"time\": \"8:55~9:40\"}");
-        jsonObject3.put("session", "{\"num\": \"第三节\", \"time\": \"10:10~10:55\"}");
-        jsonObject4.put("session", "{\"num\": \"第四节\", \"time\": \"11:05~11:50\"}");
-        jsonObject5.put("session", "{\"num\": \"第五节\", \"time\": \"14:20~15:05\"}");
-        jsonObject6.put("session", "{\"num\": \"第六节\", \"time\": \"15:15~16:00\"}");
-        jsonObject7.put("session", "{\"num\": \"第七节\", \"time\": \"16:20~17:05\"}");
-        jsonObject8.put("session", "{\"num\": \"第八节\", \"time\": \"17:15~18:00\"}");
-        jsonObject9.put("session", "{\"num\": \"第九节\", \"time\": \"19:00~19:45\"}");
-        jsonObject10.put("session", "{\"num\": \"第十节\", \"time\": \"19:55~20:40\"}");
-        jsonObject11.put("session", "{\"num\": \"第十一节\", \"time\": \"20:50~21:35\"}");
+        jsonObject1.put("session", JSONUtil.parseObj("{\"num\": \"第一节\", \"time\": \"8:00~8：45\"}"));
+        jsonObject2.put("session", JSONUtil.parseObj("{\"num\": \"第二节\", \"time\": \"8:55~9:40\"}"));
+        jsonObject3.put("session", JSONUtil.parseObj("{\"num\": \"第三节\", \"time\": \"10:10~10:55\"}"));
+        jsonObject4.put("session", JSONUtil.parseObj("{\"num\": \"第四节\", \"time\": \"11:05~11:50\"}"));
+        jsonObject5.put("session", JSONUtil.parseObj("{\"num\": \"第五节\", \"time\": \"14:20~15:05\"}"));
+        jsonObject6.put("session", JSONUtil.parseObj("{\"num\": \"第六节\", \"time\": \"15:15~16:00\"}"));
+        jsonObject7.put("session", JSONUtil.parseObj("{\"num\": \"第七节\", \"time\": \"16:20~17:05\"}"));
+        jsonObject8.put("session", JSONUtil.parseObj("{\"num\": \"第八节\", \"time\": \"17:15~18:00\"}"));
+        jsonObject9.put("session", JSONUtil.parseObj("{\"num\": \"第九节\", \"time\": \"19:00~19:45\"}"));
+        jsonObject10.put("session", JSONUtil.parseObj("{\"num\": \"第十节\", \"time\": \"19:55~20:40\"}"));
+        jsonObject11.put("session", JSONUtil.parseObj("{\"num\": \"第十一节\", \"time\": \"20:50~21:35\"}"));
 
         courseTimes.forEach(courseTime -> {
             Integer CourseId = courseTime.getCourseId();

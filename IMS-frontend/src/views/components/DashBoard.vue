@@ -179,7 +179,7 @@ const selectDate = (val) => {
 }
 
 .class_panel{
-  height: 700px;
+  height: 1400px;
   width: 100%;
   background-color: white;
   border-radius: 4px;
