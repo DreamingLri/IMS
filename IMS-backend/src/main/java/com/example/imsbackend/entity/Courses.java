@@ -32,6 +32,7 @@ public class Courses{
     @TableField("opened_by")
     private String openedBy;
     private String place;
+    private String courseAssessment;
 
     private Date createTime;
     private String createBy;

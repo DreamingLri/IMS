@@ -7,6 +7,7 @@ import com.example.imsbackend.entity.Courses;
 import com.example.imsbackend.entity.Exams;
 import com.example.imsbackend.entity.UserExams;
 import com.example.imsbackend.entity.dto.ExamAddStudentDTO;
+import com.example.imsbackend.entity.vo.ExamsVO;
 import com.example.imsbackend.handler.exception.DeleteExamException;
 import com.example.imsbackend.handler.exception.InsertExamException;
 import com.example.imsbackend.handler.exception.UpdateExamException;

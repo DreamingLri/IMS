@@ -22,7 +22,8 @@ const addCourseForm = reactive({
   endTime: '',
   teacher: '',
   period: '',
-  place: ''
+  place: '',
+  courseAssessment: ''
 })
 const updateCourseForm = reactive({
   id: '',
@@ -34,7 +35,8 @@ const updateCourseForm = reactive({
   endTime: '',
   teacher: '',
   period: '',
-  place: ''
+  place: '',
+  courseAssessment: ''
 })
 const rules = reactive({
 
@@ -52,6 +54,7 @@ const closeAddDialog = () =>{
   addCourseForm.teacher = ''
   addCourseForm.period = ''
   addCourseForm.place = ''
+  addCourseForm.courseAssessment = ''
 }
 
 const closeUpdateDialog = () =>{
@@ -70,6 +73,7 @@ const openUpdateDialog = (row) =>{
   updateCourseForm.teacher = row.teacher
   updateCourseForm.period = row.period
   updateCourseForm.place = row.place
+  updateCourseForm.courseAssessment = row.courseAssessment
 }
 
 const submitForm = async (formEl) => {
@@ -210,6 +214,7 @@ const courseTime = ref([]);
         <el-table-column prop="credit" label="学分" width="70" />
         <el-table-column prop="studentNumber" label="选课人数" width="100" />
         <el-table-column prop="period" label="学时" width="100" />
+        <el-table-column prop="courseAssessment" label="考核方式" width="150" />
         <el-table-column prop="startTime" label="开始日期" width="100" :formatter="formatDate"/>
         <el-table-column prop="endTime" label="结束日期" width="100" :formatter="formatDate"/>
         <el-table-column label="操作">
@@ -286,6 +291,15 @@ const courseTime = ref([]);
           </el-col>
         </el-form-item>
 
+        <el-form-item label="考核方式">
+          <el-select v-model="addCourseForm.courseAssessment" placeholder="请选择考核方式">
+            <el-option label="开卷考试" value="开卷考试" />
+            <el-option label="闭卷考试" value="闭卷考试" />
+            <el-option label="论文" value="论文" />
+            <el-option label="其它" value="其它" />
+          </el-select>
+        </el-form-item>
+
         <el-form-item>
           <el-button type="primary" @click="submitForm(ruleForm)">新建</el-button>
           <el-button @click="resetForm(ruleForm)">重置</el-button>
@@ -357,6 +371,15 @@ const courseTime = ref([]);
                 style="width: 100%"
             />
           </el-col>
+        </el-form-item>
+
+        <el-form-item label="考核方式">
+          <el-select v-model="updateCourseForm.courseAssessment" placeholder="请选择考核方式">
+            <el-option label="开卷考试" value="开卷考试" />
+            <el-option label="闭卷考试" value="闭卷考试" />
+            <el-option label="论文" value="论文" />
+            <el-option label="其它" value="其它" />
+          </el-select>
         </el-form-item>
 
         <el-form-item>

@@ -3,7 +3,9 @@ package com.example.imsbackend.controller;
 import cn.hutool.json.JSONObject;
 import com.example.imsbackend.entity.Exams;
 import com.example.imsbackend.entity.User;
+import com.example.imsbackend.entity.UserExams;
 import com.example.imsbackend.entity.dto.ExamAddStudentDTO;
+import com.example.imsbackend.entity.vo.ExamsVO;
 import com.example.imsbackend.service.ExamsService;
 import com.example.imsbackend.service.UserExamsService;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +27,7 @@ public class ExamController {
         return examsService.listExam(name);
     }
 
-    @GetMapping("/listExamByStudentId")
+    @GetMapping("/listExamByUserId")
     public List<Exams> listExamByUserId(Integer id){
         return examsService.listExamByUserId(id);
     }
@@ -40,7 +42,7 @@ public class ExamController {
         return examsService.updateExam(exams);
     }
 
-    @DeleteMapping("/deleteExamById")
+    @DeleteMapping("/deleteExamById/{id}")
     public boolean deleteExamById(@PathVariable Integer id){
         return examsService.deleteExamById(id);
     }
@@ -53,5 +55,15 @@ public class ExamController {
     @GetMapping("/listStudentByExamId")
     public List<User> listStudentByExamId(Integer examId){
         return userExamsService.listStudentByExamId(examId);
+    }
+
+    @PostMapping("/selectExam")
+    public boolean selectExam(UserExams userExams){
+        return userExamsService.selectExam(userExams);
+    }
+
+    @PostMapping("/withdrawExam")
+    public boolean withdrawExam(UserExams userExams){
+        return userExamsService.withdrawExam(userExams);
     }
 }

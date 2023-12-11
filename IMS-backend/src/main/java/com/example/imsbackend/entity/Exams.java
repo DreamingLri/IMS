@@ -31,10 +31,9 @@ public class Exams  {
     private Double examDuration;
     private String invigilator;
     private Integer courseId;
-    private String createBy;
 
+    private String createBy;
     private Date createTime;
     private String updateBy;
     private Date updateTime;
-    private String delFlag;
 }

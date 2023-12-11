@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.imsbackend.entity.User;
 import com.example.imsbackend.entity.UserExams;
+import com.example.imsbackend.handler.exception.SelectExamException;
+import com.example.imsbackend.handler.exception.WithdrawExamException;
 import com.example.imsbackend.mapper.UserExamsMapper;
 import com.example.imsbackend.mapper.UserMapper;
 import com.example.imsbackend.service.UserExamsService;
@@ -24,6 +26,7 @@ import java.util.List;
 public class UserExamsServiceImpl extends ServiceImpl<UserExamsMapper, UserExams> implements UserExamsService {
 
     private final UserMapper userMapper;
+
     @Override
     public List<User> listStudentByExamId(Integer examId) {
         return userMapper.selectList(new LambdaQueryWrapper<>())
@@ -33,5 +36,23 @@ public class UserExamsServiceImpl extends ServiceImpl<UserExamsMapper, UserExams
                     return !ObjectUtil.isEmpty(userExam);
                 })
                 .toList();
+    }
+
+    @Override
+    public boolean withdrawExam(UserExams userExams) {
+        if(baseMapper.delete(new LambdaQueryWrapper<UserExams>()
+                .eq(UserExams::getUserId, userExams.getUserId())
+                .eq(UserExams::getExamId, userExams.getExamId()))
+        == 0){
+            throw new WithdrawExamException();
+        }
+        return true;
+    }
+
+    @Override
+    public boolean selectExam(UserExams userExams) {
+        if(baseMapper.insert(userExams) == 0)
+            throw new SelectExamException();
+        return true;
     }
 }

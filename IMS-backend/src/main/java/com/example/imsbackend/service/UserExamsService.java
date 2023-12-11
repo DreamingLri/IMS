@@ -15,5 +15,9 @@ import java.util.List;
  */
 public interface UserExamsService extends IService<UserExams> {
 
+    boolean selectExam(UserExams userExams);
+
     List<User> listStudentByExamId(Integer studentId);
+
+    boolean withdrawExam(UserExams userExams);
 }

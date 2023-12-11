@@ -8,14 +8,8 @@ import {ElMessage} from "element-plus";
 const examList = ref([])
 const studentList = ref([])
 const selectedStudent = ref([])
-// const selectedStudentFunction = computed({
-//   get(){
-//     return getSelectStudentList()
-//   },
-//   set(){
-//     addStudent()
-//   }
-// })
+const dialogVisible = ref(false)
+
 function getExamList(){
   request.get("/exam/listExam").then(res =>{
     if(res.code === 200){
@@ -75,16 +69,19 @@ function formatTime(row, col){
 }
 
 function addStudent(row){
-  let result = {}
-  result.id = row.id
-  result.student = selectedStudent.value.toString()
-  request.post('/exam/addStudent', result).then(res=>{
-    if(res.code === 200){
-      console.log(result)
-    } else {
-      console.log(result)
-    }
-  })
+  dialogVisible.value = true
+}
+
+function selectExam(row){
+
+}
+
+function withdrawExam(row){
+
+}
+
+function handleClose(){
+  dialogVisible.value = false
 }
 </script>
 
@@ -105,24 +102,6 @@ function addStudent(row){
           <el-table-column prop="name" label="考试名称" width="130" />
           <el-table-column prop="date" label="考试日期" width="130" :formatter="formatDate"/>
           <el-table-column prop="invigilator" label="监考老师" width="130"/>
-          <el-table-column label="报考学生" width="400">
-            <template v-slot="scope">
-              <el-select
-                  v-model="selectedStudent"
-                  multiple
-                  placeholder="Select"
-                  style="width: 100%"
-              >
-                <el-option
-                    v-for="item in studentList"
-                    :key="item.id"
-                    :label="item.username"
-                    :value="item.id"
-                />
-              </el-select>
-            </template>
-
-          </el-table-column>
           <el-table-column label="操作">
             <template v-slot="scope">
               <el-button type="primary" plain @click="addStudent(scope.row)"><el-icon style="margin-right: 5px"><CircleClose /></el-icon>添加学生</el-button>
@@ -131,6 +110,28 @@ function addStudent(row){
         </el-table>
       </el-scrollbar>
     </div>
+  <el-dialog
+      v-model="dialogVisible"
+      title="添加选考学生"
+      width="30%"
+      :before-close="handleClose"
+  >
+    <el-table :data="studentList" stripe style="width: 100%" border>
+      <el-table-column prop="username" label="姓名" width="100"/>
+      <el-table-column label="操作">
+        <template v-slot="scope">
+          <el-button type="primary" plain @click=""><el-icon style="margin-right: 5px"><CircleClose /></el-icon>选考</el-button>
+          <el-button type="danger" plain @click=""><el-icon style="margin-right: 5px"><CircleClose /></el-icon>退考</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="dialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="dialogVisible = false">确认</el-button>
+      </span>
+    </template>
+  </el-dialog>
 </template>
 
 <style scoped>

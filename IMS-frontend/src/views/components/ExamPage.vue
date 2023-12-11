@@ -161,7 +161,7 @@ const reset = () =>{
 }
 
 const removeExam = (id) =>{
-  request.delete("/exam/deleteExamById" + id).then(res => {
+  request.delete("/exam/deleteExamById/" + id).then(res => {
     if(res.code === 200){
       ElMessage.success("删除成功")
       reset()
@@ -288,16 +288,6 @@ function formatTime(row, col){
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="绑定课程" prop="name">
-          <el-select v-model="updateExamForm.courseId" class="m-2" placeholder="请选择绑定的课程">
-            <el-option
-                v-for="item in courseList"
-                :key="item.id"
-                :label="item.name"
-                :value="item.id"
-            />
-          </el-select>
-        </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm(ruleForm)">新建</el-button>
           <el-button @click="resetForm(ruleForm)">重置</el-button>
@@ -368,17 +358,6 @@ function formatTime(row, col){
                 :key="item.value"
                 :label="item.username"
                 :value="item.username"
-            />
-          </el-select>
-        </el-form-item>
-
-        <el-form-item label="绑定课程" prop="name">
-          <el-select v-model="updateExamForm.courseId" class="m-2" placeholder="请选择绑定的课程">
-            <el-option
-                v-for="item in courseList"
-                :key="item.id"
-                :label="item.name"
-                :value="item.id"
             />
           </el-select>
         </el-form-item>

@@ -34,14 +34,24 @@ function formatDate(row ,col){
   return date_time.toLocaleDateString()
 }
 
+function formatSelected(row, col){
+  let data = row[col.property]
+  if(data === true){
+    return "是"
+  } else {
+    return "否"
+  }
+}
+
 function withdrawCourse(row){
   let useCourse = {}
   useCourse.userId = userInfo.user.id
   useCourse.courseId = row.id
+  useCourse.assment = row.courseAssessment
 
   request.post("/course/withdrawCourse", useCourse).then(res =>{
     if(res.code === 200){
-      ElMessage.success("退课成功")
+      ElMessage.warning("退课成功")
       getSelectedCourse()
       console.log(courseSelectedList)
     } else {
@@ -54,6 +64,7 @@ function selectCourse(row){
   let useCourse = {}
   useCourse.userId = userInfo.user.id
   useCourse.courseId = row.id
+  useCourse.assment = row.courseAssessment
 
   request.post("/course/selectCourse", useCourse).then(res =>{
     if(res.code === 200){
@@ -91,10 +102,12 @@ onMounted(()=> {
         <el-table-column prop="openedBy" label="开课学院" width="130" />
         <el-table-column prop="teacher" label="开课老师" width="130" />
         <el-table-column prop="credit" label="学分" width="70" />
+        <el-table-column prop="courseAssessment" label="考核方式" width="100" />
         <el-table-column prop="studentNumber" label="选课人数" width="100" />
         <el-table-column prop="period" label="学时" width="100" />
         <el-table-column prop="startTime" label="开始日期" width="100" :formatter="formatDate"/>
         <el-table-column prop="endTime" label="结束日期" width="100" :formatter="formatDate"/>
+        <el-table-column prop="selected" label="是否选课" width="60" :formatter="formatSelected"/>
         <el-table-column label="操作">
           <template v-slot="scope">
             <el-button v-if="scope.row.selected === true" type="danger" plain @click="withdrawCourse(scope.row)"><el-icon style="margin-right: 5px"><CircleClose /></el-icon>退课</el-button>

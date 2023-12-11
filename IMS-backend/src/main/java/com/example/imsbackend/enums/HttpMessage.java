@@ -20,7 +20,9 @@ public enum HttpMessage {
     UPDATE_EXAM_ERROR(HTTP_STATUS_500, "update exam error"),
 
     SELECT_COURSE_ERROR(HTTP_STATUS_500, "select course error"),
-    WITHDRAW_COURSE_ERROR(HTTP_STATUS_500, "withdraw course error");
+    WITHDRAW_COURSE_ERROR(HTTP_STATUS_500, "withdraw course error"),
+    SELECT_EXAM_ERROR(HTTP_STATUS_500, "select exam error"),
+    WITHDRAW_EXAM_ERROR(HTTP_STATUS_500, "withdraw exam error");
 
     final Integer code;
     final String message;

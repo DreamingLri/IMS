@@ -4,6 +4,7 @@ import cn.hutool.json.JSONObject;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.imsbackend.entity.Exams;
 import com.example.imsbackend.entity.dto.ExamAddStudentDTO;
+import com.example.imsbackend.entity.vo.ExamsVO;
 
 import java.util.List;
 
