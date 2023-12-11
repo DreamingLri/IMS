@@ -14,11 +14,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/course")
@@ -176,7 +172,7 @@ public class CourseController {
         return list;
     }
 
-    private JSONObject setJson(String weekday, Courses course, JSONObject jsonObject){
+    private void setJson(String weekday, Courses course, JSONObject jsonObject){
         if("星期一".equals(weekday))
             jsonObject.put("mon", course);
         else if("星期二".equals(weekday))
@@ -191,6 +187,5 @@ public class CourseController {
             jsonObject.put("sat", course);
         else if("星期日".equals(weekday))
             jsonObject.put("sun", course);
-        return jsonObject;
     }
 }

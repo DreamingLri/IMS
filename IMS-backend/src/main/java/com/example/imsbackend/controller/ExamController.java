@@ -1,11 +1,9 @@
 package com.example.imsbackend.controller;
 
-import cn.hutool.json.JSONObject;
 import com.example.imsbackend.entity.Exams;
 import com.example.imsbackend.entity.User;
 import com.example.imsbackend.entity.UserExams;
 import com.example.imsbackend.entity.dto.ExamAddStudentDTO;
-import com.example.imsbackend.entity.vo.ExamsVO;
 import com.example.imsbackend.service.ExamsService;
 import com.example.imsbackend.service.UserExamsService;
 import lombok.RequiredArgsConstructor;

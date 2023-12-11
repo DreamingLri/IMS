@@ -1,6 +1,5 @@
 package com.example.imsbackend.service.impl;
 
-import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
@@ -118,7 +117,7 @@ public class CoursesServiceImpl extends ServiceImpl<CoursesMapper, Courses> impl
                     courseVO.setSelected(false);
                     List<UserCourse> list = userCourseMapper.selectList(new LambdaQueryWrapper<UserCourse>().eq(UserCourse::getCourseId, courseVO.getId()));
                     for (UserCourse i : list){
-                        if(i.getUserId() == id){
+                        if(Objects.equals(i.getUserId(), id)){
                             courseVO.setSelected(true);
                         }
                     }

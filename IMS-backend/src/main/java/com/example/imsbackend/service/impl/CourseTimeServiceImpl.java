@@ -2,7 +2,6 @@ package com.example.imsbackend.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.imsbackend.entity.CourseTime;
 import com.example.imsbackend.mapper.CourseTimeMapper;
@@ -26,11 +25,7 @@ public class CourseTimeServiceImpl extends ServiceImpl<CourseTimeMapper, CourseT
     public List<CourseTime> getCourseTimeById(int id) {
         return baseMapper.selectList(new LambdaQueryWrapper<>())
                 .stream()
-                .filter(courseTime -> {
-                    if(courseTime.getCourseId() == id)
-                        return true;
-                    return false;
-                })
+                .filter(courseTime -> courseTime.getCourseId() == id)
                 .toList();
     }
 

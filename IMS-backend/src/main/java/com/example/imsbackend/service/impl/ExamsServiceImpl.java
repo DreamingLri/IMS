@@ -1,13 +1,10 @@
 package com.example.imsbackend.service.impl;
 
-import cn.hutool.json.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.imsbackend.entity.Courses;
 import com.example.imsbackend.entity.Exams;
 import com.example.imsbackend.entity.UserExams;
 import com.example.imsbackend.entity.dto.ExamAddStudentDTO;
-import com.example.imsbackend.entity.vo.ExamsVO;
 import com.example.imsbackend.handler.exception.DeleteExamException;
 import com.example.imsbackend.handler.exception.InsertExamException;
 import com.example.imsbackend.handler.exception.UpdateExamException;
@@ -18,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
