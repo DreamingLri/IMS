@@ -15,11 +15,14 @@ const ruleForm = ref()
 const userId = ref()
 
 const addScoreForm = reactive({
+  id: '',
   courseId: courseId,
   userId: userId,
   studyScore: '',
   examScore: '',
   scoreFunction: '',
+  totalScore: '',
+  evaluationScore: '',
 })
 
 function getCourseList(){
@@ -53,7 +56,7 @@ const submitForm = async (formEl) => {
 }
 
 function getUserList(courseId){
-  request.get('/student/listStudentByCourseId?courseId='+courseId).then(res => {
+  request.get('/score/listStudentWithScoreByCourseId?courseId='+courseId).then(res => {
     if(res.code === 200){
       userList.value = res.data
     } else {
@@ -101,8 +104,11 @@ const resetForm = (formEl) => {
       <el-table :data="userList" stripe style="width: 100%" border>
         <el-table-column prop="id" label="ID" width="50" />
         <el-table-column prop="netId" label="Net ID" width="130" />
-        <el-table-column prop="username" label="姓名" width="130" />
+        <el-table-column prop="name" label="姓名" width="130" />
         <el-table-column prop="code" label="学号" width="130" />
+        <el-table-column prop="studyScore" label="平时分" width="130" />
+        <el-table-column prop="examScore" label="考试分" width="130" />
+        <el-table-column prop="totalScore" label="总分" width="130" />
         <el-table-column label="操作">
           <template v-slot="scope">
             <el-button type="primary" plain @click="openScoreDialog(scope.row)"><el-icon style="margin-right: 5px"><Edit /></el-icon>评分</el-button>
