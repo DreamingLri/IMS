@@ -29,36 +29,12 @@ public class UserCourseServiceImpl extends ServiceImpl<UserCourseMapper, UserCou
 
     @Override
     public boolean withdrawCourse(UserCourse userCourse) {
-//        if(baseMapper.deleteById(userCourse) == 0){
-//            throw new WithdrawCourseException();
-//        }
-//        return true;
         if(baseMapper.delete(new LambdaQueryWrapper<UserCourse>()
                 .eq(UserCourse::getCourseId, userCourse.getCourseId())
                 .eq(UserCourse::getUserId, userCourse.getUserId()))
                 == 0){
             throw new WithdrawCourseException();
         }
-        return true;
-    }
-
-    @Override
-    public boolean addScore(UserCourse userCourse) {
-        double totalScore;
-        int function = userCourse.getScoreFunction();
-        if(function == 1){
-            totalScore = userCourse.getExamScore()*0.6 + userCourse.getStudyScore()*0.4;
-        } else if (function == 2) {
-            totalScore = userCourse.getExamScore()*0.5 + userCourse.getStudyScore()*0.5;
-        } else {
-            totalScore = userCourse.getStudyScore();
-        }
-        userCourse.setTotalScore(totalScore);
-        Score score = new Score();
-        score.setCourseId(userCourse.getCourseId());
-
-        scoreMapper.insert()
-
         return true;
     }
 }

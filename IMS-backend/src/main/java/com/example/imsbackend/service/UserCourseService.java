@@ -9,5 +9,4 @@ public interface UserCourseService extends IService<UserCourse> {
 
     boolean withdrawCourse(UserCourse userCourse);
 
-    boolean addScore(UserCourse userCourse);
 }

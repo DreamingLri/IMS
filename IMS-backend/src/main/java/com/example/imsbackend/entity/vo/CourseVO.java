@@ -12,14 +12,16 @@ import java.util.Date;
 @NoArgsConstructor
 public class CourseVO {
     private Integer id;
+
     private String name;
     private String teacher;
     private Date startTime;
     private Date endTime;
-    private Object studentNumber;
+    private Integer studentNumber;
     private Double credit;
     private Double period;
-    private String openedBy;
+    private String place;
     private String courseAssessment;
+    private String openedBy;
     private Boolean selected;
 }

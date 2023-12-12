@@ -1,5 +1,6 @@
 package com.example.imsbackend.service.impl;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
@@ -111,16 +112,26 @@ public class CoursesServiceImpl extends ServiceImpl<CoursesMapper, Courses> impl
     @Override
     public List<CourseVO> selectCourseById(Integer id) {
         List<CourseVO> courseVOS = new ArrayList<>();
+//        baseMapper.selectList(new LambdaQueryWrapper<>())
+//                .forEach(courses -> {
+//                    CourseVO courseVO = BeanCopyUtil.INSTANCE.toCourseVO(courses);
+//                    courseVO.setSelected(false);
+//                    List<UserCourse> list = userCourseMapper.selectList(new LambdaQueryWrapper<UserCourse>().eq(UserCourse::getCourseId, courseVO.getId()));
+//                    for (UserCourse i : list){
+//                        if(Objects.equals(i.getUserId(), id)){
+//                            courseVO.setSelected(true);
+//                        }
+//                    }
+//                    courseVOS.add(courseVO);
+//                });
         baseMapper.selectList(new LambdaQueryWrapper<>())
                 .forEach(courses -> {
                     CourseVO courseVO = BeanCopyUtil.INSTANCE.toCourseVO(courses);
-                    courseVO.setSelected(false);
-                    List<UserCourse> list = userCourseMapper.selectList(new LambdaQueryWrapper<UserCourse>().eq(UserCourse::getCourseId, courseVO.getId()));
-                    for (UserCourse i : list){
-                        if(Objects.equals(i.getUserId(), id)){
-                            courseVO.setSelected(true);
-                        }
-                    }
+
+                    List<UserCourse> list = userCourseMapper.selectList(new LambdaQueryWrapper<UserCourse>()
+                            .eq(UserCourse::getCourseId, courseVO.getId())
+                            .eq(UserCourse::getUserId, id));
+                    courseVO.setSelected(!ObjectUtil.isEmpty(list));
                     courseVOS.add(courseVO);
                 });
         return courseVOS;

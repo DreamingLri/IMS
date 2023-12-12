@@ -19,11 +19,6 @@ import com.baomidou.mybatisplus.annotation.TableName;
 @Accessors(chain = true)
 @TableName("user_course")
 public class UserCourse  {
-
     private Integer userId;
     private Integer courseId;
-    private Integer studyScore;
-    private Integer examScore;
-    private Integer scoreFunction;
-    private Double totalScore;
 }
