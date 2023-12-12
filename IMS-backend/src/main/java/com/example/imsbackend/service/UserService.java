@@ -27,5 +27,7 @@ public interface UserService extends IService<User> {
     List<AuthUserInfoVO> listAll(String username);
 
     List<TeacherNameVO> listTeacherName();
+
+    List<AuthUserInfoVO> listStudentByCourseId(Integer courseId);
 }
 

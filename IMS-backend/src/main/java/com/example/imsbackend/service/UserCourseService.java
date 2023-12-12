@@ -8,4 +8,6 @@ public interface UserCourseService extends IService<UserCourse> {
     boolean selectCourse(UserCourse userCourse);
 
     boolean withdrawCourse(UserCourse userCourse);
+
+    boolean addScore(UserCourse userCourse);
 }

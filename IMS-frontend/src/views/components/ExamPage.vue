@@ -237,7 +237,7 @@ function formatTime(row, col){
   <!--新建课程面板-->
   <el-dialog
       v-model="addExamDialog"
-      title="新增课程信息"
+      title="新增考试信息"
       width="30%"
       :before-close="closeAddDialog"
       style="border-radius: 8px"
@@ -304,7 +304,7 @@ function formatTime(row, col){
   <!--更新课程面板-->
   <el-dialog
       v-model="updateExamDialog"
-      title="更新课程信息"
+      title="更新考试信息"
       width="30%"
       :before-close="closeUpdateDialog"
       style="border-radius: 8px"
