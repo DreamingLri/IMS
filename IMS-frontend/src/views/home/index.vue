@@ -82,7 +82,7 @@ function logout(){
                 <el-menu-item-group>
                   <el-menu-item index="4-1" @click="router.push('/index/course')">课程信息</el-menu-item>
                   <el-menu-item index="4-2" @click="router.push('/index/course-time')">课程时间</el-menu-item>
-                  <el-menu-item index="4-3">选课情况</el-menu-item>
+                  <el-menu-item index="4-3" @click="router.push('/index/course-status')">选课情况</el-menu-item>
                 </el-menu-item-group>
               </el-sub-menu>
             </el-menu>

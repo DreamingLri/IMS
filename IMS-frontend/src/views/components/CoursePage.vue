@@ -212,7 +212,7 @@ const courseTime = ref([]);
         <el-table-column prop="teacher" label="开课老师" width="130" />
         <el-table-column prop="place" label="上课地点" width="100"/>
         <el-table-column prop="credit" label="学分" width="70" />
-        <el-table-column prop="studentNumber" label="选课人数" width="100" />
+        <el-table-column prop="studentNumber" label="开课人数" width="100" />
         <el-table-column prop="period" label="学时" width="100" />
         <el-table-column prop="courseAssessment" label="考核方式" width="150" />
         <el-table-column prop="startTime" label="开始日期" width="100" :formatter="formatDate"/>

@@ -8,6 +8,7 @@ import com.example.imsbackend.entity.CourseTime;
 import com.example.imsbackend.entity.Courses;
 import com.example.imsbackend.entity.UserCourse;
 import com.example.imsbackend.entity.vo.CourseVO;
+import com.example.imsbackend.entity.vo.UserCourseVO;
 import com.example.imsbackend.service.CourseTimeService;
 import com.example.imsbackend.service.CoursesService;
 import com.example.imsbackend.service.UserCourseService;
@@ -88,6 +89,10 @@ public class CourseController {
     }
 
     //选课人数接口
+    @GetMapping("/listNumberOfStudentSelectCourse")
+    public List<UserCourseVO> listNumberOfStudentSelectCourse(){
+        return userCourseService.listNumberOfStudentSelectCourse();
+    }
 
     //退选课接口
     @PostMapping("/selectCourse")

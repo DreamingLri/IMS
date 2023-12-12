@@ -75,6 +75,11 @@ const routes = [
         path: 'teacher-score',
         name: 'teacher-score',
         component: () => import('@/views/components/TeacherScorePage.vue')
+      },
+      {
+        path: 'course-status',
+        name: 'course-status',
+        component: () => import('@/views/components/CourseSelectionStatusPage.vue')
       }
     ]
   }
