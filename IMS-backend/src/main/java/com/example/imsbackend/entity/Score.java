@@ -24,4 +24,5 @@ public class Score  {
     private Double totalScore;
     private Integer scoreFunction;
     private Integer evaluationScore;
+    private String evaluationSuggestion;
 }

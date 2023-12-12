@@ -3,6 +3,7 @@ package com.example.imsbackend.controller;
 import com.example.imsbackend.entity.Score;
 import com.example.imsbackend.entity.UserCourse;
 import com.example.imsbackend.entity.vo.StudentScoreVo;
+import com.example.imsbackend.entity.vo.TeacherScoreVO;
 import com.example.imsbackend.service.ScoreService;
 import com.example.imsbackend.service.UserCourseService;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,11 @@ public class ScoreController {
         return scoreService.addScore(score);
     }
 
+    @PostMapping("/addEvaluation")
+    public boolean addEvaluation(@RequestBody Score score){
+        return scoreService.addEvaluation(score);
+    }
+
     @GetMapping("/getScoreByUserIdAndCourseId")
     public Score getScoreByUserIdAndCourseId(Integer userId, Integer courseId){
         return scoreService.getScoreByUserIdAndCourseId(userId, courseId);
@@ -30,5 +36,10 @@ public class ScoreController {
     @GetMapping("/listStudentWithScoreByCourseId")
     public List<StudentScoreVo> listStudentWithScoreByCourseId(Integer courseId){
         return scoreService.listStudentWithScoreByCourseId(courseId);
+    }
+
+    @GetMapping("/listTeacherWithScoreByUserId")
+    public List<TeacherScoreVO> listTeacherWithScoreByUserId(Integer userId){
+        return scoreService.listTeacherWithScoreByUserId(userId);
     }
 }

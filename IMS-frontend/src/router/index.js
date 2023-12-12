@@ -64,12 +64,17 @@ const routes = [
       {
         path: 'exam-student',
         name: 'exam-student',
-        component:() => import ('@/views/components/ExamStudentPage.vue')
+        component: () => import ('@/views/components/ExamStudentPage.vue')
       },
       {
         path: 'student-score',
         name: 'student-score',
         component: () => import('@/views/components/StudentScorePage.vue')
+      },
+      {
+        path: 'teacher-score',
+        name: 'teacher-score',
+        component: () => import('@/views/components/TeacherScorePage.vue')
       }
     ]
   }

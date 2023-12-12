@@ -61,6 +61,7 @@ function logout(){
                 <el-menu-item-group>
                   <el-menu-item index="2-1" @click="router.push('/index/teacher-info')">教师信息</el-menu-item>
                   <el-menu-item index="2-2">教师课表</el-menu-item>
+                  <el-menu-item index="2-3" @click="router.push('/index/teacher-score')">教师评教</el-menu-item>
                 </el-menu-item-group>
               </el-sub-menu>
               <el-sub-menu index="3">

@@ -14,7 +14,9 @@ public class StudentScoreVo {
     private String name;
     private String netId;
     private String code;
+
     private int studyScore;
     private int examScore;
     private double totalScore;
+    private int scoreFunction;
 }

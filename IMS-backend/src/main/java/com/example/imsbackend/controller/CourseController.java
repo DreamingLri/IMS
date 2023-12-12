@@ -87,6 +87,9 @@ public class CourseController {
         return coursesService.selectCourseById(id);
     }
 
+    //选课人数接口
+
+    //退选课接口
     @PostMapping("/selectCourse")
     public boolean selectCourse(@RequestBody UserCourse userCourse){
         return userCourseService.selectCourse(userCourse);
@@ -97,6 +100,7 @@ public class CourseController {
         return userCourseService.withdrawCourse(userCourse);
     }
 
+    //课程表接口
     @GetMapping("/getCourseTimeById")
     public List<CourseTime> getCourseTimeById(int id){
         return courseTimeService.getCourseTimeById(id);

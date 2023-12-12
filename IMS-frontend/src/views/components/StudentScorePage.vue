@@ -20,7 +20,7 @@ const addScoreForm = reactive({
   userId: userId,
   studyScore: '',
   examScore: '',
-  scoreFunction: '',
+  scoreFunction: '1',
   totalScore: '',
   evaluationScore: '',
 })
@@ -43,6 +43,7 @@ const submitForm = async (formEl) => {
         if(res.code === 200){
           ElMessage.success('添加成功')
           scoreDialogClose()
+          getUserList(addScoreForm.courseId)
         } else {
           ElMessage.error('添加失败')
           console.log(res.message)
@@ -71,6 +72,14 @@ onMounted(() =>{
 function openScoreDialog(row){
   scoreDialog.value = true
   userId.value = row.id
+
+  addScoreForm.examScore = row.examScore
+  addScoreForm.studyScore = row.studyScore
+  addScoreForm.totalScore = row.totalScore
+}
+
+function closeScoreDialog(){
+  scoreDialog.value = false;
 }
 
 function scoreDialogClose(){
@@ -80,6 +89,19 @@ function scoreDialogClose(){
 const resetForm = (formEl) => {
   if (!formEl) return
   formEl.resetFields()
+}
+
+function formatScore(row, col){
+  let data = row[col.property]
+  if(data == null)
+    return null
+  if(data === 1){
+    return "平时分60%, 考试分40%"
+  } else if(data === 2){
+    return "平时分50%, 考试分50%"
+  } else {
+    return "平时分100%"
+  }
 }
 
 </script>
@@ -109,6 +131,7 @@ const resetForm = (formEl) => {
         <el-table-column prop="studyScore" label="平时分" width="130" />
         <el-table-column prop="examScore" label="考试分" width="130" />
         <el-table-column prop="totalScore" label="总分" width="130" />
+        <el-table-column prop="scoreFunction" label="评分规则" width="180" :formatter="formatScore"/>
         <el-table-column label="操作">
           <template v-slot="scope">
             <el-button type="primary" plain @click="openScoreDialog(scope.row)"><el-icon style="margin-right: 5px"><Edit /></el-icon>评分</el-button>
@@ -148,7 +171,7 @@ const resetForm = (formEl) => {
     </div>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="closeAddDialog">取消</el-button>
+        <el-button @click="closeScoreDialog">取消</el-button>
       </span>
     </template>
   </el-dialog>

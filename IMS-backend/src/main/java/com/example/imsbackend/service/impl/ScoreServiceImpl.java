@@ -3,15 +3,10 @@ package com.example.imsbackend.service.impl;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.imsbackend.entity.Score;
-import com.example.imsbackend.entity.User;
-import com.example.imsbackend.entity.UserCourse;
-import com.example.imsbackend.entity.UserLevel;
+import com.example.imsbackend.entity.*;
 import com.example.imsbackend.entity.vo.StudentScoreVo;
-import com.example.imsbackend.mapper.ScoreMapper;
-import com.example.imsbackend.mapper.UserCourseMapper;
-import com.example.imsbackend.mapper.UserLevelMapper;
-import com.example.imsbackend.mapper.UserMapper;
+import com.example.imsbackend.entity.vo.TeacherScoreVO;
+import com.example.imsbackend.mapper.*;
 import com.example.imsbackend.service.ScoreService;
 import com.example.imsbackend.service.UserCourseService;
 import lombok.AllArgsConstructor;
@@ -29,6 +24,7 @@ public class ScoreServiceImpl extends ServiceImpl<ScoreMapper, Score> implements
     private final UserCourseMapper userCourseMapper;
     private final UserLevelMapper userLevelMapper;
     private final UserMapper userMapper;
+    private final CoursesMapper coursesMapper;
     @Override
     public boolean addScore(Score score) {
         double totalScore;
@@ -44,16 +40,25 @@ public class ScoreServiceImpl extends ServiceImpl<ScoreMapper, Score> implements
                 .eq(Score::getCourseId, score.getCourseId())
                 .eq(Score::getUserId, score.getUserId()));
         if(ObjectUtil.isEmpty(checkScore)){
-            baseMapper.insert(score);
+            return baseMapper.insert(score) == 1;
         } else {
             score.setId(checkScore.getId());
-            score.setStudyScore(score.getStudyScore());
-            score.setExamScore(score.getExamScore());
             score.setTotalScore(totalScore);
-            score.setScoreFunction(score.getScoreFunction());
-            baseMapper.updateById(score);
+            return baseMapper.updateById(score) == 1;
         }
-        return true;
+    }
+
+    @Override
+    public boolean addEvaluation(Score score) {
+        Score checkScore = baseMapper.selectOne(new LambdaQueryWrapper<Score>()
+                .eq(Score::getUserId, score.getUserId())
+                .eq(Score::getCourseId, score.getCourseId()));
+        if(ObjectUtil.isEmpty(checkScore)){
+            return baseMapper.insert(score) == 1;
+        } else {
+            score.setId(checkScore.getId());
+            return baseMapper.updateById(score) == 1;
+        }
     }
 
     @Override
@@ -85,18 +90,45 @@ public class ScoreServiceImpl extends ServiceImpl<ScoreMapper, Score> implements
                     .eq(Score::getCourseId, userCourse.getCourseId()));
             User user = userMapper.selectOne(new LambdaQueryWrapper<User>()
                     .eq(User::getId, userCourse.getUserId()));
-            StudentScoreVo studentScoreVo = new StudentScoreVo();
 
+            StudentScoreVo studentScoreVo = new StudentScoreVo();
             studentScoreVo.setName(user.getUsername());
             studentScoreVo.setNetId(user.getNetId());
             studentScoreVo.setCode(user.getCode());
+            studentScoreVo.setId(user.getId());
+
             if(!ObjectUtil.isEmpty(score)){
-                studentScoreVo.setId(score.getId());
                 studentScoreVo.setStudyScore(score.getStudyScore());
                 studentScoreVo.setExamScore(score.getExamScore());
                 studentScoreVo.setTotalScore(score.getTotalScore());
+                studentScoreVo.setScoreFunction(score.getScoreFunction());
             }
             list.add(studentScoreVo);
+        });
+        return list;
+    }
+
+    @Override
+    public List<TeacherScoreVO> listTeacherWithScoreByUserId(Integer userId) {
+        List<TeacherScoreVO> list = new ArrayList<>();
+        List<UserCourse> userCourses = userCourseMapper.selectList(new LambdaQueryWrapper<UserCourse>().eq(UserCourse::getUserId, userId));
+        userCourses.forEach(userCourse -> {
+            Courses courses = coursesMapper.selectOne(new LambdaQueryWrapper<Courses>()
+                    .eq(Courses::getId, userCourse.getCourseId()));
+            Score score = baseMapper.selectOne(new LambdaQueryWrapper<Score>()
+                    .eq(Score::getUserId, userId)
+                    .eq(Score::getCourseId, userCourse.getCourseId()));
+
+            TeacherScoreVO teacherScoreVO = new TeacherScoreVO();
+            teacherScoreVO.setTeacherName(courses.getTeacher());
+            teacherScoreVO.setCourseName(courses.getName());
+            teacherScoreVO.setId(courses.getId());
+
+            if(!ObjectUtil.isEmpty(score)){
+                teacherScoreVO.setEvaluationScore(score.getEvaluationScore());
+                teacherScoreVO.setEvaluationSuggestion(score.getEvaluationSuggestion());
+            }
+            list.add(teacherScoreVO);
         });
         return list;
     }
