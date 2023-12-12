@@ -51,6 +51,7 @@ public class UserCourseServiceImpl extends ServiceImpl<UserCourseMapper, UserCou
         List<Courses> courses = coursesMapper.selectList(new LambdaQueryWrapper<>());
         for (Courses course : courses) {
             UserCourseVO userCourseVO = new UserCourseVO();
+            userCourseVO.setId(course.getId());
             userCourseVO.setCourseName(course.getName());
             userCourseVO.setTeacher(course.getTeacher());
             userCourseVO.setPlace(course.getPlace());

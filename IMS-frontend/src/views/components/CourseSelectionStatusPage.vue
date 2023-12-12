@@ -5,49 +5,21 @@ import {onMounted, reactive, ref} from "vue";
 import request from "@/utils/request";
 import {ElMessage} from "element-plus";
 import {useInfoStore} from "@/stores/pinna";
+import VChart from "vue-echarts";
 
 
 const course = ref('')
 const courseList = ref([])
-const courseId = ref()
 const scoreDialog = ref(false)
-const ruleForm = ref()
-const userId = ref()
 const name = ref('')
 
-const userInfo = useInfoStore()
-
-const addScoreForm = reactive({
-  id: '',
-  courseId: courseId,
-  userId: userInfo.user.id,
-  evaluationScore: '',
-  evaluationSuggestion: ''
-})
-
-const submitForm = async (formEl) => {
-  if (!formEl) return
-  await formEl.validate((valid, fields) => {
-    if (valid) {
-      request.post('/score/addEvaluation' , addScoreForm).then(res =>{
-        if(res.code === 200){
-          ElMessage.success('添加成功')
-          scoreDialogClose()
-          getCourseList()
-        } else {
-          ElMessage.error('添加失败')
-          console.log(res.message)
-        }
-      })
-    } else {
-      ElMessage.error('请检查填入的信息是否正确')
-      console.log('error submit!', fields)
-    }
-  })
-}
+//Echarts
+const selectNum = ref()
+const totalNum = ref()
+const leftNum = ref()
 
 function getCourseList(){
-  request.get('/score/listTeacherWithScoreByUserId?userId='+userInfo.user.id).then(res => {
+  request.get('/course/listNumberOfStudentSelectCourse').then(res => {
     if(res.code === 200){
       courseList.value = res.data
     } else {
@@ -61,17 +33,15 @@ onMounted(() =>{
 
 function openScoreDialog(row){
   scoreDialog.value = true
-  courseId.value = row.id
-  addScoreForm.evaluationScore = row.evaluationScore
+  totalNum.value = row.studentNumber
+  selectNum.value = row.selectedNumber
+  leftNum.value = totalNum.value - selectNum.value
 }
 
 function closeScoreDialog(){
   scoreDialog.value = false;
 }
 
-function scoreDialogClose(){
-  scoreDialog.value = false
-}
 
 const resetForm = (formEl) => {
   if (!formEl) return
@@ -84,6 +54,65 @@ const rules = reactive({
   ]
 })
 
+//Echarts
+import { use } from 'echarts/core';
+import { CanvasRenderer } from 'echarts/renderers';
+import { PieChart } from 'echarts/charts';
+import {
+  TitleComponent,
+  TooltipComponent,
+  LegendComponent,
+} from 'echarts/components';
+
+use([
+  CanvasRenderer,
+  PieChart,
+  TitleComponent,
+  TooltipComponent,
+  LegendComponent,
+]);
+
+const option = ref({
+  tooltip: {
+    trigger: 'item'
+  },
+  legend: {
+    top: '5%',
+    left: 'center',
+    selectedMode: false
+  },
+  series: [
+    {
+      name: '选课情况表',
+      type: 'pie',
+      radius: ['40%', '70%'],
+      center: ['50%', '70%'],
+      startAngle: 180,
+      label: {
+        show: true,
+        formatter(param) {
+          return param.name + ' (' + param.percent * 2 + '%)';
+        }
+      },
+      data: [
+        { value: selectNum, name: '选课人数' },
+        { value: leftNum, name: '剩余人数' },
+        {
+          value: totalNum,
+          itemStyle: {
+            color: 'none',
+            decal: {
+              symbol: 'none'
+            }
+          },
+          label: {
+            show: false
+          }
+        }
+      ]
+    }
+  ]
+});
 </script>
 
 <template>
@@ -100,12 +129,14 @@ const rules = reactive({
     <el-scrollbar class="table-wrapper">
       <el-table :data="courseList" stripe style="width: 100%" border>
         <el-table-column prop="id" label="ID" width="50" />
-        <el-table-column prop="teacherName" label="教师名称" width="130" />
         <el-table-column prop="courseName" label="课程名称" width="130" />
-        <el-table-column prop="evaluationScore" label="评教分" width="130" />
+        <el-table-column prop="teacher" label="教师" width="130" />
+        <el-table-column prop="place" label="上课地点" width="130" />
+        <el-table-column prop="studentNumber" label="开课人数" width="130" />
+        <el-table-column prop="selectedNumber" label="选课人数" width="130" />
         <el-table-column label="操作">
           <template v-slot="scope">
-            <el-button type="primary" plain @click="openScoreDialog(scope.row)"><el-icon style="margin-right: 5px"><Edit /></el-icon>评教</el-button>
+            <el-button type="primary" plain @click="openScoreDialog(scope.row)"><el-icon style="margin-right: 5px"><Edit /></el-icon>详情</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -114,29 +145,13 @@ const rules = reactive({
 
   <el-dialog
       v-model="scoreDialog"
-      title="评分"
+      title="选课详情"
       width="30%"
-      :before-close="scoreDialogClose"
+      :before-close="closeScoreDialog"
       style="border-radius: 8px"
   >
-    <div style="margin-right: 20%">
-      <el-form :model="addScoreForm" label-width="120px" ref="ruleForm" :rules="rules">
-        <el-form-item label="评教分" prop="name">
-          <el-input v-model="addScoreForm.evaluationScore" />
-        </el-form-item>
-        <el-form-item label="评教建议" prop="suggestion">
-          <el-input
-              v-model="addScoreForm.evaluationSuggestion"
-              :autosize="{ minRows: 2 }"
-              type="textarea"
-              placeholder="请输入评教建议"
-          />
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="submitForm(ruleForm)">提交评分</el-button>
-          <el-button @click="resetForm(ruleForm)">重置</el-button>
-        </el-form-item>
-      </el-form>
+    <div style="width: 100%; height: 100%">
+      <v-chart class="chart" :option="option" style="height: 400px" autoresize/>
     </div>
     <template #footer>
       <span class="dialog-footer">
