@@ -1,20 +1,29 @@
 package com.example.imsbackend.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
-
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+/**
+ * (UserCourse)表实体类
+ *
+ * @author makejava
+ * @since 2023-12-11 22:29:08
+ */
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Accessors(chain = true)
 @TableName("user_course")
-public class UserCourse {
-    @TableField("user_id")
+public class UserCourse  {
+
     private Integer userId;
-    @TableField("course_id")
     private Integer courseId;
+    private Integer studyScore;
+    private Integer examScore;
+    private Integer scoreFunction;
+    private Double totalScore;
 }

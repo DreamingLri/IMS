@@ -43,5 +43,10 @@ public class StudentController {
     public boolean deleteUserById(@PathVariable Integer id){
         return userService.deleteUserById(id);
     }
+
+    @GetMapping("/listStudentByCourseId")
+    public List<AuthUserInfoVO> listStudentByCourseId(Integer courseId){
+        return userService.listStudentByCourseId(courseId);
+    }
 }
 
