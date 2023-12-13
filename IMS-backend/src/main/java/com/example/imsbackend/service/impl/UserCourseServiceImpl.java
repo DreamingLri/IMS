@@ -1,6 +1,7 @@
 package com.example.imsbackend.service.impl;
 
 
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -25,6 +26,7 @@ import java.util.List;
 @AllArgsConstructor
 public class UserCourseServiceImpl extends ServiceImpl<UserCourseMapper, UserCourse> implements UserCourseService {
     private final CoursesMapper coursesMapper;
+    private final ScoreMapper scoreMapper;
 
     @Override
     public boolean selectCourse(UserCourse userCourse) {
@@ -36,13 +38,29 @@ public class UserCourseServiceImpl extends ServiceImpl<UserCourseMapper, UserCou
 
     @Override
     public boolean withdrawCourse(UserCourse userCourse) {
-        if(baseMapper.delete(new LambdaQueryWrapper<UserCourse>()
-                .eq(UserCourse::getCourseId, userCourse.getCourseId())
-                .eq(UserCourse::getUserId, userCourse.getUserId()))
-                == 0){
+        Score checkScore = scoreMapper.selectOne(new LambdaQueryWrapper<Score>()
+                .eq(Score::getUserId, userCourse.getUserId())
+                .eq(Score::getCourseId, userCourse.getCourseId()));
+        if(ObjectUtil.isEmpty(checkScore)){
+            if(baseMapper.delete(new LambdaQueryWrapper<UserCourse>()
+                    .eq(UserCourse::getCourseId, userCourse.getCourseId())
+                    .eq(UserCourse::getUserId, userCourse.getUserId()))
+                    == 0){
+                throw new WithdrawCourseException();
+            }
+            return true;
+        } else {
+            if(checkScore.getTotalScore() == null && checkScore.getExamScore() == null && checkScore.getStudyScore() == null){
+                if(baseMapper.delete(new LambdaQueryWrapper<UserCourse>()
+                        .eq(UserCourse::getCourseId, userCourse.getCourseId())
+                        .eq(UserCourse::getUserId, userCourse.getUserId()))
+                        == 0){
+                    throw new WithdrawCourseException();
+                }
+                return true;
+            }
             throw new WithdrawCourseException();
         }
-        return true;
     }
 
     @Override

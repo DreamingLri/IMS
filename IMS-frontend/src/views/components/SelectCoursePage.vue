@@ -56,6 +56,7 @@ function withdrawCourse(row){
       console.log(courseSelectedList)
     } else {
       console.log(res.message)
+      ElMessage.error(res.message)
     }
   })
 }

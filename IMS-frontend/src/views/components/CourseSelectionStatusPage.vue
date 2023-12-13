@@ -3,8 +3,6 @@
 import {Delete, Edit, Plus, Refresh, Search} from "@element-plus/icons-vue";
 import {onMounted, reactive, ref} from "vue";
 import request from "@/utils/request";
-import {ElMessage} from "element-plus";
-import {useInfoStore} from "@/stores/pinna";
 import VChart from "vue-echarts";
 
 
