@@ -16,15 +16,48 @@ const routes = [
     component: () => import('@/views/login/Login.vue')
   },
   {
-    path: '/index',
-    name: 'index',
-    component: () => import('@/views/home/index.vue'),
-    redirect: '/index/dashboard',
+    path: '/student',
+    name: 'student',
+    component: () => import('@/views/home/StudentIndex.vue'),
+    redirect: '/student/dashboard',
+    children: [
+      {
+        path: 'dashboard',
+        name: 'dashboard-student',
+        component: () => import('@/views/dashboard/StudentDashBoard.vue')
+      },
+      {
+        path: 'select-course',
+        name: 'select-course-student',
+        component: () => import('@/views/components/SelectCoursePage.vue')
+      },
+      {
+        path: 'class-table',
+        name: 'class-table-student',
+        component: () => import('@/views/components/ClassTable.vue')
+      },
+      {
+        path: 'teacher-score',
+        name: 'teacher-score-student',
+        component: () => import('@/views/components/TeacherScorePage.vue')
+      },
+      {
+        path: 'leave',
+        name: 'leave-student',
+        component: () => import('@/views/components/student/LeavePage.vue')
+      }
+    ]
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    component: () => import('@/views/home/AdminIndex.vue'),
+    redirect: '/admin/dashboard',
     children: [
       {
         path: 'dashboard',
         name: 'dashboard',
-        component: () => import('@/views/components/DashBoard.vue')
+        component: () => import('@/views/dashboard/AdminDashBoard.vue')
       },
       {
         path: 'student-info',

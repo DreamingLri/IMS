@@ -2,9 +2,11 @@ package com.example.imsbackend.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.example.imsbackend.entity.User;
+import com.example.imsbackend.entity.UserLevel;
 import com.example.imsbackend.entity.vo.LoginVO;
 import com.example.imsbackend.entity.vo.AuthUserInfoVO;
 import com.example.imsbackend.handler.exception.UsernamePasswordException;
+import com.example.imsbackend.mapper.UserLevelMapper;
 import com.example.imsbackend.mapper.UserMapper;
 import com.example.imsbackend.mapper.struct.BeanCopyUtil;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +18,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 class LoginController {
     private final UserMapper userMapper;
+    private final UserLevelMapper userLevelMapper;
     @PostMapping("/login")
     public AuthUserInfoVO login(@RequestBody LoginVO loginVO) {
         LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
@@ -24,6 +27,10 @@ class LoginController {
         if(dbUser == null || !Objects.equals(dbUser.getPassword(), loginVO.getPassword())){
             throw new UsernamePasswordException();
         }
-        return BeanCopyUtil.INSTANCE.toAuthUserInfo(dbUser);
+        int level = userLevelMapper.selectOne(new LambdaQueryWrapper<UserLevel>()
+                .eq(UserLevel::getUserId, dbUser.getId())).getLevelId();
+        AuthUserInfoVO returnUser = BeanCopyUtil.INSTANCE.toAuthUserInfo(dbUser);
+        returnUser.setLevel(level);
+        return returnUser;
     }
 }

@@ -23,6 +23,7 @@ public class AuthUserInfoVO {
     private String gender;
     private Date entryTime;
     private Date finishTime;
+    private int level;
     //Student Field
     private Double totalCredit; //总学分
     private Double earnedCredit; //已获得学分
