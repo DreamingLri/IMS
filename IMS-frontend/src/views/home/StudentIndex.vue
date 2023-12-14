@@ -13,6 +13,7 @@ import { useInfoStore } from "@/stores/pinna";
 const userInfo = useInfoStore()
 
 function logout(){
+  localStorage.clear()
   router.push('/')
 }
 </script>

@@ -12,19 +12,43 @@ const login = () =>{
   request.post("/login", loginForm).then(res =>{
     if(res.code === 200){
       useStore.user = res.data;
-      console.log(useStore.user)
+      request.get("/score/getGradePointByUserId?userId="+res.data.id).then(res=>{
+        localStorage.setItem("gradePoints", res.data)
+      })
+      localStorage.setItem("user", JSON.stringify(res.data))
+      getScoreList()
       ElMessage.success("登录成功")
-      router.push('/index')
+      if(res.data.level === 1)
+        router.push('/admin')
+      if(res.data.level === 2)
+        router.push('/teacher')
+      if(res.data.level === 3)
+        router.push('/student')
     } else {
       ElMessage.error(res.message)
     }
   })
 }
+
+function getScoreList(){
+  request.get('/score/getScoreCountByUserId?userId='+useStore.user.id).then(res=>{
+    if(res.code === 200){
+      localStorage.setItem("score", JSON.stringify(res.data))
+      useStore.scoreCount.count1 = res.data[0]
+      useStore.scoreCount.count2 = res.data[1]
+      useStore.scoreCount.count3 = res.data[2]
+      useStore.scoreCount.count4 = res.data[3]
+      useStore.scoreCount.count4 = res.data[4]
+    } else {
+      console.log(res.message)
+    }
+  })
+}
+
 const loginForm = reactive({
   username: '',
   password: ''
 })
-
 
 </script>
 

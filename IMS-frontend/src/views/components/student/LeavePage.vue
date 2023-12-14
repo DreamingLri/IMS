@@ -9,10 +9,11 @@ import {ElMessage} from "element-plus";
 const leaveList = ref([])
 const userInfo = useInfoStore()
 const addLeaveDialog = ref(false)
+let user = JSON.parse(localStorage.getItem("user"))
 const ruleForm = ref()
 
 const addLeaveForm = reactive({
-  userId: userInfo.user.id,
+  userId: user.id,
   leaveBegin: '',
   leaveEnd: '',
   leaveTime: '',
@@ -32,15 +33,15 @@ function formatAccepted(row, col){
   let data = row[col.property]
   if(data === 1){
     return "通过"
-  } else if(data === 2){
+  } else if(data === null){
     return "审核中"
-  } else {
+  } else if(data === 0){
     return "未通过"
   }
 }
 
 function getLeaveList(){
-  request.get("/leave/getLeaveListByUserId?userId="+userInfo.user.id).then(res => {
+  request.get("/leave/getLeaveListByUserId?userId="+user.id).then(res => {
     if(res.code === 200){
       leaveList.value = res.data
     } else {
@@ -108,12 +109,12 @@ onMounted(()=>{
       <div style="height: 20%"/>
       <div style="width: 100%; height: 60%">
         <el-descriptions title="个人信息" border>
-          <el-descriptions-item label="姓名">{{userInfo.user.username}}</el-descriptions-item>
-          <el-descriptions-item label="性别">{{userInfo.user.gender}}</el-descriptions-item>
-          <el-descriptions-item label="Net ID">{{userInfo.user.netId}}</el-descriptions-item>
-          <el-descriptions-item label="学号">{{userInfo.user.code}}</el-descriptions-item>
-          <el-descriptions-item label="学院">{{userInfo.user.affiliated_school}}</el-descriptions-item>
-          <el-descriptions-item label="住址">{{userInfo.user.address}}</el-descriptions-item>
+          <el-descriptions-item label="姓名">{{user.username}}</el-descriptions-item>
+          <el-descriptions-item label="性别">{{user.gender}}</el-descriptions-item>
+          <el-descriptions-item label="Net ID">{{user.netId}}</el-descriptions-item>
+          <el-descriptions-item label="学号">{{user.code}}</el-descriptions-item>
+          <el-descriptions-item label="学院">{{user.affiliated_school}}</el-descriptions-item>
+          <el-descriptions-item label="住址">{{user.address}}</el-descriptions-item>
         </el-descriptions>
         <el-button type="primary" style="display: flex; margin-top: 10px" @click="openAddDialog">请假</el-button>
       </div>

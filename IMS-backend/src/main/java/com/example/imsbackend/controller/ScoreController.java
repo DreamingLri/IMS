@@ -42,4 +42,20 @@ public class ScoreController {
     public List<TeacherScoreVO> listTeacherWithScoreByUserId(Integer userId){
         return scoreService.listTeacherWithScoreByUserId(userId);
     }
+
+    @GetMapping("/listScoreByUserId")
+    public List<StudentScoreVo> listScoreByUserId(Integer userId){
+        return scoreService.listScoreByUserId(userId);
+    }
+
+    @GetMapping("/getScoreCountByUserId")
+    public List<Integer> getScoreCountByUserId(Integer userId){
+        return scoreService.getScoreCountByUserId(userId);
+    }
+
+    //平均绩点接口
+    @GetMapping("/getGradePointByUserId")
+    public Double getGradePointByUserId(Integer userId){
+        return scoreService.getGradePointByUserId(userId);
+    }
 }

@@ -6,9 +6,10 @@ import {useInfoStore} from "@/stores/pinna";
 
 const tableData = reactive([])
 const userInfo = useInfoStore()
+let user = JSON.parse(localStorage.getItem("user"))
 
 function getTableData(){
-  request.get("/course/getCourseTable/" + userInfo.user.id).then(res => {
+  request.get("/course/getCourseTable/" + user.id).then(res => {
     if(res.code === 200){
       tableData.value = res.data;
     } else {
@@ -24,6 +25,7 @@ onMounted(()=>{
 
 <template>
   <div class="main-wrapper">
+    <h3>课程表</h3>
       <el-table border stripe :data="tableData.value" :header-cell-style="{background:'#eee',color:'#606266'}">
         <el-table-column label="节次">
           <template v-slot="scope">

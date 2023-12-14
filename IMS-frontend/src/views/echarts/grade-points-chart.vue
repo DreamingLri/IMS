@@ -5,7 +5,23 @@
 </template>
 
 <script setup>
+import request from "@/utils/request";
+
 const userInfo = useInfoStore()
+let user = JSON.parse(localStorage.getItem("user"))
+let gradePoints = localStorage.getItem("gradePoints")
+
+// function getGradePoints(){
+//   request.get("score/getGradePointByUserId?userId="+user.id).then(res=>{
+//     if(res.code === 200){
+//       option.value.series.data.value = res.data.toFixed(2)
+//       console.log(gradePoints.value)
+//     } else {
+//       console.log(res.message)
+//     }
+//   })
+// }
+
 import { use } from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
 import { PieChart } from 'echarts/charts';
@@ -64,7 +80,7 @@ const option = ref({
         show: false,
         distance: 50
       },
-      data: [{value: 3.4 , name: '当前平均绩点'}],
+      data: [{value: gradePoints , name: '当前平均绩点'}],
       title: {
         fontSize: 20
       },

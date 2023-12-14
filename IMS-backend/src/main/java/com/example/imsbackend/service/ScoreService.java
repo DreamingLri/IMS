@@ -20,4 +20,10 @@ public interface ScoreService extends IService<Score> {
     List<TeacherScoreVO> listTeacherWithScoreByUserId(Integer userId);
 
     boolean addEvaluation(Score score);
+
+    List<StudentScoreVo> listScoreByUserId(Integer userId);
+
+    List<Integer> getScoreCountByUserId(Integer userId);
+
+    Double getGradePointByUserId(Integer userId);
 }

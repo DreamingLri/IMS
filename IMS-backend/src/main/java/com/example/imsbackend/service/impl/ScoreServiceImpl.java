@@ -7,12 +7,16 @@ import com.example.imsbackend.entity.*;
 import com.example.imsbackend.entity.vo.StudentScoreVo;
 import com.example.imsbackend.entity.vo.TeacherScoreVO;
 import com.example.imsbackend.mapper.*;
+import com.example.imsbackend.mapper.struct.BeanCopyUtil;
 import com.example.imsbackend.service.ScoreService;
 import com.example.imsbackend.service.UserCourseService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static com.example.imsbackend.constants.OtherConstants.STUDENT_ID;
@@ -28,24 +32,57 @@ public class ScoreServiceImpl extends ServiceImpl<ScoreMapper, Score> implements
     @Override
     public boolean addScore(Score score) {
         double totalScore;
-        if(score.getScoreFunction() == 1)
+        double gradePoints;
+        if(score.getScoreFunction() == 1){
             totalScore = score.getStudyScore()*0.4 + score.getExamScore()*0.6;
-        else if (score.getScoreFunction() == 2)
+            gradePoints = getGradePoints(totalScore);
+        }
+
+        else if (score.getScoreFunction() == 2){
             totalScore = score.getStudyScore()*0.5 + score.getExamScore()*0.5;
-        else
+            gradePoints = getGradePoints(totalScore);
+        }
+        else{
             totalScore = score.getStudyScore();
+            gradePoints = getGradePoints(totalScore);
+        }
+
         score.setTotalScore(totalScore);
+        score.setGradePoint(gradePoints);
 
         Score checkScore = baseMapper.selectOne(new LambdaQueryWrapper<Score>()
                 .eq(Score::getCourseId, score.getCourseId())
                 .eq(Score::getUserId, score.getUserId()));
         if(ObjectUtil.isEmpty(checkScore)){
+            //学分自增
+            {
+                User user = userMapper.selectOne(new LambdaQueryWrapper<User>()
+                        .eq(User::getId, score.getUserId()));
+                Courses course = coursesMapper.selectOne(new LambdaQueryWrapper<Courses>()
+                        .eq(Courses::getCredit, score.getCourseId()));
+                user.setEarnedCredit(user.getEarnedCredit()+course.getCredit());
+                //绩点更新
+//                getGradePointByUserId(user.getId());
+            }
+
+
             return baseMapper.insert(score) == 1;
         } else {
             score.setId(checkScore.getId());
             score.setTotalScore(totalScore);
             return baseMapper.updateById(score) == 1;
         }
+    }
+
+    //绩点计算
+    private Double getGradePoints(double totalScore){
+        double gradePoints;
+        if(totalScore >= 60){
+            gradePoints = (totalScore-50)/10;
+        } else {
+            gradePoints = 0;
+        }
+        return gradePoints;
     }
 
     @Override
@@ -60,6 +97,69 @@ public class ScoreServiceImpl extends ServiceImpl<ScoreMapper, Score> implements
             return baseMapper.updateById(score) == 1;
         }
     }
+
+    @Override
+    public List<StudentScoreVo> listScoreByUserId(Integer userId) {
+        List<StudentScoreVo> list = new ArrayList<>();
+        baseMapper.selectList(new LambdaQueryWrapper<Score>()
+                .eq(Score::getUserId, userId))
+                .forEach(score -> {
+                    StudentScoreVo studentScoreVo = new StudentScoreVo();
+                    if(score.getCourseId() != null && score.getStudyScore() != null && score.getExamScore() != null && score.getTotalScore() != null){
+                        studentScoreVo.setName(coursesMapper.selectOne(new LambdaQueryWrapper<Courses>()
+                                        .eq(Courses::getId, score.getCourseId()))
+                                .getName());
+                        studentScoreVo.setStudyScore(score.getStudyScore());
+                        studentScoreVo.setExamScore(score.getExamScore());
+                        studentScoreVo.setTotalScore(score.getTotalScore());
+                        studentScoreVo.setGradePoint(score.getGradePoint());
+                        list.add(studentScoreVo);
+                    }
+                });
+        return list;
+    }
+
+    @Override
+    public List<Integer> getScoreCountByUserId(Integer userId) {
+        List<Integer> list = new ArrayList<>();
+        List<Score> scores = baseMapper.selectList(new LambdaQueryWrapper<Score>()
+                .eq(Score::getUserId, userId));
+        int count1 = 0, count2 = 0, count3 = 0, count4 = 0, count5 = 0;
+        for (Score score : scores) {
+            if(score.getTotalScore() >=90 && score.getTotalScore() <=100)
+                count1++;
+            if(score.getTotalScore() >=80 && score.getTotalScore() <90)
+                count2++;
+            if(score.getTotalScore() >=70 && score.getTotalScore() <80)
+                count3++;
+            if(score.getTotalScore() >=60 && score.getTotalScore() <70)
+                count4++;
+            if(score.getTotalScore() < 60)
+                count5++;
+        }
+        Collections.addAll(list, count1, count2, count3, count4, count5);
+        return list;
+    }
+
+    //获得平均绩点
+    public Double getGradePointByUserId(Integer userId) {
+        double gradePoints = 0;
+        int count = 0;
+        List<Score> scores = baseMapper.selectList(new LambdaQueryWrapper<Score>()
+                .eq(Score::getUserId, userId));
+        for (Score score : scores) {
+            if(score.getGradePoint() != null){
+                gradePoints += score.getGradePoint();
+                count++;
+            }
+        }
+        if(count != 0){
+            double result = new BigDecimal(gradePoints / count).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+            return result;
+        }
+        return null;
+    }
+
 
     @Override
     public Score getScoreByUserIdAndCourseId(Integer userId, Integer courseId) {
@@ -124,9 +224,10 @@ public class ScoreServiceImpl extends ServiceImpl<ScoreMapper, Score> implements
             teacherScoreVO.setCourseName(courses.getName());
             teacherScoreVO.setId(courses.getId());
 
-            if(!ObjectUtil.isEmpty(score)){
+            if(score.getEvaluationScore()!= null){
                 teacherScoreVO.setEvaluationScore(score.getEvaluationScore());
-                teacherScoreVO.setEvaluationSuggestion(score.getEvaluationSuggestion());
+                if(score.getEvaluationSuggestion() != null)
+                    teacherScoreVO.setEvaluationSuggestion(score.getEvaluationSuggestion());
             }
             list.add(teacherScoreVO);
         });

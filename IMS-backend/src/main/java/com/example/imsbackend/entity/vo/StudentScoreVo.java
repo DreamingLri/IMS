@@ -19,4 +19,5 @@ public class StudentScoreVo {
     private int examScore;
     private double totalScore;
     private int scoreFunction;
+    private double gradePoint;
 }

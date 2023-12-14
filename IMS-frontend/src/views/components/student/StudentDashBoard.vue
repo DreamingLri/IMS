@@ -16,13 +16,14 @@ import {
 import GradePointsChart from "@/views/echarts/grade-points-chart.vue";
 import ClassTable from "@/views/components/ClassTable.vue";
 import router from "@/router"
+import AcademicWarningChart from "@/views/echarts/academic-warning-chart.vue";
 
 const userInfo = useInfoStore()
-let user = ref({})
+console.log(localStorage.getItem("user"))
+let user = JSON.parse(localStorage.getItem("user"))
+
 onMounted(()=>{
-  user = userInfo.user
-  console.log(user)
-  ElMessage.success(userInfo.user.username + "，欢迎回来！")
+  ElMessage.success(user.username + "，欢迎回来！")
 })
 
 //日历
@@ -48,16 +49,16 @@ const selectDate = (val) => {
           </template>
           <div>
             <el-row :gutter="12">
-              <el-col :span="2">
-                <el-card shadow="hover" style="height: 80%" @click="router.push('/student/select-course')">
+              <el-col :span="2" >
+                <el-card shadow="hover" style="height: 80%" @click.native="router.push('/student/select-course')">
                   <div>
                     <el-icon color="rgb(90,156,248)" size="30"><Collection /></el-icon>
                     <p style="font-size: 15px">选课</p>
                   </div>
                 </el-card>
               </el-col>
-              <el-col :span="2">
-                <el-card shadow="hover" style="height: 80%" @click="router.push('/student/teacher-score')">
+              <el-col :span="2" >
+                <el-card shadow="hover" style="height: 80%" @click.native="router.push('/student/teacher-score')">
                   <div>
                     <el-icon color="rgb(90,156,248)" size="30"><ChatLineSquare /></el-icon>
                     <p style="font-size: 15px">我的评教</p>
@@ -65,15 +66,15 @@ const selectDate = (val) => {
                 </el-card>
               </el-col>
               <el-col :span="2">
-                <el-card shadow="hover" style="height: 80%">
+                <el-card shadow="hover" style="height: 80%" @click.native="router.push('/student/student-score')">
                   <div>
-                    <el-icon color="rgb(90,156,248)" size="30"><DataAnalysis /></el-icon>
+                    <el-icon color="rgb(90,156,248)" size="30" ><DataAnalysis /></el-icon>
                     <p style="font-size: 15px">我的成绩</p>
                   </div>
                 </el-card>
               </el-col>
               <el-col :span="2">
-                <el-card shadow="hover" style="height: 80%" @click="router.push('/student/class-table')">
+                <el-card shadow="hover" style="height: 80%" @click.native="router.push('/student/class-table')">
                   <div>
                     <el-icon color="rgb(90,156,248)" size="30"><DataBoard /></el-icon>
                     <p style="font-size: 15px">课表查询</p>
@@ -81,9 +82,9 @@ const selectDate = (val) => {
                 </el-card>
               </el-col>
               <el-col :span="2">
-                <el-card shadow="hover" style="height: 80%">
+                <el-card shadow="hover" style="height: 80%" @click.native="router.push('/student/leave')">
                   <div>
-                    <el-icon color="rgb(90,156,248)" size="30" @click="router.push('/student/leave')"><CoffeeCup /></el-icon>
+                    <el-icon color="rgb(90,156,248)" size="30" ><CoffeeCup /></el-icon>
                     <p style="font-size: 15px">请假申请</p>
                   </div>
                 </el-card>
@@ -102,11 +103,11 @@ const selectDate = (val) => {
         <el-card class="panel" shadow="hover">
           <template #header>
             <div class="card-header">
-              <span><el-text style="font-size: 20px" size="large" type="primary"><el-icon style="margin-right: 5px"><User /></el-icon>学业预警</el-text></span>
+              <span><el-text style="font-size: 20px" size="large" type="primary"><el-icon style="margin-right: 5px"><User /></el-icon>成绩分布</el-text></span>
             </div>
           </template>
           <div>
-
+            <academic-warning-chart/>
           </div>
         </el-card>
       </el-col>
@@ -136,16 +137,16 @@ const selectDate = (val) => {
           <div style="height: 240px">
             <el-carousel :interval="5000" arrow="always" height="auto" autoplay>
               <el-carousel-item style="height: 240px">
-                <img src="../../../public/14th.jpg" alt="14th" width="600">
+                <img src="../../../../public/14th.jpg" alt="14th" width="600">
               </el-carousel-item>
               <el-carousel-item style="height: 240px">
-                <img src="../../../public/2023cun-sysu.jpg" alt="2023cun-sysu" width="600">
+                <img src="../../../../public/2023cun-sysu.jpg" alt="2023cun-sysu" width="600">
               </el-carousel-item>
               <el-carousel-item style="height: 240px">
-                <img src="../../../public/shouyezhuantitu.jpg" alt="shouyezhuantitu" width="600">
+                <img src="../../../../public/shouyezhuantitu.jpg" alt="shouyezhuantitu" width="600">
               </el-carousel-item>
               <el-carousel-item style="height: 240px">
-                <img src="../../../public/zt2023xjp-sysu.jpg" alt="zt2023xjp-sysu" width="600">
+                <img src="../../../../public/zt2023xjp-sysu.jpg" alt="zt2023xjp-sysu" width="600">
               </el-carousel-item>
             </el-carousel>
           </div>

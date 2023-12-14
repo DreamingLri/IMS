@@ -24,27 +24,32 @@ const routes = [
       {
         path: 'dashboard',
         name: 'dashboard-student',
-        component: () => import('@/views/dashboard/StudentDashBoard.vue')
+        component: () => import('@/views/components/student/StudentDashBoard.vue')
       },
       {
         path: 'select-course',
         name: 'select-course-student',
-        component: () => import('@/views/components/SelectCoursePage.vue')
+        component: () => import('@/views/components/student/SelectCourse.vue')
       },
       {
         path: 'class-table',
         name: 'class-table-student',
-        component: () => import('@/views/components/ClassTable.vue')
+        component: () => import('@/views/components/student/StudentClassTable.vue')
       },
       {
         path: 'teacher-score',
         name: 'teacher-score-student',
-        component: () => import('@/views/components/TeacherScorePage.vue')
+        component: () => import('@/views/components/student/TeacherScore.vue')
       },
       {
         path: 'leave',
         name: 'leave-student',
         component: () => import('@/views/components/student/LeavePage.vue')
+      },
+      {
+        path: 'student-score',
+        name: 'student-score-student',
+        component: () => import('@/views/components/student/StudentScore.vue')
       }
     ]
   },

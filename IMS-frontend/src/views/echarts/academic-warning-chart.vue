@@ -5,8 +5,9 @@
 </template>
 
 <script setup>
+
 const userInfo = useInfoStore()
-let user = JSON.parse(localStorage.getItem("user"))
+let score = JSON.parse(localStorage.getItem("score"))
 
 import { use } from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
@@ -33,33 +34,34 @@ const option = ref({
     trigger: 'item'
   },
   legend: {
-    top: '5%',
-    left: 'center'
+    orient: 'vertical',
+    left: 'left',
+    top: 'center'
   },
   series: [
     {
-      name: '学分情况',
+      name: 'Access From',
       type: 'pie',
-      radius: ['40%', '70%'],
-      avoidLabelOverlap: false,
-      label: {
-        show: false,
-        position: 'center'
-      },
-      emphasis: {
-        label: {
-          show: true,
-          fontSize: 20,
-          fontWeight: 'bold'
-        }
-      },
-      labelLine: {
-        show: false
-      },
+      radius: '50%',
       data: [
-        { value: user.earnedCredit, name: '已获得学分' },
-        { value: user.totalCredit - user.earnedCredit, name: '剩余学分' },
-      ]
+        // { value: userInfo.scoreCount.count1, name: '90-100' },
+        // { value: userInfo.scoreCount.count2, name: '80-90' },
+        // { value: userInfo.scoreCount.count3, name: '70-80' },
+        // { value: userInfo.scoreCount.count4, name: '60-70' },
+        // { value: userInfo.scoreCount.count5, name: '0-60' }
+        { value: score[0], name: '90-100' },
+        { value: score[1], name: '80-90' },
+        { value: score[2], name: '70-80' },
+        { value: score[3], name: '60-70' },
+        { value: score[4], name: '0-60' }
+      ],
+      emphasis: {
+        itemStyle: {
+          shadowBlur: 10,
+          shadowOffsetX: 0,
+          shadowColor: 'rgba(0, 0, 0, 0.5)'
+        }
+      }
     }
   ]
 });

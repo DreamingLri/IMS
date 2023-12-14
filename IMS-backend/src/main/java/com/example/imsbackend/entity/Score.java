@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,6 +21,7 @@ public class Score  {
     private Integer examScore;
     private Integer studyScore;
     private Double totalScore;
+    private Double gradePoint;
     private Integer scoreFunction;
     private Integer evaluationScore;
     private String evaluationSuggestion;

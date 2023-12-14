@@ -7,7 +7,6 @@ import com.example.imsbackend.mapper.LeaveMapper;
 import com.example.imsbackend.service.LeaveService;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service("leaveService")
