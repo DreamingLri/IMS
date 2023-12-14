@@ -54,6 +54,54 @@ const routes = [
     ]
   },
   {
+    path: '/teacher',
+    name: 'teacher',
+    component: () => import('@/views/home/TeacherIndex.vue'),
+    redirect: '/teacher/dashboard',
+    children: [
+      {
+        path: 'dashboard',
+        name: 'dashboard-teacher',
+        component: () => import('@/views/components/teacher/TeacherDashBoard.vue')
+      },
+      {
+        path: 'course',
+        name: 'course-teacher',
+        component: () => import('@/views/components/teacher/TeacherCourse.vue')
+      },
+      {
+        path: 'course-time',
+        name: 'course-time-teacher',
+        component: () => import('@/views/components/teacher/TeacherCourseTime.vue')
+      },
+      {
+        path: 'course-status',
+        name: 'course-status-teacher',
+        component: () => import('@/views/components/teacher/TeacherCourseStatus.vue')
+      },
+      {
+        path: 'student-score',
+        name: 'student-score-teacher',
+        component: () => import('@/views/components/teacher/StudentScore.vue')
+      },
+      {
+        path: 'leave',
+        name: 'leave-teacher',
+        component: () => import('@/views/components/teacher/LeavePage.vue')
+      },
+      {
+        path: 'class-table',
+        name: 'class-table-teacher',
+        component: () => import('@/views/components/teacher/TeacherClassTable.vue')
+      },
+      {
+        path: 'teacher-score',
+        name: 'teacher-score-teacher',
+        component: () => import('@/views/components/teacher/MyEvaluation.vue')
+      }
+    ]
+  },
+  {
     path: '/admin',
     name: 'admin',
     component: () => import('@/views/home/AdminIndex.vue'),

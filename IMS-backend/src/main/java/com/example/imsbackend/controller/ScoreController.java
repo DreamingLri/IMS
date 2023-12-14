@@ -1,7 +1,9 @@
 package com.example.imsbackend.controller;
 
+import cn.hutool.json.JSONObject;
 import com.example.imsbackend.entity.Score;
 import com.example.imsbackend.entity.UserCourse;
+import com.example.imsbackend.entity.vo.EvaluationVO;
 import com.example.imsbackend.entity.vo.StudentScoreVo;
 import com.example.imsbackend.entity.vo.TeacherScoreVO;
 import com.example.imsbackend.service.ScoreService;
@@ -57,5 +59,11 @@ public class ScoreController {
     @GetMapping("/getGradePointByUserId")
     public Double getGradePointByUserId(Integer userId){
         return scoreService.getGradePointByUserId(userId);
+    }
+
+    //根据UserId(老师)展示评教内容
+    @GetMapping("/getTeacherEvaluationByUserId")
+    public List<JSONObject> getTeacherEvaluationByUserId(Integer userId){
+        return scoreService.getTeacherEvaluationByUserId(userId);
     }
 }

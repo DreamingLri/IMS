@@ -7,8 +7,10 @@ import cn.hutool.json.JSONUtil;
 import com.example.imsbackend.entity.CourseTime;
 import com.example.imsbackend.entity.Courses;
 import com.example.imsbackend.entity.UserCourse;
+import com.example.imsbackend.entity.dto.InsertCourseDTO;
 import com.example.imsbackend.entity.vo.CourseVO;
 import com.example.imsbackend.entity.vo.UserCourseVO;
+import com.example.imsbackend.mapper.struct.BeanCopyUtil;
 import com.example.imsbackend.service.CourseTimeService;
 import com.example.imsbackend.service.CoursesService;
 import com.example.imsbackend.service.UserCourseService;
@@ -16,6 +18,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -53,9 +57,40 @@ public class CourseController {
         return list;
     }
 
+    @GetMapping("listCourseWithTimeByUserId")
+    public List<JSONObject> listCourseWithTimeByUserId(Integer userId){
+        List<Courses> courses = coursesService.listCourseByUserId(userId);
+        List<JSONObject> list = new ArrayList<>();
+        for(Courses course : courses){
+            List<CourseTime> courseTimes = courseTimeService.getCourseTimeById(course.getId());
+            if(!ObjectUtil.isEmpty(courseTimes)){
+                for(CourseTime courseTime : courseTimes){
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("id", courseTime.getId());
+                    jsonObject.put("course", course);
+                    jsonObject.put("weekday", courseTime.getWeekday());
+                    jsonObject.put("session", courseTime.getSession());
+                    list.add(jsonObject);
+                }
+            }
+        }
+        return list;
+    }
+
     @PostMapping("/insertCourse")
     public boolean insertCourse(@Valid @RequestBody Courses courses){
         return coursesService.insertCourse(courses);
+    }
+
+    //根据UserId新建课程(带自动选课,自动创建考试)
+    @PostMapping("insertCourseByUserId")
+    public boolean insertCourseByUserId(@RequestBody InsertCourseDTO coursesDTO){
+        int userId = coursesDTO.getUserId();
+        Courses courses = BeanCopyUtil.INSTANCE.toCourses(coursesDTO);
+        coursesService.insertCourse(courses);
+        userCourseService.selectCourse(new UserCourse(userId, courses.getId()));
+
+        return true;
     }
 
     @PostMapping("/updateCourseById")
@@ -83,15 +118,27 @@ public class CourseController {
         return coursesService.deleteCourseById(id);
     }
 
+    //查询是否选课
     @GetMapping("/listCourseById")
     public List<CourseVO> getCourseId(int id){
         return coursesService.selectCourseById(id);
+    }
+
+    //跟据UserId展示已选课程
+    @GetMapping("/listCourseByUserId")
+    public List<Courses> listCourseByUserId(Integer userId){
+        return coursesService.listCourseByUserId(userId);
     }
 
     //选课人数接口
     @GetMapping("/listNumberOfStudentSelectCourse")
     public List<UserCourseVO> listNumberOfStudentSelectCourse(){
         return userCourseService.listNumberOfStudentSelectCourse();
+    }
+
+    @GetMapping("/listNumberOfStudentSelectCourseByUserId")
+    public List<UserCourseVO> listNumberOfStudentSelectCourseByUserId(Integer userId){
+        return userCourseService.listNumberOfStudentSelectCourseByUserId(userId);
     }
 
     //退选课接口

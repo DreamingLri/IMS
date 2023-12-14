@@ -2,6 +2,7 @@ package com.example.imsbackend.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.imsbackend.entity.Courses;
+import com.example.imsbackend.entity.dto.InsertCourseDTO;
 import com.example.imsbackend.entity.vo.CourseVO;
 
 import java.util.List;
@@ -25,5 +26,9 @@ public interface CoursesService extends IService<Courses> {
     List<CourseVO> selectCourseById(Integer id);
 
     Courses listCourseById(Integer CourseId);
+
+    List<Courses> listCourseByUserId(Integer userId);
+
+    boolean insertCourseByUserId(InsertCourseDTO courses);
 }
 

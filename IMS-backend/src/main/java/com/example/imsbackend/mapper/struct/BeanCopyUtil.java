@@ -2,13 +2,12 @@ package com.example.imsbackend.mapper.struct;
 
 import com.example.imsbackend.entity.Courses;
 import com.example.imsbackend.entity.Exams;
+import com.example.imsbackend.entity.Score;
 import com.example.imsbackend.entity.User;
+import com.example.imsbackend.entity.dto.InsertCourseDTO;
 import com.example.imsbackend.entity.dto.InsertUserDTO;
 import com.example.imsbackend.entity.dto.UpdateUserDTO;
-import com.example.imsbackend.entity.vo.AuthUserInfoVO;
-import com.example.imsbackend.entity.vo.CourseVO;
-import com.example.imsbackend.entity.vo.TeacherNameVO;
-import com.example.imsbackend.entity.vo.UserExamVO;
+import com.example.imsbackend.entity.vo.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -22,6 +21,11 @@ public interface BeanCopyUtil {
 
     UserExamVO toUserExamVO(User user);
     CourseVO toCourseVO(Courses courses);
+    EvaluationCourseVO toEvaluationCourseVO(Courses courses);
+
+    Courses toCourses(InsertCourseDTO courseDTO);
+
+    EvaluationVO toEvaluationVO(Score score);
 
     User toUser(UpdateUserDTO updateUserDTO);
 }

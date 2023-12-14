@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.imsbackend.entity.Courses;
 import com.example.imsbackend.entity.Exams;
 import com.example.imsbackend.entity.UserCourse;
+import com.example.imsbackend.entity.dto.InsertCourseDTO;
 import com.example.imsbackend.entity.vo.CourseVO;
 import com.example.imsbackend.handler.exception.InsertCourseException;
 import com.example.imsbackend.handler.exception.UpdateCourseException;
@@ -140,6 +141,28 @@ public class CoursesServiceImpl extends ServiceImpl<CoursesMapper, Courses> impl
     @Override
     public Courses listCourseById(Integer CourseId) {
         return baseMapper.selectById(CourseId);
+    }
+
+    @Override
+    public List<Courses> listCourseByUserId(Integer userId) {
+        return baseMapper.selectList(new LambdaQueryWrapper<>())
+                .stream()
+                .filter(courses -> {
+                    UserCourse userCourse = userCourseMapper.selectOne(new LambdaQueryWrapper<UserCourse>()
+                            .eq(UserCourse::getUserId, userId)
+                            .eq(UserCourse::getCourseId, courses.getId()));
+                    if(!ObjectUtil.isEmpty(userCourse)){
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }).toList();
+    }
+
+    @Override
+    public boolean insertCourseByUserId(InsertCourseDTO courses) {
+
+        return false;
     }
 }
 

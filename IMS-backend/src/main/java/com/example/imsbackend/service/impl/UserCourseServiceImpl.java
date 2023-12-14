@@ -27,6 +27,7 @@ import java.util.List;
 public class UserCourseServiceImpl extends ServiceImpl<UserCourseMapper, UserCourse> implements UserCourseService {
     private final CoursesMapper coursesMapper;
     private final ScoreMapper scoreMapper;
+    private final UserCourseMapper userCourseMapper;
 
     @Override
     public boolean selectCourse(UserCourse userCourse) {
@@ -79,6 +80,33 @@ public class UserCourseServiceImpl extends ServiceImpl<UserCourseMapper, UserCou
                     .eq(UserCourse::getCourseId, course.getId()));
             userCourseVO.setSelectedNumber(userCourses.size());
             list.add(userCourseVO);
+        }
+        return list;
+    }
+
+    @Override
+    public List<UserCourseVO> listNumberOfStudentSelectCourseByUserId(Integer userId) {
+        List<UserCourseVO> list = new ArrayList<>();
+        List<Courses> courses = coursesMapper.selectList(new LambdaQueryWrapper<>());
+        for (Courses course : courses) {
+            UserCourse userCourse = userCourseMapper.selectOne(new LambdaQueryWrapper<UserCourse>()
+                    .eq(UserCourse::getCourseId, course.getId())
+                    .eq(UserCourse::getUserId, userId));
+            if(!ObjectUtil.isEmpty(userCourse)){
+                UserCourseVO userCourseVO = new UserCourseVO();
+                userCourseVO.setId(course.getId());
+                userCourseVO.setCourseName(course.getName());
+                userCourseVO.setTeacher(course.getTeacher());
+                userCourseVO.setPlace(course.getPlace());
+                if(course.getStudentNumber() != null)
+                    userCourseVO.setStudentNumber(course.getStudentNumber());
+                List<UserCourse> userCourses = baseMapper.selectList(new LambdaQueryWrapper<UserCourse>()
+                        .eq(UserCourse::getCourseId, course.getId())
+                        .ne(UserCourse::getUserId, userId));
+                userCourseVO.setSelectedNumber(userCourses.size());
+
+                list.add(userCourseVO);
+            }
         }
         return list;
     }

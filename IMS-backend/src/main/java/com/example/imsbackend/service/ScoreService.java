@@ -1,8 +1,10 @@
 package com.example.imsbackend.service;
 
+import cn.hutool.json.JSONObject;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.imsbackend.entity.Score;
 import com.example.imsbackend.entity.UserCourse;
+import com.example.imsbackend.entity.vo.EvaluationVO;
 import com.example.imsbackend.entity.vo.StudentScoreVo;
 import com.example.imsbackend.entity.vo.TeacherScoreVO;
 
@@ -26,4 +28,6 @@ public interface ScoreService extends IService<Score> {
     List<Integer> getScoreCountByUserId(Integer userId);
 
     Double getGradePointByUserId(Integer userId);
+
+    List<JSONObject> getTeacherEvaluationByUserId(Integer userId);
 }

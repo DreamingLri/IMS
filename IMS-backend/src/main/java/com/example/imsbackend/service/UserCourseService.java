@@ -13,4 +13,6 @@ public interface UserCourseService extends IService<UserCourse> {
     boolean withdrawCourse(UserCourse userCourse);
 
     List<UserCourseVO> listNumberOfStudentSelectCourse();
+
+    List<UserCourseVO> listNumberOfStudentSelectCourseByUserId(Integer userId);
 }
