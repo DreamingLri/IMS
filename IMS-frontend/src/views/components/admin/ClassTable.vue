@@ -1,15 +1,17 @@
 <script setup>
-import {onMounted, reactive} from "vue";
-import {Location, User} from "@element-plus/icons-vue";
+import {onMounted, reactive, ref} from "vue";
+import {Location, Search, User} from "@element-plus/icons-vue";
 import request from "@/utils/request";
 import {useInfoStore} from "@/stores/pinna";
+import {ElMessage} from "element-plus";
 
 const tableData = reactive([])
-const userInfo = useInfoStore()
+const studentList = ref([])
+const studentId = ref()
 let user = JSON.parse(localStorage.getItem("user"))
 
 function getTableData(){
-  request.get("/course/getCourseTable/" + user.id).then(res => {
+  request.get("/course/getCourseTable/" + studentId.value).then(res => {
     if(res.code === 200){
       tableData.value = res.data;
     } else {
@@ -18,14 +20,33 @@ function getTableData(){
   })
 }
 
+function getStudentList(){
+  request.get("/student/listStudent").then(res=>{
+    if(res.code === 200){
+      studentList.value = res.data
+    } else {
+      ElMessage.error("get student list error")
+      console.log(res.message)
+    }
+  })
+}
+
 onMounted(()=>{
-  getTableData()
+  getStudentList()
 })
 </script>
 
 <template>
   <div class="main-wrapper">
-    <h3>课程表</h3>
+    <div class="header-wrapper">
+      <div style="width: 100%; height: 40%; display: flex">
+        <el-select v-model="studentId" class="m-2" placeholder="选择学生" style="height: 30px; width: 300px">
+          <el-option v-for="item in studentList" :key="item.id" :label="item.username" :value="item.id"/>
+        </el-select>
+        <el-button @click="getTableData" type="primary" plain style="margin-left: 10px; height: 30px"><el-icon style="margin-right: 3px"><Search /></el-icon>选择</el-button>
+      </div>
+      <h3 style="display: flex">课程表</h3>
+    </div>
       <el-table border stripe :data="tableData.value" :header-cell-style="{background:'#eee',color:'#606266'}">
         <el-table-column label="节次">
           <template v-slot="scope">
@@ -113,5 +134,10 @@ onMounted(()=>{
   border-radius: 8px;
   box-sizing: border-box;
   padding: 20px;
+}
+.header-wrapper{
+  width: 100%;
+  height: 10%;
+
 }
 </style>

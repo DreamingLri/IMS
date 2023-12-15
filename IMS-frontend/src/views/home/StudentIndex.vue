@@ -10,7 +10,7 @@ import {
 import router from "@/router";
 
 import { useInfoStore } from "@/stores/pinna";
-const userInfo = useInfoStore()
+let user = JSON.parse(localStorage.getItem("user"))
 
 function logout(){
   localStorage.clear()
@@ -24,6 +24,9 @@ function logout(){
       <el-container>
         <el-header class="el-header">
           <div class="header-wrapper">
+            <div style="margin-top: 20px; margin-right: 20px">
+              <el-text>{{user.username}} {{user.code}}，你好</el-text>
+            </div>
             <div>
               <el-dropdown>
                 <el-avatar class="el-avatar"
@@ -57,7 +60,8 @@ function logout(){
 }
 .header-wrapper{
   width: 100%;
-  text-align: right;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .el-avatar{

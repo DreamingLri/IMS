@@ -40,7 +40,7 @@ const option = ref({
   },
   series: [
     {
-      name: 'Access From',
+      name: '成绩分布',
       type: 'pie',
       radius: '50%',
       data: [

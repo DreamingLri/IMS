@@ -6,6 +6,7 @@ import com.example.imsbackend.entity.Score;
 import com.example.imsbackend.entity.User;
 import com.example.imsbackend.entity.dto.InsertCourseDTO;
 import com.example.imsbackend.entity.dto.InsertUserDTO;
+import com.example.imsbackend.entity.dto.SignUpDTO;
 import com.example.imsbackend.entity.dto.UpdateUserDTO;
 import com.example.imsbackend.entity.vo.*;
 import org.mapstruct.Mapper;
@@ -28,4 +29,5 @@ public interface BeanCopyUtil {
     EvaluationVO toEvaluationVO(Score score);
 
     User toUser(UpdateUserDTO updateUserDTO);
+    InsertUserDTO toInsertUserDTO(SignUpDTO signUpDTO);
 }

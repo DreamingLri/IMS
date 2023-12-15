@@ -21,7 +21,10 @@ const addUserForm = reactive({
   birthday: '',
   gender: '',
   entryTime: '',
-  finishTime: ''
+  finishTime: '',
+  affiliatedSchool: '',
+  qualification: '',
+  researchDirection: ''
 })
 const updateUserForm = reactive({
   id: '',
@@ -33,7 +36,10 @@ const updateUserForm = reactive({
   birthday: '',
   gender: '',
   entryTime: '',
-  finishTime: ''
+  finishTime: '',
+  affiliatedSchool: '',
+  qualification: '',
+  researchDirection: ''
 })
 
 const rules = reactive({
@@ -69,6 +75,15 @@ const rules = reactive({
   finishTime: [
     { required: true, message: '离校日期不能为空', trigger: 'blur' }
   ],
+  affiliatedSchool: [
+
+  ],
+  qualification: [
+
+  ],
+  researchDirection: [
+
+  ]
 })
 
 const closeAddDialog = () =>{
@@ -83,6 +98,9 @@ const closeAddDialog = () =>{
   addUserForm.birthday = ''
   addUserForm.entryTime = ''
   addUserForm.finishTime = ''
+  addUserForm.affiliatedSchool = ''
+  addUserForm.qualification = ''
+  addUserForm.researchDirection = ''
 }
 
 const closeUpdateDialog = () =>{
@@ -101,6 +119,9 @@ const openUpdateDialog = (row) =>{
   updateUserForm.birthday = row.birthday
   updateUserForm.entryTime = row.entryTime
   updateUserForm.finishTime = row.finishTime
+  updateUserForm.affiliatedSchool = row.affiliatedSchool
+  updateUserForm.qualification = row.qualification
+  updateUserForm.researchDirection = row.researchDirection
 }
 
 const submitForm = async (formEl) => {
@@ -228,12 +249,15 @@ function formatDate(row ,col){
     <el-scrollbar class="table-wrapper">
       <el-table :data="userList" stripe style="width: 100%" border>
         <el-table-column prop="id" label="ID" width="50" />
-        <el-table-column prop="netId" label="Net Id" width="100"/>
+        <el-table-column prop="netId" label="Net Id" width="80"/>
         <el-table-column prop="username" label="姓名" width="100"/>
-        <el-table-column prop="code" label="学号" width="100"/>
-        <el-table-column prop="identificationCode" label="身份证" width="200"/>
-        <el-table-column prop="address" label="住址" width="180"/>
+        <el-table-column prop="code" label="学号" width="60"/>
+        <el-table-column prop="identificationCode" label="身份证" width="160"/>
+        <el-table-column prop="address" label="住址" width="120"/>
         <el-table-column prop="gender" label="性别" width="60"/>
+        <el-table-column prop="affiliatedSchool" label="所属学院" width="120"/>
+        <el-table-column prop="qualification" label="职称" width="80"/>
+        <el-table-column prop="researchDirection" label="研究方向" width="100"/>
         <el-table-column prop="birthday" label="生日" width="100" :formatter="formatDate"/>
         <el-table-column prop="entryTime" label="入学日期" width="100" :formatter="formatDate"/>
         <el-table-column prop="finishTime" label="离校日期" width="100" :formatter="formatDate"/>
@@ -294,6 +318,15 @@ function formatDate(row ,col){
             <el-option label="女" value="女" />
             <el-option label="未知" value="未知" />
           </el-select>
+        </el-form-item>
+        <el-form-item label="所属学院" prop="affiliatedSchool">
+          <el-input v-model="addUserForm.affiliatedSchool" />
+        </el-form-item>
+        <el-form-item label="职称" prop="qualification">
+          <el-input v-model="addUserForm.qualification" />
+        </el-form-item>
+        <el-form-item label="研究方向" prop="researchDirection">
+          <el-input v-model="addUserForm.researchDirection" />
         </el-form-item>
         <el-form-item label="入学日期" prop="entryTime">
           <el-date-picker
@@ -365,6 +398,15 @@ function formatDate(row ,col){
             <el-option label="女" value="女" />
             <el-option label="未知" value="未知" />
           </el-select>
+        </el-form-item>
+        <el-form-item label="所属学院" prop="affiliatedSchool">
+          <el-input v-model="updateUserForm.affiliatedSchool" />
+        </el-form-item>
+        <el-form-item label="职称" prop="qualification">
+          <el-input v-model="updateUserForm.qualification" />
+        </el-form-item>
+        <el-form-item label="研究方向" prop="researchDirection">
+          <el-input v-model="updateUserForm.researchDirection" />
         </el-form-item>
         <el-form-item label="入学日期" prop="entryTime">
           <el-date-picker

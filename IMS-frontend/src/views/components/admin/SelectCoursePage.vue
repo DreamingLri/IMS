@@ -7,12 +7,12 @@ import {useInfoStore} from "@/stores/pinna";
 
 const courseList = ref([])
 const courseSelectedList = ref([])
-const userInfo = useInfoStore()
-
+const studentList = ref([])
+const studentId = ref()
 const name = ref('')
 
 function getSelectedCourse(){
-  request.get("/course/listCourseById?id="+userInfo.user.id).then(res =>{
+  request.get("/course/listCourseById?id="+studentId.value).then(res =>{
     if(res.code === 200){
       courseSelectedList.value = res.data
     } else {
@@ -21,8 +21,20 @@ function getSelectedCourse(){
   })
 }
 
+function getStudentList(){
+  request.get("/student/listStudent").then(res=>{
+    if(res.code === 200){
+      studentList.value = res.data
+    } else {
+      ElMessage.error("get student list error")
+      console.log(res.message)
+    }
+  })
+}
+
 function reset(){
   getSelectedCourse()
+  getStudentList()
   name.value = ''
 }
 
@@ -63,7 +75,7 @@ function withdrawCourse(row){
 
 function selectCourse(row){
   let useCourse = {}
-  useCourse.userId = userInfo.user.id
+  useCourse.userId = user.id
   useCourse.courseId = row.id
   useCourse.assment = row.courseAssessment
 
@@ -79,16 +91,22 @@ function selectCourse(row){
 }
 
 onMounted(()=> {
-  getSelectedCourse()
+  getStudentList()
 })
 </script>
 
 <template>
   <div class="main-wrapper">
+    <div>
+
+    </div>
     <div class="header-wrapper">
+
       <div style="width: 100%; height: 40%; display: flex">
-        <el-input v-model="name" placeholder="搜索课程" class="input-with-select" style="height: 30px; width: 300px"></el-input>
-        <el-button @click="getSelectedCourse" type="primary" plain style="margin-left: 10px; height: 30px"><el-icon style="margin-right: 3px"><Search /></el-icon>搜索</el-button>
+        <el-select v-model="studentId" class="m-2" placeholder="选择课程" style="height: 30px; width: 300px">
+          <el-option v-for="item in studentList" :key="item.id" :label="item.username" :value="item.id"/>
+        </el-select>
+        <el-button @click="getSelectedCourse" type="primary" plain style="margin-left: 10px; height: 30px"><el-icon style="margin-right: 3px"><Search /></el-icon>选择</el-button>
         <el-button @click="reset" type="danger" plain style="margin-left: 10px; height: 30px"><el-icon style="margin-right: 3px"><Refresh /></el-icon>重置</el-button>
       </div>
       <div style="height: 15%; width: 100%"/>

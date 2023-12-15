@@ -10,7 +10,9 @@ import {
 import router from "@/router";
 
 import { useInfoStore } from "@/stores/pinna";
-const userInfo = useInfoStore()
+import {ref} from "vue";
+let user = JSON.parse(localStorage.getItem("user"))
+const sideBarView = ref(true)
 
 function logout(){
   router.push('/')
@@ -20,7 +22,7 @@ function logout(){
 <template>
   <div class="common-layout">
     <el-container style="height: 100vh">
-      <el-aside width="200px" style="border-right: 1px solid #ccc">
+      <el-aside width="200px" style="border-right: 1px solid #ccc"  v-if="sideBarView">
         <div style="height: 55px; display: flex; justify-content: center; align-items: center">
           后台管理系统
           <el-icon style="margin-left: 10px"><Position /></el-icon>
@@ -56,8 +58,7 @@ function logout(){
                 </template>
                 <el-menu-item-group>
                   <el-menu-item index="2-1" @click="router.push('/admin/teacher-info')">教师信息</el-menu-item>
-                  <el-menu-item index="2-2">教师课表</el-menu-item>
-                  <el-menu-item index="2-3" @click="router.push('/admin/teacher-score')">教师评教</el-menu-item>
+                  <el-menu-item index="2-2" @click="router.push('/admin/teacher-score')">教师评教</el-menu-item>
                 </el-menu-item-group>
               </el-sub-menu>
               <el-sub-menu index="3">
@@ -88,6 +89,20 @@ function logout(){
       <el-container>
         <el-header class="el-header">
           <div class="header-wrapper">
+            <div style="margin-top: 20px; margin-right: 20px">
+              <el-text>{{user.username}} {{user.code}}，你好</el-text>
+            </div>
+            <div style="margin-top: 13px; margin-right: 20px">
+              <el-popover effect="light" trigger="hover" placement="top" width="auto">
+                <template #default>
+                  <div v-if="sideBarView">关闭侧边栏</div>
+                  <div v-if="!sideBarView">显示侧边栏</div>
+                </template>
+                <template #reference>
+                  <el-switch v-model="sideBarView" />
+                </template>
+              </el-popover>
+            </div>
             <div>
               <el-dropdown>
               <el-avatar class="el-avatar"
@@ -99,7 +114,8 @@ function logout(){
                   <el-dropdown-item @click="logout">退出登录</el-dropdown-item>
                 </el-dropdown-menu>
               </template>
-            </el-dropdown></div>
+            </el-dropdown>
+            </div>
 
           </div>
         </el-header>
@@ -121,7 +137,8 @@ function logout(){
 }
 .header-wrapper{
   width: 100%;
-  text-align: right;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .el-avatar{

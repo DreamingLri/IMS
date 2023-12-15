@@ -8,11 +8,11 @@ import {
   ChatLineSquare, CoffeeCup,
   Collection,
   DataAnalysis, DataBoard, EditPen,
-  MapLocation,
+  MapLocation, Message,
   PieChart,
   School, Tickets, Timer
 } from "@element-plus/icons-vue";
-import ClassTable from "@/views/components/ClassTable.vue";
+import ClassTable from "@/views/components/admin/ClassTable.vue";
 import router from "@/router"
 import request from "@/utils/request";
 
@@ -123,7 +123,7 @@ function formatDate(data){
           <div>
             <el-row :gutter="12">
               <el-col :span="2" >
-                <el-card shadow="hover" style="height: 80%" @click.native="router.push('/teacher/course')">
+                <el-card shadow="hover" style="height: 80%" @click.native="router.push('/admin/course')">
                   <div>
                     <el-icon color="rgb(90,156,248)" size="30"><Collection /></el-icon>
                     <p style="font-size: 15px">我的课程</p>
@@ -131,7 +131,7 @@ function formatDate(data){
                 </el-card>
               </el-col>
               <el-col :span="2" >
-                <el-card shadow="hover" style="height: 80%" @click.native="router.push('/teacher/teacher-score')">
+                <el-card shadow="hover" style="height: 80%" @click.native="router.push('/admin/teacher-score')">
                   <div>
                     <el-icon color="rgb(90,156,248)" size="30"><ChatLineSquare /></el-icon>
                     <p style="font-size: 15px">我的评教</p>
@@ -139,7 +139,7 @@ function formatDate(data){
                 </el-card>
               </el-col>
               <el-col :span="2">
-                <el-card shadow="hover" style="height: 80%" @click.native="router.push('/teacher/course-status')">
+                <el-card shadow="hover" style="height: 80%" @click.native="router.push('/admin/course-status')">
                   <div>
                     <el-icon color="rgb(90,156,248)" size="30" ><DataAnalysis /></el-icon>
                     <p style="font-size: 15px">选课情况</p>
@@ -147,7 +147,7 @@ function formatDate(data){
                 </el-card>
               </el-col>
               <el-col :span="2">
-                <el-card shadow="hover" style="height: 80%" @click.native="router.push('/teacher/course-time')">
+                <el-card shadow="hover" style="height: 80%" @click.native="router.push('/admin/course-time')">
                   <div>
                     <el-icon color="rgb(90,156,248)" size="30"><Tickets /></el-icon>
                     <p style="font-size: 15px">我的排课</p>
@@ -155,7 +155,7 @@ function formatDate(data){
                 </el-card>
               </el-col>
               <el-col :span="2">
-                <el-card shadow="hover" style="height: 80%" @click.native="router.push('/teacher/leave')">
+                <el-card shadow="hover" style="height: 80%" @click.native="router.push('/admin/leave')">
                   <div>
                     <el-icon color="rgb(90,156,248)" size="30" ><CoffeeCup /></el-icon>
                     <p style="font-size: 15px">请假申请</p>
@@ -163,7 +163,7 @@ function formatDate(data){
                 </el-card>
               </el-col>
               <el-col :span="2">
-                <el-card shadow="hover" style="height: 80%" @click.native="router.push('/teacher/student-score')">
+                <el-card shadow="hover" style="height: 80%" @click.native="router.push('/admin/student-score')">
                   <div>
                     <el-icon color="rgb(90,156,248)" size="30" ><EditPen /></el-icon>
                     <p style="font-size: 15px">评分系统</p>
@@ -171,7 +171,7 @@ function formatDate(data){
                 </el-card>
               </el-col>
               <el-col :span="2">
-                <el-card shadow="hover" style="height: 80%" @click.native="router.push('/teacher/class-table')">
+                <el-card shadow="hover" style="height: 80%" @click.native="router.push('/admin/class-table')">
                   <div>
                     <el-icon color="rgb(90,156,248)" size="30" ><DataBoard /></el-icon>
                     <p style="font-size: 15px">我的课表</p>
@@ -230,11 +230,11 @@ function formatDate(data){
         <el-card class="panel" shadow="hover">
           <template #header>
             <div class="card-header">
-              <span><el-text style="font-size: 20px" size="large" type="primary"><el-icon style="margin-right: 5px"><ChatLineRound /></el-icon>私信</el-text></span>
+              <span><el-text style="font-size: 20px" size="large" type="primary"><el-icon style="margin-right: 5px"><Message /></el-icon>私信</el-text></span>
             </div>
           </template>
           <div>
-            <el-table :data="messageList" style="width: 100%">
+            <el-table :data="messageList" style="width: 100%" :show-header="false">
               <el-table-column label="ID" width="50">
                 <template #default="scope">
                   <el-popover effect="light" trigger="hover" placement="top" width="auto">
@@ -279,16 +279,16 @@ function formatDate(data){
           <div style="height: 240px">
             <el-carousel :interval="5000" arrow="always" height="auto" autoplay>
               <el-carousel-item style="height: 240px">
-                <img src="../../../../public/14th.jpg" alt="14th" width="600">
+                <img src="../../../public/14th.jpg" alt="14th" width="600">
               </el-carousel-item>
               <el-carousel-item style="height: 240px">
-                <img src="../../../../public/2023cun-sysu.jpg" alt="2023cun-sysu" width="600">
+                <img src="../../../public/2023cun-sysu.jpg" alt="2023cun-sysu" width="600">
               </el-carousel-item>
               <el-carousel-item style="height: 240px">
-                <img src="../../../../public/shouyezhuantitu.jpg" alt="shouyezhuantitu" width="600">
+                <img src="../../../public/shouyezhuantitu.jpg" alt="shouyezhuantitu" width="600">
               </el-carousel-item>
               <el-carousel-item style="height: 240px">
-                <img src="../../../../public/zt2023xjp-sysu.jpg" alt="zt2023xjp-sysu" width="600">
+                <img src="../../../public/zt2023xjp-sysu.jpg" alt="zt2023xjp-sysu" width="600">
               </el-carousel-item>
             </el-carousel>
           </div>
@@ -395,7 +395,7 @@ function formatDate(data){
     <template #footer>
       <div class="demo-drawer__footer">
         <el-button type="primary" @click="addReply">发消息</el-button>
-        <el-button @click="closeReply">取消</el-button>
+        <el-button @click="cancelClick">取消</el-button>
       </div>
     </template>
   </el-drawer>

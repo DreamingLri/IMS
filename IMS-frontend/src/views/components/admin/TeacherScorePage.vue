@@ -14,6 +14,8 @@ const scoreDialog = ref(false)
 const ruleForm = ref()
 const userId = ref()
 const name = ref('')
+const studentId = ref()
+const studentList = ref([])
 
 const userInfo = useInfoStore()
 
@@ -47,7 +49,7 @@ const submitForm = async (formEl) => {
 }
 
 function getCourseList(){
-  request.get('/score/listTeacherWithScoreByUserId?userId='+userInfo.user.id).then(res => {
+  request.get('/score/listTeacherWithScoreByUserId?userId='+studentId.value).then(res => {
     if(res.code === 200){
       courseList.value = res.data
     } else {
@@ -56,7 +58,7 @@ function getCourseList(){
   })
 }
 onMounted(() =>{
-  getCourseList()
+  getStudentList()
 })
 
 function openScoreDialog(row){
@@ -84,6 +86,17 @@ const rules = reactive({
   ]
 })
 
+function getStudentList(){
+  request.get("/student/listStudent").then(res=>{
+    if(res.code === 200){
+      studentList.value = res.data
+    } else {
+      ElMessage.error("get student list error")
+      console.log(res.message)
+    }
+  })
+}
+
 </script>
 
 <template>
@@ -91,7 +104,9 @@ const rules = reactive({
     <div class="header-wrapper">
       <div style="width: 100%; height: 40%; display: flex">
         <div style="width: 100%; height: 40%; display: flex">
-          <el-input v-model="name" placeholder="请输入" class="input-with-select" style="height: 30px; width: 300px"></el-input>
+          <el-select v-model="studentId" class="m-2" placeholder="选择学生" style="height: 30px; width: 300px">
+            <el-option v-for="item in studentList" :key="item.id" :label="item.username" :value="item.id"/>
+          </el-select>
           <el-button @click="getCourseList()" type="primary" plain style="margin-left: 10px; height: 30px"><el-icon style="margin-right: 3px"><Search /></el-icon>搜索</el-button>
         </div>
       </div>

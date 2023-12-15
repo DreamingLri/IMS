@@ -14,10 +14,11 @@ import {
   School
 } from "@element-plus/icons-vue";
 import GradePointsChart from "@/views/echarts/grade-points-chart.vue";
-import ClassTable from "@/views/components/ClassTable.vue";
+import ClassTable from "@/views/components/admin/ClassTable.vue";
 import router from "@/router"
 import AcademicWarningChart from "@/views/echarts/academic-warning-chart.vue";
 import request from "@/utils/request";
+import StudentClassTable from "@/views/components/student/StudentClassTable.vue";
 
 const userInfo = useInfoStore()
 console.log(localStorage.getItem("user"))
@@ -218,16 +219,16 @@ onMounted(()=>{
           <div style="height: 240px">
             <el-carousel :interval="5000" arrow="always" height="auto" autoplay>
               <el-carousel-item style="height: 240px">
-                <img src="../../../../public/14th.jpg" alt="14th" width="600">
+                <img src="../../../public/14th.jpg" alt="14th" width="600">
               </el-carousel-item>
               <el-carousel-item style="height: 240px">
-                <img src="../../../../public/2023cun-sysu.jpg" alt="2023cun-sysu" width="600">
+                <img src="../../../public/2023cun-sysu.jpg" alt="2023cun-sysu" width="600">
               </el-carousel-item>
               <el-carousel-item style="height: 240px">
-                <img src="../../../../public/shouyezhuantitu.jpg" alt="shouyezhuantitu" width="600">
+                <img src="../../../public/shouyezhuantitu.jpg" alt="shouyezhuantitu" width="600">
               </el-carousel-item>
               <el-carousel-item style="height: 240px">
-                <img src="../../../../public/zt2023xjp-sysu.jpg" alt="zt2023xjp-sysu" width="600">
+                <img src="../../../public/zt2023xjp-sysu.jpg" alt="zt2023xjp-sysu" width="600">
               </el-carousel-item>
             </el-carousel>
           </div>
@@ -286,7 +287,7 @@ onMounted(()=>{
             </div>
           </template>
           <div>
-            <class-table/>
+            <student-class-table/>
           </div>
         </el-card>
       </el-col>
