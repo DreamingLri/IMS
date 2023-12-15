@@ -16,7 +16,7 @@ const login = () =>{
         localStorage.setItem("gradePoints", res.data)
       })
       localStorage.setItem("user", JSON.stringify(res.data))
-      getScoreList()
+      getScoreList(res.data.id)
       ElMessage.success("登录成功")
       if(res.data.level === 1)
         router.push('/admin')
@@ -30,17 +30,13 @@ const login = () =>{
   })
 }
 
-function getScoreList(){
-  request.get('/score/getScoreCountByUserId?userId='+useStore.user.id).then(res=>{
+function getScoreList(id){
+  request.get('/score/getScoreCountByUserId?userId='+id).then(res=>{
     if(res.code === 200){
       localStorage.setItem("score", JSON.stringify(res.data))
-      useStore.scoreCount.count1 = res.data[0]
-      useStore.scoreCount.count2 = res.data[1]
-      useStore.scoreCount.count3 = res.data[2]
-      useStore.scoreCount.count4 = res.data[3]
-      useStore.scoreCount.count4 = res.data[4]
+      console.log(res.data)
     } else {
-      console.log(res.message)
+      console.log("get score error")
     }
   })
 }

@@ -124,24 +124,26 @@ public class ScoreServiceImpl extends ServiceImpl<ScoreMapper, Score> implements
 
     @Override
     public List<Integer> getScoreCountByUserId(Integer userId) {
-        List<Integer> list = new ArrayList<>();
-        List<Score> scores = baseMapper.selectList(new LambdaQueryWrapper<Score>()
-                .eq(Score::getUserId, userId));
-        int count1 = 0, count2 = 0, count3 = 0, count4 = 0, count5 = 0;
-        for (Score score : scores) {
-            if(score.getTotalScore() >=90 && score.getTotalScore() <=100)
-                count1++;
-            if(score.getTotalScore() >=80 && score.getTotalScore() <90)
-                count2++;
-            if(score.getTotalScore() >=70 && score.getTotalScore() <80)
-                count3++;
-            if(score.getTotalScore() >=60 && score.getTotalScore() <70)
-                count4++;
-            if(score.getTotalScore() < 60)
-                count5++;
-        }
-        Collections.addAll(list, count1, count2, count3, count4, count5);
-        return list;
+            List<Integer> list = new ArrayList<>();
+            List<Score> scores = baseMapper.selectList(new LambdaQueryWrapper<Score>()
+                    .eq(Score::getUserId, userId));
+            int count1 = 0, count2 = 0, count3 = 0, count4 = 0, count5 = 0;
+            for (Score score : scores) {
+                if(score.getTotalScore() != null){
+                    if(score.getTotalScore() >=90 && score.getTotalScore() <=100)
+                        count1++;
+                    if(score.getTotalScore() >=80 && score.getTotalScore() <90)
+                        count2++;
+                    if(score.getTotalScore() >=70 && score.getTotalScore() <80)
+                        count3++;
+                    if(score.getTotalScore() >=60 && score.getTotalScore() <70)
+                        count4++;
+                    if(score.getTotalScore() < 60)
+                        count5++;
+                }
+            }
+            Collections.addAll(list, count1, count2, count3, count4, count5);
+            return list;
     }
 
     //获得平均绩点

@@ -6,8 +6,8 @@
 
 <script setup>
 
-const userInfo = useInfoStore()
 let score = JSON.parse(localStorage.getItem("score"))
+console.log(score)
 
 import { use } from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
@@ -44,11 +44,6 @@ const option = ref({
       type: 'pie',
       radius: '50%',
       data: [
-        // { value: userInfo.scoreCount.count1, name: '90-100' },
-        // { value: userInfo.scoreCount.count2, name: '80-90' },
-        // { value: userInfo.scoreCount.count3, name: '70-80' },
-        // { value: userInfo.scoreCount.count4, name: '60-70' },
-        // { value: userInfo.scoreCount.count5, name: '0-60' }
         { value: score[0], name: '90-100' },
         { value: score[1], name: '80-90' },
         { value: score[2], name: '70-80' },

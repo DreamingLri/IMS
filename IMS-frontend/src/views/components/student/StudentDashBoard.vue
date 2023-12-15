@@ -5,7 +5,7 @@ import {ElMessage} from "element-plus";
 import CreditChart from "@/views/echarts/credit-chart.vue";
 import {
   Bell,
-  Calendar,
+  Calendar, ChatDotRound, ChatLineRound,
   ChatLineSquare, CoffeeCup,
   Collection,
   DataAnalysis, DataBoard,
@@ -17,6 +17,7 @@ import GradePointsChart from "@/views/echarts/grade-points-chart.vue";
 import ClassTable from "@/views/components/ClassTable.vue";
 import router from "@/router"
 import AcademicWarningChart from "@/views/echarts/academic-warning-chart.vue";
+import request from "@/utils/request";
 
 const userInfo = useInfoStore()
 console.log(localStorage.getItem("user"))
@@ -32,6 +33,78 @@ const selectDate = (val) => {
   if (!calendar.value) return
   calendar.value.selectDate(val)
 }
+
+//私信
+const messageDialog = ref(false)
+const direction = ref('rtl')
+const messageList = ref([])
+function cancelClick(){
+  messageDialog.value = false
+}
+function getMessage(){
+  request.get("/message/getMessageByUserId?userId="+user.id).then(res=>{
+    if(res.code === 200){
+      messageList.value = res.data
+    } else {
+      ElMessage.error("Get Message Error")
+      console.log(res.message)
+    }
+  })
+}
+function openMessage(){
+  messageDialog.value = true
+  getMessage()
+}
+function reply(index, row){
+  //交换收发人
+  replyFrom.fromUserId = row.toUserId
+  replyFrom.fromUserName = row.toUserName
+  replyFrom.toUserId = row.fromUserId
+  replyFrom.toUserName = row.fromUserName
+  replyDialog.value = true
+}
+function addReply(){
+  replyDialog.value = true
+}
+function sendMessage(){
+  request.post("/message/sendMessage",replyFrom).then(res=>{
+    if(res.code === 200){
+      ElMessage.success("发送成功")
+      replyDialog.value = false
+    } else {
+      ElMessage.error("发送失败")
+    }
+  })
+}
+const replyFrom = reactive({
+  fromUserId: user.id,
+  fromUserName: user.username,
+  toUserId: '',
+  toUserName: '',
+  message: ''
+})
+const replyDialog = ref(false)
+function openReply(){
+  replyDialog.value = true
+}
+function closeReply(){
+  replyDialog.value = false
+}
+
+const userList = ref([])
+function getUserList(){
+  request.get("/user/listUser").then(res=>{
+    if(res.code === 200){
+      userList.value = res.data
+    } else {
+      console.log(res.message)
+    }
+  })
+}
+
+onMounted(()=>{
+  getUserList()
+})
 
 </script>
 
@@ -86,6 +159,14 @@ const selectDate = (val) => {
                   <div>
                     <el-icon color="rgb(90,156,248)" size="30" ><CoffeeCup /></el-icon>
                     <p style="font-size: 15px">请假申请</p>
+                  </div>
+                </el-card>
+              </el-col>
+              <el-col :span="2">
+                <el-card shadow="hover" style="height: 80%" @click.native="openMessage">
+                  <div>
+                    <el-icon color="rgb(90,156,248)" size="30" ><ChatLineRound /></el-icon>
+                    <p style="font-size: 15px">我的私信</p>
                   </div>
                 </el-card>
               </el-col>
@@ -212,6 +293,102 @@ const selectDate = (val) => {
 
     </el-row>
   </div>
+
+  <el-drawer v-model="messageDialog" :direction="direction">
+    <template #header>
+      <h4>我的私信</h4>
+    </template>
+    <template #default>
+      <div>
+        <el-table :data="messageList" style="width: 100%">
+          <el-table-column label="ID" width="50">
+            <template #default="scope">
+              <el-popover effect="light" trigger="hover" placement="top" width="auto">
+                <template #default>
+                  <div>From: {{ scope.row.fromUserName }}</div>
+                  <div>To: {{ scope.row.toUserName }}</div>
+                </template>
+                <template #reference>
+                  <el-tag>{{ scope.row.id }}</el-tag>
+                </template>
+              </el-popover>
+            </template>
+          </el-table-column>
+          <el-table-column label="消息" width="300">
+            <template #default="scope">
+              <el-popover effect="light" trigger="hover" placement="top" width="auto">
+                <template #reference>
+                  <div style="display: flex; align-items: center">
+                    <el-icon><ChatDotRound /></el-icon>
+                    <span style="margin-left: 10px">{{ scope.row.message }}</span>
+                  </div>
+                </template>
+                <template #default>
+                  <div>{{scope.row.message}}</div>
+                </template>
+              </el-popover>
+            </template>
+          </el-table-column>
+          <el-table-column label="操作">
+            <template #default="scope">
+              <el-button
+                  size="small"
+                  type="primary"
+                  @click="reply(scope.$index, scope.row)"
+              >回复</el-button
+              >
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+
+
+
+    </template>
+    <template #footer>
+      <div class="demo-drawer__footer">
+        <el-button type="primary" @click="addReply">发消息</el-button>
+        <el-button @click="closeReply">取消</el-button>
+      </div>
+    </template>
+  </el-drawer>
+
+  <el-dialog
+      v-model="replyDialog"
+      title="新建信息"
+      width="30%"
+      :before-close="closeReply"
+  >
+    <el-form :model="replyFrom" label-width="120px" :rules="rules" ref="ruleForm">
+      <el-form-item label="发信人">
+        <el-input v-model="replyFrom.fromUserName" placeholder="Please input" />
+      </el-form-item>
+      <el-form-item label="收信人">
+        <el-select v-model="replyFrom.toUserId" class="m-2" placeholder="收信人">
+          <el-option
+              v-for="item in userList"
+              :key="item.id"
+              :label="item.username"
+              :value="item.id"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="信息">
+        <el-input
+            v-model="replyFrom.message"
+            :autosize="{ minRows: 2 }"
+            type="textarea"
+            placeholder="请输入信息"
+        />
+      </el-form-item>
+    </el-form>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="replyDialog = false">取消</el-button>
+        <el-button type="primary" @click="sendMessage">发送</el-button>
+      </span>
+    </template>
+  </el-dialog>
 </template>
 
 <style scoped>
