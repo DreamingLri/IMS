@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+let user = JSON.parse(localStorage.getItem("user"))
 
 const routes = [
   {
@@ -24,7 +25,7 @@ const routes = [
       {
         path: 'dashboard',
         name: 'dashboard-student',
-        component: () => import('@/views/components/student/StudentDashBoard.vue')
+        component: () => import('@/views/dashboard/StudentDashBoard.vue')
       },
       {
         path: 'select-course',
@@ -62,7 +63,7 @@ const routes = [
       {
         path: 'dashboard',
         name: 'dashboard-teacher',
-        component: () => import('@/views/components/teacher/TeacherDashBoard.vue')
+        component: () => import('@/views/dashboard/TeacherDashBoard.vue')
       },
       {
         path: 'course',
@@ -115,65 +116,78 @@ const routes = [
       {
         path: 'student-info',
         name: 'student-info',
-        component: () => import('@/views/components/StudentInfoPage.vue')
+        component: () => import('@/views/components/admin/StudentInfoPage.vue')
       },
       {
         path: 'course',
         name: 'course',
-        component: () => import('@/views/components/CoursePage.vue')
+        component: () => import('@/views/components/admin/CoursePage.vue')
       },
       {
         path: 'teacher-info',
         name: 'teacher-info',
-        component: () => import('@/views/components/TeacherInfoPage.vue')
+        component: () => import('@/views/components/admin/TeacherInfoPage.vue')
       },
       {
         path: 'exam',
         name: 'exam',
-        component: () => import('@/views/components/ExamPage.vue')
+        component: () => import('@/views/components/admin/ExamPage.vue')
       },
       {
         path: 'course-time',
         name: 'course-time',
-        component: () => import('@/views/components/CourseTimePage.vue')
+        component: () => import('@/views/components/admin/CourseTimePage.vue')
       },
       {
         path: 'select-course',
         name: 'select-course',
-        component: () => import('@/views/components/SelectCoursePage.vue')
+        component: () => import('@/views/components/admin/SelectCoursePage.vue')
       },
       {
         path: 'class-table',
         name: 'class-table',
-        component: () => import('@/views/components/ClassTable.vue')
+        component: () => import('@/views/components/admin/ClassTable.vue')
       },
       {
         path: 'exam-student',
         name: 'exam-student',
-        component: () => import ('@/views/components/ExamStudentPage.vue')
+        component: () => import ('@/views/components/admin/ExamStudentPage.vue')
       },
       {
         path: 'student-score',
         name: 'student-score',
-        component: () => import('@/views/components/StudentScorePage.vue')
+        component: () => import('@/views/components/admin/StudentScorePage.vue')
       },
       {
         path: 'teacher-score',
         name: 'teacher-score',
-        component: () => import('@/views/components/TeacherScorePage.vue')
+        component: () => import('@/views/components/admin/TeacherScorePage.vue')
       },
       {
         path: 'course-status',
         name: 'course-status',
-        component: () => import('@/views/components/CourseSelectionStatusPage.vue')
+        component: () => import('@/views/components/admin/CourseSelectionStatusPage.vue')
       }
     ]
+  },
+  {
+    path: '/:catchAll(.*)',
+    name: 'NotFound',
+    title: '404 NotFound',
+    component: ()=> import('@/components/404.vue')
   }
 ]
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
+})
+
+router.beforeEach((to, form, next)=>{
+  if(to.path === '/login'){
+    return next()
+  }
+  next()
 })
 
 export default router
