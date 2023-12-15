@@ -151,6 +151,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
+    public boolean insertAdmin(InsertUserDTO insertUserDTO) {
+        User user = BeanCopyUtil.INSTANCE.toUser(insertUserDTO);
+        if(baseMapper.insert(user) == 0){
+            throw new InsertStudentException();
+        }
+        if(userLevelMapper.insert(new UserLevel(user.getId(), ADMIN_ID)) == 0){
+            throw new InsertStudentException();
+        }
+        return true;
+    }
+
+    @Override
     @Transactional
     public boolean insertUser(InsertUserDTO insertUserDTO) {
         User user = BeanCopyUtil.INSTANCE.toUser(insertUserDTO);

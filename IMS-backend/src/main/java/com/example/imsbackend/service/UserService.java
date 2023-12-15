@@ -18,6 +18,7 @@ public interface UserService extends IService<User> {
 
     boolean insertStudent(InsertUserDTO insertUserDTO);
     boolean insertTeacher(InsertUserDTO insertUserDTO);
+    boolean insertAdmin(InsertUserDTO insertUserDTO);
     boolean insertUser(InsertUserDTO insertUserDTO);
 
     boolean updateUserById(UpdateUserDTO updateUserDTO);

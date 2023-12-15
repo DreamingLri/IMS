@@ -1,23 +1,15 @@
-package com.example.imsbackend.entity;
+package com.example.imsbackend.entity.dto;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import net.sf.jsqlparser.expression.DateTimeLiteralExpression;
 
 import java.util.Date;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("user")
-public class User {
-    @TableId
-    private int id;
-    @TableField("net_id")
+public class SignUpDTO {
     private String netId;
 
     private String username;
@@ -39,11 +31,5 @@ public class User {
     private Double evaluationScore; //评教分数
     private String qualification; //职称
     private String researchDirection; //研究方向
-
-    private Date createTime;
-    private String createBy;
-    private Date updateTime;
-    private String updateBy;
-
-    private String delFlag;
+    private int level; //用户等级
 }
