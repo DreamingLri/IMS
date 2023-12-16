@@ -5,7 +5,7 @@ import {
   User,
   Notebook,
   EditPen,
-  Position, Collection,
+  Position, Collection, Files,
 } from "@element-plus/icons-vue";
 import router from "@/router";
 
@@ -39,47 +39,53 @@ function logout(){
                   <span>首页</span>
                 </template>
               </el-menu-item>
-              <el-sub-menu index="1">
+              <el-menu-item index="1" @click="router.push('/admin/all-user')">
+                <template #title>
+                  <el-icon><Files /></el-icon>
+                  <span>用户权限总览</span>
+                </template>
+              </el-menu-item>
+              <el-sub-menu index="2">
                 <template #title>
                   <el-icon><User /></el-icon>
                   <span>学生管理</span>
                 </template>
                 <el-menu-item-group>
-                  <el-menu-item index="1-1" @click="router.push('/admin/student-info')">学生信息</el-menu-item>
-                  <el-menu-item index="1-2" @click="router.push('/admin/select-course')">学生选课</el-menu-item>
-                  <el-menu-item index="1-3" @click="router.push('/admin/student-score')">学生成绩</el-menu-item>
-                  <el-menu-item index="1-4" @click="router.push('/admin/class-table')">学生课表</el-menu-item>
+                  <el-menu-item index="2-1" @click="router.push('/admin/student-info')">学生信息</el-menu-item>
+                  <el-menu-item index="2-2" @click="router.push('/admin/select-course')">学生选课</el-menu-item>
+                  <el-menu-item index="2-3" @click="router.push('/admin/student-score')">学生成绩</el-menu-item>
+                  <el-menu-item index="2-4" @click="router.push('/admin/class-table')">学生课表</el-menu-item>
                 </el-menu-item-group>
               </el-sub-menu>
-              <el-sub-menu index="2">
+              <el-sub-menu index="3">
                 <template #title>
                   <el-icon><Notebook /></el-icon>
                   <span>教师管理</span>
                 </template>
                 <el-menu-item-group>
-                  <el-menu-item index="2-1" @click="router.push('/admin/teacher-info')">教师信息</el-menu-item>
-                  <el-menu-item index="2-2" @click="router.push('/admin/teacher-score')">教师评教</el-menu-item>
+                  <el-menu-item index="3-1" @click="router.push('/admin/teacher-info')">教师信息</el-menu-item>
+                  <el-menu-item index="3-2" @click="router.push('/admin/teacher-score')">教师评教</el-menu-item>
                 </el-menu-item-group>
               </el-sub-menu>
-              <el-sub-menu index="3">
+              <el-sub-menu index="4">
                 <template #title>
                   <el-icon><EditPen /></el-icon>
                   <span>考试管理</span>
                 </template>
                 <el-menu-item-group>
-                  <el-menu-item index="3-1" @click="router.push('/admin/exam')">考试信息</el-menu-item>
-                  <el-menu-item index="3-2" @click="router.push('/admin/exam-student')">考试学生</el-menu-item>
+                  <el-menu-item index="4-1" @click="router.push('/admin/exam')">考试信息</el-menu-item>
+                  <el-menu-item index="4-2" @click="router.push('/admin/exam-student')">考试学生</el-menu-item>
                 </el-menu-item-group>
               </el-sub-menu>
-              <el-sub-menu index="4">
+              <el-sub-menu index="5">
                 <template #title>
                   <el-icon><Collection /></el-icon>
                   <span>课程管理</span>
                 </template>
                 <el-menu-item-group>
-                  <el-menu-item index="4-1" @click="router.push('/admin/course')">课程信息</el-menu-item>
-                  <el-menu-item index="4-2" @click="router.push('/admin/course-time')">课程时间</el-menu-item>
-                  <el-menu-item index="4-3" @click="router.push('/admin/course-status')">选课情况</el-menu-item>
+                  <el-menu-item index="5-1" @click="router.push('/admin/course')">课程信息</el-menu-item>
+                  <el-menu-item index="5-2" @click="router.push('/admin/course-time')">课程时间</el-menu-item>
+                  <el-menu-item index="5-3" @click="router.push('/admin/course-status')">选课情况</el-menu-item>
                 </el-menu-item-group>
               </el-sub-menu>
             </el-menu>

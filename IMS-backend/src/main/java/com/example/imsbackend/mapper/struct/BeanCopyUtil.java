@@ -21,6 +21,8 @@ public interface BeanCopyUtil {
     User toUser(InsertUserDTO insertUserDTO);
 
     UserExamVO toUserExamVO(User user);
+
+    UserWithLevelVO toUserWithLevelVO(User user);
     CourseVO toCourseVO(Courses courses);
     EvaluationCourseVO toEvaluationCourseVO(Courses courses);
 

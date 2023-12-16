@@ -167,6 +167,11 @@ const routes = [
         path: 'course-status',
         name: 'course-status',
         component: () => import('@/views/components/admin/CourseSelectionStatusPage.vue')
+      },
+      {
+        path: 'all-user',
+        name: 'all-user-admin',
+        component: () => import('@/views/components/admin/AllUserInfoPage.vue')
       }
     ]
   },
