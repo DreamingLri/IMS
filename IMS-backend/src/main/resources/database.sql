@@ -80,6 +80,13 @@ create table micro_message
     message        varchar(255) null
 );
 
+create table school
+(
+    id   int auto_increment
+        primary key,
+    name varchar(255) null
+);
+
 create table score
 (
     id                    int auto_increment
@@ -146,5 +153,11 @@ create table user_level
     `del _flag` char default '0' null,
     constraint user_level_pk
         unique (user_id, level_id)
+);
+
+create table user_school
+(
+    user_id   int null,
+    school_id int null
 );
 
