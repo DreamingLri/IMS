@@ -26,9 +26,6 @@ const updateUserForm = reactive({
 })
 
 const rules = reactive({
-  affiliatedSchool: [
-
-  ],
   level: [
 
   ]
@@ -216,7 +213,7 @@ function formatType(type){
     <div style="margin-right: 20%">
       <el-form :model="updateUserForm" label-width="120px" :rules="rules" ref="ruleForm">
 
-        <el-form-item>
+        <el-form-item label="权限设置" prop="level">
           <el-select v-model="updateUserForm.levelId" placeholder="请选择要更新的等级">
             <el-option label="管理员" value= 1 />
             <el-option label="教师" value= 2 />
