@@ -39,6 +39,21 @@ function getScoreList(id){
   })
 }
 
+const schoolList = ref([])
+function getSchoolList(){
+  request.get('/school/getAllSchool').then(res=>{
+    if(res.code === 200){
+      schoolList.value = res.data
+    } else {
+      console.log(res.message)
+    }
+  })
+}
+
+onMounted(()=>{
+  getSchoolList()
+})
+
 const loginForm = reactive({
   username: '',
   password: ''
@@ -96,6 +111,12 @@ const rules = reactive({
   finishTime: [
     { required: true, message: '离校日期不能为空', trigger: 'blur' }
   ],
+  affiliatedSchool: [
+    { required: true, message: '所属学院不能为空', trigger: 'blur' }
+  ],
+  level: [
+    { required: true, message: '等级权限不能为空', trigger: 'blur' }
+  ]
 })
 
 function closeAddDialog(){
@@ -113,6 +134,7 @@ function closeAddDialog(){
   addUserForm.affiliatedSchool = ''
   addUserForm.qualification = ''
   addUserForm.researchDirection = ''
+  addUserForm.level = ''
 }
 
 const SignUp = async (formEl) => {
@@ -244,7 +266,14 @@ function closeHelpDialog(){
           />
         </el-form-item>
         <el-form-item label="所属学院" prop="affiliatedSchool">
-          <el-input v-model="addUserForm.affiliatedSchool" />
+          <el-select v-model="addUserForm.affiliatedSchool" class="m-2" placeholder="Select">
+            <el-option
+                v-for="item in schoolList"
+                :key="item.id"
+                :label="item.name"
+                :value="item.name"
+            />
+          </el-select>
         </el-form-item>
         <el-form-item label="用户等级" prop="level">
           <el-select v-model="addUserForm.level" placeholder="请选择您的用户等级(这也太op了)">
@@ -253,12 +282,6 @@ function closeHelpDialog(){
             <el-option label="学生" value="3" />
           </el-select>
         </el-form-item>
-<!--        <el-form-item label="职称" prop="qualification" v-if="level === 2">-->
-<!--          <el-input v-model="addUserForm.qualification" />-->
-<!--        </el-form-item>-->
-<!--        <el-form-item label="研究方向" prop="researchDirection" v-if="level === 2">-->
-<!--          <el-input v-model="addUserForm.researchDirection" />-->
-<!--        </el-form-item>-->
         <el-form-item>
           <el-button type="primary" @click="SignUp(ruleForm)">新建</el-button>
           <el-button @click="resetForm(ruleForm)">重置</el-button>

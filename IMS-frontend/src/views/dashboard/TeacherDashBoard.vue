@@ -123,7 +123,7 @@ function formatDate(data){
           <div>
             <el-row :gutter="12">
               <el-col :span="2" >
-                <el-card shadow="hover" style="height: 80%" @click.native="router.push('/admin/course')">
+                <el-card shadow="hover" style="height: 80%" @click.native="router.push('/teacher/course')">
                   <div>
                     <el-icon color="rgb(90,156,248)" size="30"><Collection /></el-icon>
                     <p style="font-size: 15px">我的课程</p>
@@ -131,7 +131,7 @@ function formatDate(data){
                 </el-card>
               </el-col>
               <el-col :span="2" >
-                <el-card shadow="hover" style="height: 80%" @click.native="router.push('/admin/teacher-score')">
+                <el-card shadow="hover" style="height: 80%" @click.native="router.push('/teacher/teacher-score')">
                   <div>
                     <el-icon color="rgb(90,156,248)" size="30"><ChatLineSquare /></el-icon>
                     <p style="font-size: 15px">我的评教</p>
@@ -139,7 +139,7 @@ function formatDate(data){
                 </el-card>
               </el-col>
               <el-col :span="2">
-                <el-card shadow="hover" style="height: 80%" @click.native="router.push('/admin/course-status')">
+                <el-card shadow="hover" style="height: 80%" @click.native="router.push('/teacher/course-status')">
                   <div>
                     <el-icon color="rgb(90,156,248)" size="30" ><DataAnalysis /></el-icon>
                     <p style="font-size: 15px">选课情况</p>
@@ -147,7 +147,7 @@ function formatDate(data){
                 </el-card>
               </el-col>
               <el-col :span="2">
-                <el-card shadow="hover" style="height: 80%" @click.native="router.push('/admin/course-time')">
+                <el-card shadow="hover" style="height: 80%" @click.native="router.push('/teacher/course-time')">
                   <div>
                     <el-icon color="rgb(90,156,248)" size="30"><Tickets /></el-icon>
                     <p style="font-size: 15px">我的排课</p>
@@ -155,7 +155,7 @@ function formatDate(data){
                 </el-card>
               </el-col>
               <el-col :span="2">
-                <el-card shadow="hover" style="height: 80%" @click.native="router.push('/admin/leave')">
+                <el-card shadow="hover" style="height: 80%" @click.native="router.push('/teacher/leave')">
                   <div>
                     <el-icon color="rgb(90,156,248)" size="30" ><CoffeeCup /></el-icon>
                     <p style="font-size: 15px">请假申请</p>
@@ -163,7 +163,7 @@ function formatDate(data){
                 </el-card>
               </el-col>
               <el-col :span="2">
-                <el-card shadow="hover" style="height: 80%" @click.native="router.push('/admin/student-score')">
+                <el-card shadow="hover" style="height: 80%" @click.native="router.push('/teacher/student-score')">
                   <div>
                     <el-icon color="rgb(90,156,248)" size="30" ><EditPen /></el-icon>
                     <p style="font-size: 15px">评分系统</p>
@@ -171,7 +171,7 @@ function formatDate(data){
                 </el-card>
               </el-col>
               <el-col :span="2">
-                <el-card shadow="hover" style="height: 80%" @click.native="router.push('/admin/class-table')">
+                <el-card shadow="hover" style="height: 80%" @click.native="router.push('/teacher/class-table')">
                   <div>
                     <el-icon color="rgb(90,156,248)" size="30" ><DataBoard /></el-icon>
                     <p style="font-size: 15px">我的课表</p>

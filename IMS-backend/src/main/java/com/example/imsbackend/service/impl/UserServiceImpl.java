@@ -1,19 +1,16 @@
 package com.example.imsbackend.service.impl;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.imsbackend.entity.User;
-import com.example.imsbackend.entity.UserCourse;
-import com.example.imsbackend.entity.UserLevel;
+import com.example.imsbackend.entity.*;
 import com.example.imsbackend.entity.dto.InsertUserDTO;
 import com.example.imsbackend.entity.dto.UpdateUserDTO;
 import com.example.imsbackend.entity.vo.AuthUserInfoVO;
 import com.example.imsbackend.entity.vo.TeacherNameVO;
 import com.example.imsbackend.handler.exception.DeleteStudentException;
 import com.example.imsbackend.handler.exception.InsertStudentException;
-import com.example.imsbackend.mapper.UserCourseMapper;
-import com.example.imsbackend.mapper.UserLevelMapper;
-import com.example.imsbackend.mapper.UserMapper;
+import com.example.imsbackend.mapper.*;
 import com.example.imsbackend.mapper.struct.BeanCopyUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -39,6 +36,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     private final UserLevelMapper userLevelMapper;
     private final UserCourseMapper userCourseMapper;
+    private final SchoolMapper schoolMapper;
+    private final UserSchoolMapper userSchoolMapper;
 
     @Override
     @Transactional
@@ -135,6 +134,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         if(userLevelMapper.insert(new UserLevel(user.getId(), STUDENT_ID)) == 0){
             throw new InsertStudentException();
         }
+        String school = insertUserDTO.getAffiliatedSchool();
+        int schoolId =  schoolMapper.selectOne(new LambdaQueryWrapper<School>()
+                .eq(School::getName, school)).getId();
+        userSchoolMapper.insert(new UserSchool(user.getId(), schoolId));
         return true;
     }
 
@@ -147,6 +150,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         if(userLevelMapper.insert(new UserLevel(user.getId(), TEACHER_ID)) == 0){
             throw new InsertStudentException();
         }
+        String school = insertUserDTO.getAffiliatedSchool();
+        int schoolId =  schoolMapper.selectOne(new LambdaQueryWrapper<School>()
+                .eq(School::getName, school)).getId();
+        userSchoolMapper.insert(new UserSchool(user.getId(), schoolId));
         return true;
     }
 
@@ -159,6 +166,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         if(userLevelMapper.insert(new UserLevel(user.getId(), ADMIN_ID)) == 0){
             throw new InsertStudentException();
         }
+        String school = insertUserDTO.getAffiliatedSchool();
+        int schoolId =  schoolMapper.selectOne(new LambdaQueryWrapper<School>()
+                .eq(School::getName, school)).getId();
+        userSchoolMapper.insert(new UserSchool(user.getId(), schoolId));
         return true;
     }
 
@@ -177,6 +188,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public boolean updateUserById(UpdateUserDTO updateUserDTO) {
         User user = BeanCopyUtil.INSTANCE.toUser(updateUserDTO);
+        UserSchool old_school = userSchoolMapper.selectOne(new LambdaQueryWrapper<UserSchool>()
+                .eq(UserSchool::getUserId, user.getId()));
+        School school = schoolMapper.selectOne(new LambdaQueryWrapper<School>()
+                .eq(School::getName, user.getAffiliatedSchool()));
+        if(!ObjectUtil.isEmpty(old_school) && !ObjectUtil.isEmpty(school)){
+            if(old_school.getSchoolId() != school.getId()){
+                userSchoolMapper.delete(new LambdaQueryWrapper<UserSchool>()
+                        .eq(UserSchool::getUserId, user.getId())
+                        .eq(UserSchool::getSchoolId, old_school.getSchoolId()));
+                userSchoolMapper.insert(new UserSchool(user.getId(), school.getId()));
+            }
+        } else {
+            userSchoolMapper.insert(new UserSchool(user.getId(), school.getId()));
+        }
         return baseMapper.updateById(user) == 1;
     }
 
@@ -187,6 +212,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             throw new DeleteStudentException();
         }
         if(userLevelMapper.delete(new LambdaQueryWrapper<UserLevel>().eq(UserLevel::getUserId, id)) == 0){
+            throw new DeleteStudentException();
+        }
+        if(userSchoolMapper.delete(new LambdaQueryWrapper<UserSchool>().eq(UserSchool::getUserId, id)) == 0){
             throw new DeleteStudentException();
         }
         return true;

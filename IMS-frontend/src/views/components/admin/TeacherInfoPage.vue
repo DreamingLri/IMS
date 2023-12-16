@@ -9,6 +9,16 @@ const userList = ref([])
 
 const addUserDialog = ref(false)
 const updateUserDialog = ref(false)
+const schoolList = ref([])
+function getSchoolList(){
+  request.get('/school/getAllSchool').then(res=>{
+    if(res.code === 200){
+      schoolList.value = res.data
+    } else {
+      console.log(res.message)
+    }
+  })
+}
 
 const ruleForm = ref()
 const addUserForm = reactive({
@@ -213,6 +223,7 @@ const removeUser = (id) =>{
 
 onMounted(() => {
   getList()
+  getSchoolList()
 })
 
 function formatDate(row ,col){
@@ -320,7 +331,14 @@ function formatDate(row ,col){
           </el-select>
         </el-form-item>
         <el-form-item label="所属学院" prop="affiliatedSchool">
-          <el-input v-model="addUserForm.affiliatedSchool" />
+          <el-select v-model="addUserForm.affiliatedSchool" class="m-2" placeholder="Select">
+            <el-option
+                v-for="item in schoolList"
+                :key="item.id"
+                :label="item.name"
+                :value="item.name"
+            />
+          </el-select>
         </el-form-item>
         <el-form-item label="职称" prop="qualification">
           <el-input v-model="addUserForm.qualification" />
@@ -400,7 +418,14 @@ function formatDate(row ,col){
           </el-select>
         </el-form-item>
         <el-form-item label="所属学院" prop="affiliatedSchool">
-          <el-input v-model="updateUserForm.affiliatedSchool" />
+          <el-select v-model="updateUserForm.affiliatedSchool" class="m-2" placeholder="Select">
+            <el-option
+                v-for="item in schoolList"
+                :key="item.id"
+                :label="item.name"
+                :value="item.name"
+            />
+          </el-select>
         </el-form-item>
         <el-form-item label="职称" prop="qualification">
           <el-input v-model="updateUserForm.qualification" />

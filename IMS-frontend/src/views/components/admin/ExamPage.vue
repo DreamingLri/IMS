@@ -214,8 +214,8 @@ function formatTime(row, col){
         <el-table-column prop="id" label="ID" width="50" />
         <el-table-column prop="name" label="考试名称" width="130" />
         <el-table-column prop="date" label="考试日期" width="130" :formatter="formatDate"/>
-        <el-table-column prop="startTime" label="开始时间" width="150" :formatter="formatTime"/>
-        <el-table-column prop="endTime" label="结束时间" width="150" :formatter="formatTime"/>
+        <el-table-column prop="startTime" label="开始时间" width="180" :formatter="formatTime"/>
+        <el-table-column prop="endTime" label="结束时间" width="180" :formatter="formatTime"/>
         <el-table-column prop="examPlace" label="考试地点" width="130" />
         <el-table-column prop="examDuration" label="考试时长(小时)" width="130" />
         <el-table-column prop="invigilator" label="监考老师" width="130" />

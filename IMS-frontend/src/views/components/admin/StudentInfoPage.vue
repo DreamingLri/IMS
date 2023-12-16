@@ -10,6 +10,17 @@ const userList = ref([])
 const addUserDialog = ref(false)
 const updateUserDialog = ref(false)
 
+const schoolList = ref([])
+function getSchoolList(){
+  request.get('/school/getAllSchool').then(res=>{
+    if(res.code === 200){
+      schoolList.value = res.data
+    } else {
+      console.log(res.message)
+    }
+  })
+}
+
 const ruleForm = ref()
 const addUserForm = reactive({
   username: '',
@@ -200,6 +211,7 @@ const removeUser = (id) =>{
 
 onMounted(() => {
   getList()
+  getSchoolList()
 })
 
 function formatDate(row ,col){
@@ -241,7 +253,7 @@ function formatDate(row ,col){
         <el-table-column prop="code" label="学号" width="100"/>
         <el-table-column prop="identificationCode" label="身份证" width="200"/>
         <el-table-column prop="address" label="住址" width="180"/>
-        <el-table-column prop="affiliatedSchool" label="所属学院" width="180"/>
+        <el-table-column prop="affiliatedSchool" label="所属学院" width="100"/>
         <el-table-column prop="gender" label="性别" width="60"/>
         <el-table-column prop="birthday" label="生日" width="100" :formatter="formatDate"/>
         <el-table-column prop="entryTime" label="入学日期" width="100" :formatter="formatDate"/>
@@ -305,7 +317,14 @@ function formatDate(row ,col){
           </el-select>
         </el-form-item>
         <el-form-item label="所属学院" prop="affiliatedSchool">
-          <el-input v-model="addUserForm.affiliatedSchool" />
+          <el-select v-model="addUserForm.affiliatedSchool" class="m-2" placeholder="Select">
+            <el-option
+                v-for="item in schoolList"
+                :key="item.id"
+                :label="item.name"
+                :value="item.name"
+            />
+          </el-select>
         </el-form-item>
         <el-form-item label="入学日期" prop="entryTime">
         <el-date-picker
@@ -379,7 +398,14 @@ function formatDate(row ,col){
           </el-select>
         </el-form-item>
         <el-form-item label="所属学院" prop="affiliatedSchool">
-          <el-input v-model="updateUserForm.affiliatedSchool" />
+          <el-select v-model="updateUserForm.affiliatedSchool" class="m-2" placeholder="Select">
+            <el-option
+                v-for="item in schoolList"
+                :key="item.id"
+                :label="item.name"
+                :value="item.name"
+            />
+          </el-select>
         </el-form-item>
         <el-form-item label="入学日期" prop="entryTime">
           <el-date-picker
