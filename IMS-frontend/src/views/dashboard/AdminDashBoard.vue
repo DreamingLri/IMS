@@ -8,7 +8,7 @@ import {
   Calendar,
   ChatDotRound,
   ChatLineRound, ChatLineSquare, CoffeeCup, Collection,
-  DataAnalysis, DataBoard, Edit, EditPen, Memo,
+  DataAnalysis, DataBoard, Edit, EditPen, HotWater, Memo,
   Message, Mug, Notification,
   PieChart, Pointer,
   School, Tickets
@@ -345,6 +345,18 @@ onMounted(()=>{
                   <div>
                     <el-icon color="rgb(90,156,248)" size="30" ><Edit /></el-icon>
                     <p style="font-size: 15px">选考管理</p>
+                  </div>
+                </el-card>
+              </el-col>
+            </el-row>
+
+            <!--第三行-->
+            <el-row :gutter="20">
+              <el-col :span="4">
+                <el-card shadow="hover" style="height: 85%" @click.native="router.push('/admin/accept-leave')">
+                  <div>
+                    <el-icon color="rgb(90,156,248)" size="30" ><HotWater /></el-icon>
+                    <p style="font-size: 15px">请假审批</p>
                   </div>
                 </el-card>
               </el-col>

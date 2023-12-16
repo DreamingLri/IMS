@@ -1,9 +1,6 @@
 package com.example.imsbackend.mapper.struct;
 
-import com.example.imsbackend.entity.Courses;
-import com.example.imsbackend.entity.Exams;
-import com.example.imsbackend.entity.Score;
-import com.example.imsbackend.entity.User;
+import com.example.imsbackend.entity.*;
 import com.example.imsbackend.entity.dto.InsertCourseDTO;
 import com.example.imsbackend.entity.dto.InsertUserDTO;
 import com.example.imsbackend.entity.dto.SignUpDTO;
@@ -24,6 +21,7 @@ public interface BeanCopyUtil {
 
     UserWithLevelVO toUserWithLevelVO(User user);
     CourseVO toCourseVO(Courses courses);
+    LeaveVO toLeaveVO(Leave leave);
     EvaluationCourseVO toEvaluationCourseVO(Courses courses);
 
     Courses toCourses(InsertCourseDTO courseDTO);

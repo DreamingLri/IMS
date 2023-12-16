@@ -55,6 +55,7 @@ function logout(){
                   <el-menu-item index="2-2" @click="router.push('/admin/select-course')">学生选课</el-menu-item>
                   <el-menu-item index="2-3" @click="router.push('/admin/student-score')">学生成绩</el-menu-item>
                   <el-menu-item index="2-4" @click="router.push('/admin/class-table')">学生课表</el-menu-item>
+                  <el-menu-item index="2-5" @click="router.push('/admin/accept-leave')">请假审批</el-menu-item>
                 </el-menu-item-group>
               </el-sub-menu>
               <el-sub-menu index="3">
@@ -65,6 +66,7 @@ function logout(){
                 <el-menu-item-group>
                   <el-menu-item index="3-1" @click="router.push('/admin/teacher-info')">教师信息</el-menu-item>
                   <el-menu-item index="3-2" @click="router.push('/admin/teacher-score')">教师评教</el-menu-item>
+                  <el-menu-item index="2-5" @click="router.push('/admin/accept-leave')">请假审批</el-menu-item>
                 </el-menu-item-group>
               </el-sub-menu>
               <el-sub-menu index="4">

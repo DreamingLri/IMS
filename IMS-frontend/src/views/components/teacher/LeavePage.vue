@@ -31,11 +31,11 @@ function formatDate(row ,col){
 
 function formatAccepted(row, col){
   let data = row[col.property]
-  if(data === 1){
+  if(data == 1){
     return "通过"
-  } else if(data === null){
+  } else if(data == null){
     return "审核中"
-  } else if(data === 0){
+  } else if(data == 0){
     return "未通过"
   }
 }
