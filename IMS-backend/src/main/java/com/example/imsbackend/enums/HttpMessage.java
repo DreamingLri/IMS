@@ -22,7 +22,11 @@ public enum HttpMessage {
     SELECT_COURSE_ERROR(HTTP_STATUS_500, "select course error"),
     WITHDRAW_COURSE_ERROR(HTTP_STATUS_500, "已有成绩，不能退课"),
     SELECT_EXAM_ERROR(HTTP_STATUS_500, "select exam error"),
-    WITHDRAW_EXAM_ERROR(HTTP_STATUS_500, "withdraw exam error");
+    WITHDRAW_EXAM_ERROR(HTTP_STATUS_500, "withdraw exam error"),
+
+    DELETE_SCHOOL_ERROR(HTTP_STATUS_500, "已有人选择该学院，不能删除");
+
+
 
     final Integer code;
     final String message;

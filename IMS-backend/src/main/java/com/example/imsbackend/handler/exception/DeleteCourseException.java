@@ -5,7 +5,7 @@ import com.example.imsbackend.handler.GlobalException;
 import static com.example.imsbackend.enums.HttpMessage.DELETE_COURSE_ERROR;
 
 public class DeleteCourseException extends GlobalException {
-    public DeleteCourseException() {
-        super(DELETE_COURSE_ERROR.getCode(), DELETE_COURSE_ERROR.getMessage());
+    public DeleteCourseException(String message) {
+        super(DELETE_COURSE_ERROR.getCode(), message);
     }
 }

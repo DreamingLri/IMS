@@ -211,11 +211,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         if(baseMapper.deleteById(id) == 0){
             throw new DeleteStudentException();
         }
-        if(userLevelMapper.delete(new LambdaQueryWrapper<UserLevel>().eq(UserLevel::getUserId, id)) == 0){
-            throw new DeleteStudentException();
+        UserLevel userLevel = userLevelMapper.selectOne(new LambdaQueryWrapper<UserLevel>().eq(UserLevel::getUserId, id));
+        if(!ObjectUtil.isEmpty(userLevel)){
+            if(userLevelMapper.delete(new LambdaQueryWrapper<UserLevel>().eq(UserLevel::getUserId, id)) == 0){
+                throw new DeleteStudentException();
+            }
         }
-        if(userSchoolMapper.delete(new LambdaQueryWrapper<UserSchool>().eq(UserSchool::getUserId, id)) == 0){
-            throw new DeleteStudentException();
+        UserSchool userSchool = userSchoolMapper.selectOne(new LambdaQueryWrapper<UserSchool>().eq(UserSchool::getUserId, id));
+        if(!ObjectUtil.isEmpty(userSchool)){
+            if(userSchoolMapper.delete(new LambdaQueryWrapper<UserSchool>().eq(UserSchool::getUserId, id)) == 0){
+                throw new DeleteStudentException();
+            }
         }
         return true;
     }

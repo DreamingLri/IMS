@@ -9,6 +9,7 @@ import com.example.imsbackend.entity.Exams;
 import com.example.imsbackend.entity.UserCourse;
 import com.example.imsbackend.entity.dto.InsertCourseDTO;
 import com.example.imsbackend.entity.vo.CourseVO;
+import com.example.imsbackend.handler.exception.DeleteCourseException;
 import com.example.imsbackend.handler.exception.InsertCourseException;
 import com.example.imsbackend.handler.exception.UpdateCourseException;
 import com.example.imsbackend.mapper.CoursesMapper;
@@ -107,24 +108,16 @@ public class CoursesServiceImpl extends ServiceImpl<CoursesMapper, Courses> impl
 
     @Override
     public boolean deleteCourseById(Integer id) {
+        UserCourse userCourse = userCourseMapper.selectOne(new LambdaQueryWrapper<UserCourse>().eq(UserCourse::getCourseId, id));
+        if(!ObjectUtil.isEmpty(userCourse)){
+            throw new DeleteCourseException("已有人选课，不能删除该课程");
+        }
         return baseMapper.deleteById(id) == 1;
     }
 
     @Override
     public List<CourseVO> selectCourseById(Integer id) {
         List<CourseVO> courseVOS = new ArrayList<>();
-//        baseMapper.selectList(new LambdaQueryWrapper<>())
-//                .forEach(courses -> {
-//                    CourseVO courseVO = BeanCopyUtil.INSTANCE.toCourseVO(courses);
-//                    courseVO.setSelected(false);
-//                    List<UserCourse> list = userCourseMapper.selectList(new LambdaQueryWrapper<UserCourse>().eq(UserCourse::getCourseId, courseVO.getId()));
-//                    for (UserCourse i : list){
-//                        if(Objects.equals(i.getUserId(), id)){
-//                            courseVO.setSelected(true);
-//                        }
-//                    }
-//                    courseVOS.add(courseVO);
-//                });
         baseMapper.selectList(new LambdaQueryWrapper<>())
                 .forEach(courses -> {
                     CourseVO courseVO = BeanCopyUtil.INSTANCE.toCourseVO(courses);

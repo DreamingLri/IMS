@@ -64,11 +64,7 @@ public class ScoreServiceImpl extends ServiceImpl<ScoreMapper, Score> implements
                 Courses course = coursesMapper.selectOne(new LambdaQueryWrapper<Courses>()
                         .eq(Courses::getCredit, score.getCourseId()));
                 user.setEarnedCredit(user.getEarnedCredit()+course.getCredit());
-                //绩点更新
-//                getGradePointByUserId(user.getId());
             }
-
-
             return baseMapper.insert(score) == 1;
         } else {
             score.setId(checkScore.getId());
@@ -108,7 +104,10 @@ public class ScoreServiceImpl extends ServiceImpl<ScoreMapper, Score> implements
                 .eq(Score::getUserId, userId))
                 .forEach(score -> {
                     StudentScoreVo studentScoreVo = new StudentScoreVo();
-                    if(score.getCourseId() != null && score.getStudyScore() != null && score.getExamScore() != null && score.getTotalScore() != null){
+                    if(score.getCourseId() != null
+                            && score.getStudyScore() != null
+                            && score.getExamScore() != null
+                            && score.getTotalScore() != null){
                         studentScoreVo.setName(coursesMapper.selectOne(new LambdaQueryWrapper<Courses>()
                                         .eq(Courses::getId, score.getCourseId()))
                                 .getName());
@@ -227,7 +226,10 @@ public class ScoreServiceImpl extends ServiceImpl<ScoreMapper, Score> implements
                         studentScoreVo.setCode(user.getCode());
                         studentScoreVo.setId(user.getId());
 
-                        if(score.getStudyScore() != null && score.getExamScore() != null && score.getTotalScore() != null && score.getScoreFunction() != null){
+                        if(score.getStudyScore() != null
+                                && score.getExamScore() != null
+                                && score.getTotalScore() != null
+                                && score.getScoreFunction() != null){
                             studentScoreVo.setStudyScore(score.getStudyScore());
                             studentScoreVo.setExamScore(score.getExamScore());
                             studentScoreVo.setTotalScore(score.getTotalScore());
