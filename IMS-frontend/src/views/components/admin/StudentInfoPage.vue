@@ -83,7 +83,7 @@ const rules = reactive({
     { required: true, message: '离校日期不能为空', trigger: 'blur' }
   ],
   affiliatedSchool: [
-    { required: true, message: '所选学院不能为空', trigger: 'blur' }
+    { required: true, message: '所属学院不能为空', trigger: 'blur' }
   ]
 })
 
@@ -311,7 +311,7 @@ function formatDate(row ,col){
           </el-select>
         </el-form-item>
         <el-form-item label="所属学院" prop="affiliatedSchool">
-          <el-select v-model="addUserForm.affiliatedSchool" class="m-2" placeholder="Select">
+          <el-select v-model="addUserForm.affiliatedSchool" class="m-2" placeholder="选择学院">
             <el-option
                 v-for="item in schoolList"
                 :key="item.id"
