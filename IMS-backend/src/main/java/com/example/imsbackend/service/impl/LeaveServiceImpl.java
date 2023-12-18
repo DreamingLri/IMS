@@ -55,7 +55,9 @@ public class LeaveServiceImpl extends ServiceImpl<LeaveMapper, Leave> implements
                             .eq(Leave::getUserId, userSchool.getUserId()))
                             .forEach(leave -> {
                                 LeaveVO leaveVO = BeanCopyUtil.INSTANCE.toLeaveVO(leave);
-                                leaveVO.setName(userMapper.selectOne(new LambdaQueryWrapper<User>().eq(User::getId, leaveVO.getUserId())).getUsername());
+                                leaveVO.setName(userMapper.selectOne(new LambdaQueryWrapper<User>()
+                                        .eq(User::getId, leaveVO.getUserId()))
+                                        .getUsername());
                                 list.add(leaveVO);
                             });
                 });

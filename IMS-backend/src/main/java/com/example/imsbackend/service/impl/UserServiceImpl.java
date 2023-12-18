@@ -129,7 +129,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public boolean insertStudent(InsertUserDTO insertUserDTO) {
         User user = BeanCopyUtil.INSTANCE.toUser(insertUserDTO);
         if(baseMapper.insert(user) == 0){
-            throw new InsertStudentException("创建学生失败，学号重复");
+            throw new InsertStudentException("创建学生失败，学号重复或NetId重复");
         }
         if(userLevelMapper.insert(new UserLevel(user.getId(), STUDENT_ID)) == 0){
             throw new InsertStudentException(null);
@@ -145,7 +145,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public boolean insertTeacher(InsertUserDTO insertUserDTO) {
         User user = BeanCopyUtil.INSTANCE.toUser(insertUserDTO);
         if(baseMapper.insert(user) == 0){
-            throw new InsertStudentException("创建教师失败，学号重复");
+            throw new InsertStudentException("创建教师失败，学号重复或NetId重复");
         }
         if(userLevelMapper.insert(new UserLevel(user.getId(), TEACHER_ID)) == 0){
             throw new InsertStudentException(null);
@@ -161,7 +161,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public boolean insertAdmin(InsertUserDTO insertUserDTO) {
         User user = BeanCopyUtil.INSTANCE.toUser(insertUserDTO);
         if(baseMapper.insert(user) == 0){
-            throw new InsertStudentException("创建管理员失败，学号重复");
+            throw new InsertStudentException("创建管理员失败，学号重复或NetId重复");
         }
         if(userLevelMapper.insert(new UserLevel(user.getId(), ADMIN_ID)) == 0){
             throw new InsertStudentException(null);
