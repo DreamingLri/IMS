@@ -48,34 +48,35 @@ const updateCourseForm = reactive({
   place: '',
   courseAssessment: ''
 })
+
 const rules = reactive({
-  name: [
-    { required: true, message: '课程名不能为空', trigger: 'blur' },
-  ],
-  openedBy: [
-    { required: true, message: '开课学院不能为空', trigger: 'blur' },
-  ],
-  credit: [
-    { required: true, message: '学分不能为空', trigger: 'blur' },
-  ],
-  studentNumber: [
-    { required: true, message: '开班人数不能为空', trigger: 'blur' },
-  ],
-  startTime: [
-    { required: true, message: '开课时间不能为空', trigger: 'blur' },
-  ],
-  teacher: [
-    { required: true, message: '开课老师不能为空', trigger: 'blur' },
-  ],
-  period: [
-    { required: true, message: '学时不能为空', trigger: 'blur' },
-  ],
-  place: [
-    { required: true, message: '上课地点不能为空', trigger: 'blur' },
-  ],
-  courseAssessment: [
-    { required: true, message: '考核方式不能为空', trigger: 'blur' },
-  ],
+  // name: [
+  //   { required: true, message: '课程名不能为空', trigger: 'blur' },
+  // ],
+  // openedBy: [
+  //   { required: true, message: '开课学院不能为空', trigger: 'blur' },
+  // ],
+  // credit: [
+  //   { required: true, message: '学分不能为空', trigger: 'blur' },
+  // ],
+  // studentNumber: [
+  //   { required: true, message: '开班人数不能为空', trigger: 'blur' },
+  // ],
+  // startTime: [
+  //   { required: true, message: '开课时间不能为空', trigger: 'blur' },
+  // ],
+  // teacher: [
+  //   { required: true, message: '开课老师不能为空', trigger: 'blur' },
+  // ],
+  // period: [
+  //   { required: true, message: '学时不能为空', trigger: 'blur' },
+  // ],
+  // place: [
+  //   { required: true, message: '上课地点不能为空', trigger: 'blur' },
+  // ],
+  // courseAssessment: [
+  //   { required: true, message: '考核方式不能为空', trigger: 'blur' },
+  // ]
 })
 
 const closeAddDialog = () =>{
@@ -122,7 +123,7 @@ const submitForm = async (formEl) => {
           closeAddDialog()
           reset()
         } else {
-          ElMessage.error('添加失败')
+          ElMessage.error(res.message)
           console.log(res.message)
           reset()
         }
@@ -144,7 +145,7 @@ const updateForm = async (formEl) => {
           closeUpdateDialog()
           reset()
         } else {
-          ElMessage.error('更新失败')
+          ElMessage.error(res.message)
           console.log(updateCourseForm)
           console.log(res.message)
           reset()

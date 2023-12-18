@@ -12,6 +12,7 @@ import com.example.imsbackend.entity.UserCourse;
 import com.example.imsbackend.entity.dto.InsertCourseDTO;
 import com.example.imsbackend.entity.vo.CourseVO;
 import com.example.imsbackend.entity.vo.UserCourseVO;
+import com.example.imsbackend.mapper.CoursesMapper;
 import com.example.imsbackend.mapper.UserMapper;
 import com.example.imsbackend.mapper.struct.BeanCopyUtil;
 import com.example.imsbackend.service.CourseTimeService;
@@ -35,6 +36,7 @@ public class CourseController {
     private final UserCourseService userCourseService;
     private final CourseTimeService courseTimeService;
     private final UserMapper userMapper;
+    private final CoursesMapper coursesMapper;
 
     @GetMapping("/listCourse")
     public List<Courses> listCourse(String name){
@@ -83,11 +85,6 @@ public class CourseController {
 
     @PostMapping("/insertCourse")
     public boolean insertCourse(@Valid @RequestBody Courses courses){
-        if(courses.getTeacher() != null){
-            int id = userMapper.selectOne(new LambdaQueryWrapper<User>()
-                    .eq(User::getUsername, courses.getTeacher())).getId();
-            userCourseService.selectCourse(new UserCourse(id, courses.getId()));
-        }
         return coursesService.insertCourse(courses);
     }
 

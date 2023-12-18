@@ -13,6 +13,7 @@ import com.example.imsbackend.handler.exception.UpdateCourseException;
 import com.example.imsbackend.mapper.*;
 import com.example.imsbackend.mapper.struct.BeanCopyUtil;
 import com.example.imsbackend.service.CoursesService;
+import com.example.imsbackend.service.UserCourseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -36,6 +37,9 @@ public class CoursesServiceImpl extends ServiceImpl<CoursesMapper, Courses> impl
     private final UserCourseMapper userCourseMapper;
     private final ExamsMapper examsMapper;
     private final UserLevelMapper userLevelMapper;
+    private final UserMapper userMapper;
+    private final UserCourseService userCourseService;
+    private final CoursesMapper coursesMapper;
     @Override
     public List<Courses> listCourse(String name) {
         LambdaQueryWrapper<Courses> like = new LambdaQueryWrapper<Courses>()
@@ -48,6 +52,11 @@ public class CoursesServiceImpl extends ServiceImpl<CoursesMapper, Courses> impl
         if(baseMapper.insert(courses) == 0){
             throw new InsertCourseException();
         }
+        if(courses.getTeacher() != null){
+            int id = userMapper.selectOne(new LambdaQueryWrapper<User>()
+                    .eq(User::getUsername, courses.getTeacher())).getId();
+            userCourseService.selectCourse(new UserCourse(id, courses.getId()));
+        }
         if(Objects.equals(courses.getCourseAssessment(), "闭卷考试") || Objects.equals(courses.getCourseAssessment(), "开卷考试")){
             Exams exam = new Exams();
             exam.setName(courses.getName()+"考试");
@@ -59,6 +68,25 @@ public class CoursesServiceImpl extends ServiceImpl<CoursesMapper, Courses> impl
 
     @Override
     public boolean updateCourseById(Courses courses) {
+        if(courses.getTeacher() != null){
+            String teacher = coursesMapper.selectOne(new LambdaQueryWrapper<Courses>().eq(Courses::getId, courses.getId())).getTeacher();
+            int newId = userMapper.selectOne(new LambdaQueryWrapper<User>()
+                    .eq(User::getUsername, courses.getTeacher())).getId();
+            User user = userMapper.selectOne(new LambdaQueryWrapper<User>()
+                    .eq(User::getUsername, teacher));
+            if(!ObjectUtil.isEmpty(user)){
+                int oldId = user.getId();
+                if(oldId != newId){
+                    userCourseMapper.delete(new LambdaQueryWrapper<UserCourse>()
+                            .eq(UserCourse::getUserId, oldId)
+                            .eq(UserCourse::getCourseId, courses.getId()));
+                    userCourseService.selectCourse(new UserCourse(newId, courses.getId()));
+                }
+            } else {
+                userCourseService.selectCourse(new UserCourse(newId, courses.getId()));
+            }
+        }
+
         int id = courses.getId();
         String oldAssessment = baseMapper.selectById(id).getCourseAssessment();
         String newAssessment = courses.getCourseAssessment();
