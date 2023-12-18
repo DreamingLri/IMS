@@ -34,7 +34,27 @@ const updateExamForm = reactive({
 })
 
 const rules = reactive({
-
+  name: [
+    { required: true, message: '考试名不能为空', trigger: 'blur' },
+  ],
+  date: [
+    { required: true, message: '考试日期不能为空', trigger: 'blur' },
+  ],
+  startTime: [
+    { required: true, message: '开始时间不能为空', trigger: 'blur' },
+  ],
+  endTime: [
+    { required: true, message: '结束时间不能为空', trigger: 'blur' },
+  ],
+  examPlace: [
+    { required: true, message: '考试地点不能为空', trigger: 'blur' },
+  ],
+  examDuration: [
+    { required: true, message: '考试时长不能为空', trigger: 'blur' },
+  ],
+  invigilator: [
+    { required: true, message: '监考老师不能为空', trigger: 'blur' },
+  ],
 })
 
 const closeAddDialog = () =>{
@@ -247,14 +267,14 @@ function formatTime(row, col){
         <el-form-item label="考试名称" prop="name">
           <el-input v-model="addExamForm.name" />
         </el-form-item>
-        <el-form-item label="考试日期" prop="entryTime">
+        <el-form-item label="考试日期" prop="date">
           <el-date-picker
               v-model="addExamForm.date"
               placeholder="请选择考试日期"
               style="width: 100%"
           />
         </el-form-item>
-        <el-form-item label="开始时间">
+        <el-form-item label="开始时间" prop="startTime">
           <el-time-picker
               v-model="addExamForm.startTime"
               start="08:00"
@@ -263,7 +283,7 @@ function formatTime(row, col){
               placeholder="开始时间"
           />
         </el-form-item>
-        <el-form-item label="结束时间">
+        <el-form-item label="结束时间" prop="endTime">
           <el-time-picker
               v-model="addExamForm.endTime"
               start="08:00"
@@ -272,13 +292,13 @@ function formatTime(row, col){
               placeholder="结束时间"
           />
         </el-form-item>
-        <el-form-item label="考试地点" prop="name">
+        <el-form-item label="考试地点" prop="examPlace">
           <el-input v-model="addExamForm.examPlace" />
         </el-form-item>
-        <el-form-item label="考试时长" prop="name">
+        <el-form-item label="考试时长" prop="examDuration">
           <el-input v-model="addExamForm.examDuration" />
         </el-form-item>
-        <el-form-item label="监考老师" prop="name">
+        <el-form-item label="监考老师" prop="invigilator">
           <el-select v-model="updateExamForm.invigilator" class="m-2" placeholder="请选择监考老师">
             <el-option
                 v-for="item in teacherList"
@@ -314,14 +334,14 @@ function formatTime(row, col){
         <el-form-item label="考试名称" prop="name">
           <el-input v-model="updateExamForm.name" />
         </el-form-item>
-        <el-form-item label="考试日期" prop="entryTime">
+        <el-form-item label="考试日期" prop="date">
           <el-date-picker
               v-model="updateExamForm.date"
               placeholder="请选择考试日期"
               style="width: 100%"
           />
         </el-form-item>
-        <el-form-item label="开始时间">
+        <el-form-item label="开始时间" prop="startTime">
           <el-time-picker
               v-model="updateExamForm.startTime"
               start="08:00"
@@ -330,7 +350,7 @@ function formatTime(row, col){
               placeholder="开始时间"
           />
         </el-form-item>
-        <el-form-item label="结束时间">
+        <el-form-item label="结束时间" prop="endTime">
           <el-time-picker
               v-model="updateExamForm.endTime"
               start="08:00"
@@ -339,10 +359,10 @@ function formatTime(row, col){
               placeholder="结束时间"
           />
         </el-form-item>
-        <el-form-item label="考试地点" prop="name">
+        <el-form-item label="考试地点" prop="examPlace">
           <el-input v-model="updateExamForm.examPlace" />
         </el-form-item>
-        <el-form-item label="考试时长" prop="name">
+        <el-form-item label="考试时长" prop="examDuration">
           <el-select v-model="updateExamForm.examDuration" placeholder="请选择考试时长">
             <el-option label="1小时" value="1" />
             <el-option label="1.5小时" value="1.5" />
@@ -351,7 +371,7 @@ function formatTime(row, col){
             <el-option label="3小时" value="3" />
           </el-select>
         </el-form-item>
-        <el-form-item label="监考老师" prop="name">
+        <el-form-item label="监考老师" prop="invigilator">
           <el-select v-model="updateExamForm.invigilator" class="m-2" placeholder="请选择监考老师">
             <el-option
                 v-for="item in teacherList"

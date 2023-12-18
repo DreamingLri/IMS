@@ -49,7 +49,33 @@ const updateCourseForm = reactive({
   courseAssessment: ''
 })
 const rules = reactive({
-
+  name: [
+    { required: true, message: '课程名不能为空', trigger: 'blur' },
+  ],
+  openedBy: [
+    { required: true, message: '开课学院不能为空', trigger: 'blur' },
+  ],
+  credit: [
+    { required: true, message: '学分不能为空', trigger: 'blur' },
+  ],
+  studentNumber: [
+    { required: true, message: '开班人数不能为空', trigger: 'blur' },
+  ],
+  startTime: [
+    { required: true, message: '开课时间不能为空', trigger: 'blur' },
+  ],
+  teacher: [
+    { required: true, message: '开课老师不能为空', trigger: 'blur' },
+  ],
+  period: [
+    { required: true, message: '学时不能为空', trigger: 'blur' },
+  ],
+  place: [
+    { required: true, message: '上课地点不能为空', trigger: 'blur' },
+  ],
+  courseAssessment: [
+    { required: true, message: '考核方式不能为空', trigger: 'blur' },
+  ],
 })
 
 const closeAddDialog = () =>{
@@ -256,7 +282,7 @@ const courseTime = ref([]);
         <el-form-item label="课程名" prop="name">
           <el-input v-model="addCourseForm.name" />
         </el-form-item>
-        <el-form-item label="开课学院" prop="name">
+        <el-form-item label="开课学院" prop="openedBy">
           <el-select v-model="addCourseForm.openedBy" class="m-2" placeholder="请选择开课学院">
             <el-option
                 v-for="item in schoolList"
@@ -266,8 +292,8 @@ const courseTime = ref([]);
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="开课老师" prop="name">
-          <el-select v-model="updateCourseForm.teacher" class="m-2" placeholder="请选择开课老师">
+        <el-form-item label="开课老师" prop="teacher">
+          <el-select v-model="addCourseForm.teacher" class="m-2" placeholder="请选择开课老师">
             <el-option
                 v-for="item in teacherList"
                 :key="item.value"
@@ -276,19 +302,19 @@ const courseTime = ref([]);
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="上课地点" prop="name">
+        <el-form-item label="上课地点" prop="place">
           <el-input v-model="addCourseForm.place" />
         </el-form-item>
-        <el-form-item label="学分" prop="name">
+        <el-form-item label="学分" prop="credit">
           <el-input v-model="addCourseForm.credit" />
         </el-form-item>
-        <el-form-item label="学时" prop="name">
+        <el-form-item label="学时" prop="period">
           <el-input v-model="addCourseForm.period" />
         </el-form-item>
-        <el-form-item label="学生人数" prop="name">
+        <el-form-item label="学生人数" prop="studentNumber">
           <el-input v-model="addCourseForm.studentNumber" />
         </el-form-item>
-        <el-form-item label="开课时间">
+        <el-form-item label="开课时间" prop="startTime">
           <el-col :span="11">
             <el-date-picker
                 v-model="addCourseForm.startTime"
@@ -309,7 +335,7 @@ const courseTime = ref([]);
           </el-col>
         </el-form-item>
 
-        <el-form-item label="考核方式">
+        <el-form-item label="考核方式" prop="courseAssessment">
           <el-select v-model="addCourseForm.courseAssessment" placeholder="请选择考核方式">
             <el-option label="开卷考试" value="开卷考试" />
             <el-option label="闭卷考试" value="闭卷考试" />
@@ -345,7 +371,7 @@ const courseTime = ref([]);
         <el-form-item label="课程名" prop="name">
           <el-input v-model="updateCourseForm.name" />
         </el-form-item>
-        <el-form-item label="开课学院" prop="name">
+        <el-form-item label="开课学院" prop="openedBy">
           <el-select v-model="updateCourseForm.openedBy" class="m-2" placeholder="请选择开课学院">
             <el-option
                 v-for="item in schoolList"
@@ -355,7 +381,7 @@ const courseTime = ref([]);
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="开课老师" prop="name">
+        <el-form-item label="开课老师" prop="teacher">
           <el-select v-model="updateCourseForm.teacher" class="m-2" placeholder="请选择开课老师">
             <el-option
                 v-for="item in teacherList"
@@ -365,19 +391,19 @@ const courseTime = ref([]);
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="上课地点" prop="name">
+        <el-form-item label="上课地点" prop="place">
           <el-input v-model="updateCourseForm.place" />
         </el-form-item>
-        <el-form-item label="学分" prop="name">
+        <el-form-item label="学分" prop="credit">
           <el-input v-model="updateCourseForm.credit" />
         </el-form-item>
         <el-form-item label="学时" prop="name">
           <el-input v-model="updateCourseForm.period" />
         </el-form-item>
-        <el-form-item label="学生人数" prop="name">
+        <el-form-item label="学生人数" prop="studentNumber">
           <el-input v-model="updateCourseForm.studentNumber" />
         </el-form-item>
-        <el-form-item label="开课时间">
+        <el-form-item label="开课时间" prop="startTime">
           <el-col :span="11">
             <el-date-picker
                 v-model="updateCourseForm.startTime"
@@ -398,7 +424,7 @@ const courseTime = ref([]);
           </el-col>
         </el-form-item>
 
-        <el-form-item label="考核方式">
+        <el-form-item label="考核方式" prop="courseAssessment">
           <el-select v-model="updateCourseForm.courseAssessment" placeholder="请选择考核方式">
             <el-option label="开卷考试" value="开卷考试" />
             <el-option label="闭卷考试" value="闭卷考试" />
