@@ -274,7 +274,6 @@ function formatDate(row ,col){
                 <el-button type="danger" plain><el-icon style="margin-right: 5px"><Delete /></el-icon>删除</el-button>
               </template>
             </el-popconfirm>
-
           </template>
         </el-table-column>
       </el-table>
@@ -325,7 +324,7 @@ function formatDate(row ,col){
           </el-select>
         </el-form-item>
         <el-form-item label="所属学院" prop="affiliatedSchool">
-          <el-select v-model="addUserForm.affiliatedSchool" class="m-2" placeholder="Select">
+          <el-select v-model="addUserForm.affiliatedSchool" class="m-2" placeholder="请选择所属学院">
             <el-option
                 v-for="item in schoolList"
                 :key="item.id"
@@ -412,7 +411,7 @@ function formatDate(row ,col){
           </el-select>
         </el-form-item>
         <el-form-item label="所属学院" prop="affiliatedSchool">
-          <el-select v-model="updateUserForm.affiliatedSchool" class="m-2" placeholder="Select">
+          <el-select v-model="updateUserForm.affiliatedSchool" class="m-2" placeholder="请选择所属学院">
             <el-option
                 v-for="item in schoolList"
                 :key="item.id"
