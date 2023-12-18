@@ -137,7 +137,5 @@ onMounted(()=>{
 }
 .header-wrapper{
   width: 100%;
-  height: 10%;
-
 }
 </style>
