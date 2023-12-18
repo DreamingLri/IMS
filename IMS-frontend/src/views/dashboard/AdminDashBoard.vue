@@ -100,6 +100,8 @@ function getUserList(){
 }
 
 function formatDate(data){
+  if(data == null)
+    return null
   let data_time = new Date(data)
   return data_time.toLocaleDateString()
 }
@@ -368,7 +370,7 @@ onMounted(()=>{
               <el-col :span="4">
                 <el-card shadow="hover" style="height: 85%" @click.native="router.push('/admin/school')">
                   <div>
-                    <el-icon color="rgb(90,156,248)" size="30" ><Setting /></el-icon>
+                    <el-icon color="rgb(90,156,248)" size="30" ><School /></el-icon>
                     <p style="font-size: 15px">学院管理</p>
                   </div>
                 </el-card>
