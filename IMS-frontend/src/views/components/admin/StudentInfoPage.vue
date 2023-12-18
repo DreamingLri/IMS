@@ -83,7 +83,7 @@ const rules = reactive({
     { required: true, message: '离校日期不能为空', trigger: 'blur' }
   ],
   affiliatedSchool: [
-
+    { required: true, message: '所选学院不能为空', trigger: 'blur' }
   ]
 })
 

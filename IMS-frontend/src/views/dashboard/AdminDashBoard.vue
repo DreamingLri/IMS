@@ -100,6 +100,8 @@ function getUserList(){
 }
 
 function formatDate(data){
+  if(data == null)
+    return null
   let data_time = new Date(data)
   return data_time.toLocaleDateString()
 }
