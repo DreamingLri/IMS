@@ -96,7 +96,7 @@ const resetForm = (formEl) => {
 const name = ref('')
 
 const getCourseTimeList = () => {
-  request.get("/course/listCourseWithTime?name="+name.value).then(res => {
+  request.get("/course/listCourseWithTime?name="+encodeURIComponent(name.value)).then(res => {
     if(res.code === 200){
       courseList.value = res.data
       console.log(courseList.value)

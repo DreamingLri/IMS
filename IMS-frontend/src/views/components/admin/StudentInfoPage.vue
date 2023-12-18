@@ -182,7 +182,7 @@ const selectFrom = reactive({
 })
 
 const getList = () => {
-  request.get("/student/listStudent?username="+selectFrom.username).then(res => {
+  request.get("/student/listStudent?username="+encodeURIComponent(selectFrom.username)).then(res => {
     if(res.code === 200){
       userList.value = res.data
       console.log(res.data)

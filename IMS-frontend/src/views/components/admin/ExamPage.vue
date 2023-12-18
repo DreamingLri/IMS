@@ -119,7 +119,7 @@ const resetForm = (formEl) => {
 const name = ref('')
 
 const getList = () => {
-  request.get("/exam/listExam?name="+name.value).then(res => {
+  request.get("/exam/listExam?name="+encodeURIComponent(name.value)).then(res => {
     if(res.code === 200){
       userList.value = res.data
       console.log(res.data)
