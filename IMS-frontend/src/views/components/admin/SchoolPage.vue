@@ -18,7 +18,9 @@ const updateSchoolForm = reactive({
 })
 
 const rules = reactive({
-
+  name: [
+    { required: true, message: '学院名不能为空', trigger: 'blur' },
+  ],
 })
 
 const closeAddDialog = () =>{

@@ -4,12 +4,15 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.example.imsbackend.entity.CourseTime;
 import com.example.imsbackend.entity.Courses;
+import com.example.imsbackend.entity.User;
 import com.example.imsbackend.entity.UserCourse;
 import com.example.imsbackend.entity.dto.InsertCourseDTO;
 import com.example.imsbackend.entity.vo.CourseVO;
 import com.example.imsbackend.entity.vo.UserCourseVO;
+import com.example.imsbackend.mapper.UserMapper;
 import com.example.imsbackend.mapper.struct.BeanCopyUtil;
 import com.example.imsbackend.service.CourseTimeService;
 import com.example.imsbackend.service.CoursesService;
@@ -31,6 +34,7 @@ public class CourseController {
     private final CoursesService coursesService;
     private final UserCourseService userCourseService;
     private final CourseTimeService courseTimeService;
+    private final UserMapper userMapper;
 
     @GetMapping("/listCourse")
     public List<Courses> listCourse(String name){
@@ -79,6 +83,11 @@ public class CourseController {
 
     @PostMapping("/insertCourse")
     public boolean insertCourse(@Valid @RequestBody Courses courses){
+        if(courses.getTeacher() != null){
+            int id = userMapper.selectOne(new LambdaQueryWrapper<User>()
+                    .eq(User::getUsername, courses.getTeacher())).getId();
+            userCourseService.selectCourse(new UserCourse(id, courses.getId()));
+        }
         return coursesService.insertCourse(courses);
     }
 
@@ -89,7 +98,6 @@ public class CourseController {
         Courses courses = BeanCopyUtil.INSTANCE.toCourses(coursesDTO);
         coursesService.insertCourse(courses);
         userCourseService.selectCourse(new UserCourse(userId, courses.getId()));
-
         return true;
     }
 
