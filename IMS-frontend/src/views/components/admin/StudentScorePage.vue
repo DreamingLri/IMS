@@ -110,7 +110,7 @@ function formatScore(row, col){
   <div class="main-wrapper">
     <div class="header-wrapper">
       <div style="width: 100%; height: 40%; display: flex">
-        <el-select v-model="courseId" class="m-2" placeholder="Select" style="height: 30px; width: 300px">
+        <el-select v-model="courseId" class="m-2" placeholder="选择学生" style="height: 30px; width: 300px">
           <el-option
               v-for="item in courseList"
               :key="item.id"
