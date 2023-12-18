@@ -167,6 +167,7 @@ public class ScoreServiceImpl extends ServiceImpl<ScoreMapper, Score> implements
     //根据UserId(老师)展示评教内容
     @Override
     public List<JSONObject> getTeacherEvaluationByUserId(Integer userId) {
+
         List<JSONObject> list = new ArrayList<>();
         List<UserCourse> userCourses = userCourseMapper.selectList(new LambdaQueryWrapper<UserCourse>()
                 .eq(UserCourse::getUserId, userId));
@@ -243,26 +244,31 @@ public class ScoreServiceImpl extends ServiceImpl<ScoreMapper, Score> implements
     @Override
     public List<TeacherScoreVO> listTeacherWithScoreByUserId(Integer userId) {
         List<TeacherScoreVO> list = new ArrayList<>();
-        List<UserCourse> userCourses = userCourseMapper.selectList(new LambdaQueryWrapper<UserCourse>().eq(UserCourse::getUserId, userId));
-        userCourses.forEach(userCourse -> {
-            Courses courses = coursesMapper.selectOne(new LambdaQueryWrapper<Courses>()
-                    .eq(Courses::getId, userCourse.getCourseId()));
-            Score score = baseMapper.selectOne(new LambdaQueryWrapper<Score>()
-                    .eq(Score::getUserId, userId)
-                    .eq(Score::getCourseId, userCourse.getCourseId()));
-
-            TeacherScoreVO teacherScoreVO = new TeacherScoreVO();
-            teacherScoreVO.setTeacherName(courses.getTeacher());
-            teacherScoreVO.setCourseName(courses.getName());
-            teacherScoreVO.setId(courses.getId());
-
-            if(score.getEvaluationScore()!= null){
-                teacherScoreVO.setEvaluationScore(score.getEvaluationScore());
-                if(score.getEvaluationSuggestion() != null)
-                    teacherScoreVO.setEvaluationSuggestion(score.getEvaluationSuggestion());
-            }
-            list.add(teacherScoreVO);
-        });
+            List<UserCourse> userCourses = userCourseMapper.selectList(new LambdaQueryWrapper<UserCourse>().eq(UserCourse::getUserId, userId));
+            userCourses.forEach(userCourse -> {
+                Courses courses = coursesMapper.selectOne(new LambdaQueryWrapper<Courses>()
+                        .eq(Courses::getId, userCourse.getCourseId()));
+                Score score = baseMapper.selectOne(new LambdaQueryWrapper<Score>()
+                        .eq(Score::getUserId, userId)
+                        .eq(Score::getCourseId, userCourse.getCourseId()));
+                TeacherScoreVO teacherScoreVO = getTeacherScoreVO(courses, score);
+                list.add(teacherScoreVO);
+            });
         return list;
+    }
+
+    private static TeacherScoreVO getTeacherScoreVO(Courses courses, Score score) {
+        TeacherScoreVO teacherScoreVO = new TeacherScoreVO();
+        teacherScoreVO.setTeacherName(courses.getTeacher());
+        teacherScoreVO.setCourseName(courses.getName());
+        teacherScoreVO.setId(courses.getId());
+
+        if(!ObjectUtil.isEmpty(score)){
+            if(score.getEvaluationScore()!= null)
+                teacherScoreVO.setEvaluationScore(score.getEvaluationScore());
+            if(score.getEvaluationSuggestion() != null)
+                teacherScoreVO.setEvaluationSuggestion(score.getEvaluationSuggestion());
+        }
+        return teacherScoreVO;
     }
 }
