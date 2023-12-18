@@ -23,10 +23,11 @@ public class UserLevelServiceImpl extends ServiceImpl<UserLevelMapper, UserLevel
     private final UserMapper userMapper;
     private final UserLevelMapper userLevelMapper;
     @Override
-    public List<UserWithLevelVO> getUserWithLevel(String username) {
+    public List<UserWithLevelVO> getUserWithLevel(String username, Integer userId) {
         List<UserWithLevelVO> list = new ArrayList<>();
         LambdaQueryWrapper<User> like = new LambdaQueryWrapper<User>()
-                .like(StringUtils.hasText(username), User::getUsername, username);
+                .like(StringUtils.hasText(username), User::getUsername, username)
+                        .ne(User::getId, userId);
         userMapper.selectList(like)
                 .forEach(user -> {
                     UserWithLevelVO userWithLevelVO;

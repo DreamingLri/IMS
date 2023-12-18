@@ -9,6 +9,7 @@ const userList = ref([])
 
 const updateUserDialog = ref(false)
 const schoolList = ref([])
+let user = JSON.parse(localStorage.getItem("user"))
 function getSchoolList(){
   request.get('/school/getAllSchool').then(res=>{
     if(res.code === 200){
@@ -77,7 +78,7 @@ const resetForm = (formEl) => {
 const username = ref('')
 
 const getList = () => {
-  request.get("/user-level/getUserWithLevel?username="+username.value).then(res => {
+  request.get("/user-level/getUserWithLevel?username="+username.value+"&userId="+user.id).then(res => {
     if(res.code === 200){
       userList.value = res.data
       console.log(res.data)

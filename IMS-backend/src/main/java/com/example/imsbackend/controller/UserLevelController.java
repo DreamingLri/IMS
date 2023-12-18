@@ -16,8 +16,8 @@ import java.util.List;
 public class UserLevelController {
     private final UserLevelService userLevelService;
     @GetMapping("/getUserWithLevel")
-    public List<UserWithLevelVO> getUserWithLevel(String username){
-        return userLevelService.getUserWithLevel(username);
+    public List<UserWithLevelVO> getUserWithLevel(String username, Integer userId){
+        return userLevelService.getUserWithLevel(username, userId);
     }
 
     @PostMapping("/updateLevelByUserId")

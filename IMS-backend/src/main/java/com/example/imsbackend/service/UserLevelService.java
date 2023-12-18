@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface UserLevelService extends IService<UserLevel> {
 
-    List<UserWithLevelVO> getUserWithLevel(String username);
+    List<UserWithLevelVO> getUserWithLevel(String username, Integer userId);
 
     boolean updateLevelByUserId(UserLevel userLevel);
 }

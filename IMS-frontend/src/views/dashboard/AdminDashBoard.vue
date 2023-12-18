@@ -11,7 +11,7 @@ import {
   DataAnalysis, DataBoard, Edit, EditPen, HotWater, Memo,
   Message, Mug, Notification,
   PieChart, Pointer,
-  School, Tickets
+  School, Setting, Tickets
 } from "@element-plus/icons-vue";
 import GradePointsChart from "@/views/echarts/grade-points-chart.vue";
 import ClassTable from "@/views/components/admin/ClassTable.vue";
@@ -99,6 +99,11 @@ function getUserList(){
   })
 }
 
+function formatDate(data){
+  let data_time = new Date(data)
+  return data_time.toLocaleDateString()
+}
+
 onMounted(()=>{
   getUserList()
 })
@@ -129,12 +134,12 @@ onMounted(()=>{
               <el-descriptions-item label="性别:">{{ user.gender }}</el-descriptions-item>
               <el-descriptions-item label="住址:">{{ user.address }}</el-descriptions-item>
 
-              <el-descriptions-item label="生日:">{{ user.birthday }}</el-descriptions-item>
+              <el-descriptions-item label="生日:">{{formatDate(user.birthday)}}</el-descriptions-item>
               <el-descriptions-item label="身份证:">{{ user.identificationCode }}</el-descriptions-item>
 
               <el-descriptions-item><el-divider/></el-descriptions-item><el-descriptions-item><el-divider/></el-descriptions-item>
 
-              <el-descriptions-item label="所属院系:">{{ user.affiliated_school }}</el-descriptions-item>
+              <el-descriptions-item label="所属院系:">{{ user.affiliatedSchool }}</el-descriptions-item>
             </el-descriptions>
           </div>
         </el-card>
@@ -360,6 +365,15 @@ onMounted(()=>{
                   </div>
                 </el-card>
               </el-col>
+              <el-col :span="4">
+                <el-card shadow="hover" style="height: 85%" @click.native="router.push('/admin/school')">
+                  <div>
+                    <el-icon color="rgb(90,156,248)" size="30" ><Setting /></el-icon>
+                    <p style="font-size: 15px">学院管理</p>
+                  </div>
+                </el-card>
+              </el-col>
+
             </el-row>
           </div>
         </el-card>

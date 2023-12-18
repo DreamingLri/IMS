@@ -177,6 +177,11 @@ const routes = [
         path: 'accept-leave',
         name: 'accept-leave-admin',
         component: () => import('@/views/components/admin/AcceptLeavePage.vue')
+      },
+      {
+        path: 'school',
+        name : 'school-admin',
+        component: ()=>import('@/views/components/admin/SchoolPage.vue')
       }
     ]
   },
