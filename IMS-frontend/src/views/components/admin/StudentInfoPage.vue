@@ -227,13 +227,7 @@ function formatDate(row ,col){
   <div class="main-wrapper">
     <div class="header-wrapper">
       <div style="width: 100%; height: 40%; display: flex">
-        <el-input v-model="selectFrom.username" placeholder="请输入" class="input-with-select" style="height: 30px; width: 300px">
-          <template #append>
-            <el-select v-model="select" placeholder="Select" style="width: 100px">
-              <el-option label="姓名" value="1" />
-              <el-option label="Net Id" value="2" />
-            </el-select>
-          </template>
+        <el-input v-model="selectFrom.username" placeholder="请输入姓名" style="height: 30px; width: 300px">
         </el-input>
         <el-button @click="getList" type="primary" plain style="margin-left: 10px; height: 30px"><el-icon style="margin-right: 3px"><Search /></el-icon>搜索</el-button>
       </div>

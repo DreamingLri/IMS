@@ -5,7 +5,7 @@ import {
   User,
   Notebook,
   EditPen,
-  Position, Collection, Files,
+  Position, Collection, Files, School,
 } from "@element-plus/icons-vue";
 import router from "@/router";
 
@@ -47,7 +47,7 @@ function logout(){
               </el-menu-item>
               <el-menu-item index="2" @click="router.push('/admin/school')">
                 <template #title>
-                  <el-icon><Files /></el-icon>
+                  <el-icon><School /></el-icon>
                   <span>学院管理</span>
                 </template>
               </el-menu-item>

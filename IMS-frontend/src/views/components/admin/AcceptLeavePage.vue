@@ -76,12 +76,6 @@ onMounted(()=>{
 
 <template>
   <div class="main-wrapper">
-    <div style="height: 5%">
-      <el-breadcrumb :separator-icon="ArrowRight">
-        <el-breadcrumb-item :to="{ path: '/student/dashboard' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>请假申请</el-breadcrumb-item>
-      </el-breadcrumb>
-    </div>
     <div style="height: 10%; display: flex; margin-top: 10px">
       <h4>请假记录</h4>
     </div>
