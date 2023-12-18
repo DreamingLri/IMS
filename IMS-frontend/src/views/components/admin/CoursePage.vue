@@ -9,6 +9,16 @@ const userList = ref([])
 
 const addCourseDialog = ref(false)
 const updateCourseDialog = ref(false)
+const schoolList = ref([])
+function getSchoolList(){
+  request.get('/school/getAllSchool').then(res=>{
+    if(res.code === 200){
+      schoolList.value = res.data
+    } else {
+      console.log(res.message)
+    }
+  })
+}
 
 
 const ruleForm = ref()
@@ -176,6 +186,7 @@ const removeCourse = (id) =>{
 onMounted(() => {
   getList()
   getTeacherList()
+  getSchoolList()
 })
 
 function formatDate(row ,col){
@@ -246,7 +257,14 @@ const courseTime = ref([]);
           <el-input v-model="addCourseForm.name" />
         </el-form-item>
         <el-form-item label="开课学院" prop="name">
-          <el-input v-model="addCourseForm.openedBy" />
+          <el-select v-model="addCourseForm.openedBy" class="m-2" placeholder="请选择开课学院">
+            <el-option
+                v-for="item in schoolList"
+                :key="item.id"
+                :label="item.name"
+                :value="item.name"
+            />
+          </el-select>
         </el-form-item>
         <el-form-item label="开课老师" prop="name">
           <el-select v-model="updateCourseForm.teacher" class="m-2" placeholder="请选择开课老师">
@@ -328,7 +346,14 @@ const courseTime = ref([]);
           <el-input v-model="updateCourseForm.name" />
         </el-form-item>
         <el-form-item label="开课学院" prop="name">
-          <el-input v-model="updateCourseForm.openedBy" />
+          <el-select v-model="updateCourseForm.openedBy" class="m-2" placeholder="请选择开课学院">
+            <el-option
+                v-for="item in schoolList"
+                :key="item.id"
+                :label="item.name"
+                :value="item.name"
+            />
+          </el-select>
         </el-form-item>
         <el-form-item label="开课老师" prop="name">
           <el-select v-model="updateCourseForm.teacher" class="m-2" placeholder="请选择开课老师">
