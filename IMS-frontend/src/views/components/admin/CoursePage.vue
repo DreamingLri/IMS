@@ -173,7 +173,7 @@ const reset = () =>{
 }
 
 const removeCourse = (id) =>{
-  request.delete("/user/deleteCourseById/" + id).then(res => {
+  request.delete("/course/deleteCourseById/" + id).then(res => {
     if(res.code === 200){
       ElMessage.success("删除成功")
       reset()
