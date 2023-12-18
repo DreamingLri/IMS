@@ -274,7 +274,6 @@ function formatDate(row ,col){
                 <el-button type="danger" plain><el-icon style="margin-right: 5px"><Delete /></el-icon>删除</el-button>
               </template>
             </el-popconfirm>
-
           </template>
         </el-table-column>
       </el-table>

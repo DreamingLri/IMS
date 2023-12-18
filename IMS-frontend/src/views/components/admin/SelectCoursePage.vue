@@ -103,7 +103,7 @@ onMounted(()=> {
     <div class="header-wrapper">
 
       <div style="width: 100%; height: 40%; display: flex">
-        <el-select v-model="studentId" class="m-2" placeholder="选择课程" style="height: 30px; width: 300px">
+        <el-select v-model="studentId" class="m-2" placeholder="请选择课程" style="height: 30px; width: 300px">
           <el-option v-for="item in studentList" :key="item.id" :label="item.username" :value="item.id"/>
         </el-select>
         <el-button @click="getSelectedCourse" type="primary" plain style="margin-left: 10px; height: 30px"><el-icon style="margin-right: 3px"><Search /></el-icon>选择</el-button>
