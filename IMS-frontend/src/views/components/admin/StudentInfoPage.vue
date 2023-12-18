@@ -131,7 +131,7 @@ const submitForm = async (formEl) => {
           closeAddDialog()
           reset()
         } else {
-          ElMessage.error('添加失败')
+          ElMessage.error(res.message)
           console.log(res.message)
           reset()
         }

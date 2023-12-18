@@ -57,7 +57,7 @@ function formatSelected(row, col){
 
 function withdrawCourse(row){
   let useCourse = {}
-  useCourse.userId = userInfo.user.id
+  useCourse.userId = studentId.value
   useCourse.courseId = row.id
   useCourse.assment = row.courseAssessment
 
@@ -75,7 +75,7 @@ function withdrawCourse(row){
 
 function selectCourse(row){
   let useCourse = {}
-  useCourse.userId = user.id
+  useCourse.userId = studentId.value
   useCourse.courseId = row.id
   useCourse.assment = row.courseAssessment
 
