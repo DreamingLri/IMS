@@ -17,6 +17,6 @@
 > 3. Vue 3.2.13
 > 4. ElementPlus 2.4.3
 
-如果你发现任何bug，欢迎提交issues或[发送邮件](dreaminglri@outlook.com)
+如果你发现任何bug，欢迎提交issues或[发送邮件](mailto:dreaminglri@outlook.com)
 
 Enjoy Your Coding XD!
