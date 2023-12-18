@@ -139,7 +139,7 @@ const resetForm = (formEl) => {
 const name = ref('')
 
 const getList = () => {
-  request.get("/exam/listExam?name="+name.value).then(res => {
+  request.get("/exam/listExam?name="+encodeURIComponent(name.value)).then(res => {
     if(res.code === 200){
       userList.value = res.data
       console.log(res.data)
@@ -288,7 +288,7 @@ function formatTime(row, col){
               v-model="addExamForm.endTime"
               start="08:00"
               step="00:15"
-              end="20：45"
+              end="20:45"
               placeholder="结束时间"
           />
         </el-form-item>

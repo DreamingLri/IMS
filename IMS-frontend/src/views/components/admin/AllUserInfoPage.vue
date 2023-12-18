@@ -78,7 +78,7 @@ const resetForm = (formEl) => {
 const username = ref('')
 
 const getList = () => {
-  request.get("/user-level/getUserWithLevel?username="+username.value+"&userId="+user.id).then(res => {
+  request.get("/user-level/getUserWithLevel?username="+encodeURIComponent(username.value)+"&userId="+user.id).then(res => {
     if(res.code === 200){
       userList.value = res.data
       console.log(res.data)

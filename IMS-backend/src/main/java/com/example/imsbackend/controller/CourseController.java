@@ -193,7 +193,7 @@ public class CourseController {
         list.add(jsonObject9);
         list.add(jsonObject10);
         list.add(jsonObject11);
-        jsonObject1.put("session", JSONUtil.parseObj("{\"num\": \"第一节\", \"time\": \"8:00~8：45\"}"));
+        jsonObject1.put("session", JSONUtil.parseObj("{\"num\": \"第一节\", \"time\": \"8:00~8:45\"}"));
         jsonObject2.put("session", JSONUtil.parseObj("{\"num\": \"第二节\", \"time\": \"8:55~9:40\"}"));
         jsonObject3.put("session", JSONUtil.parseObj("{\"num\": \"第三节\", \"time\": \"10:10~10:55\"}"));
         jsonObject4.put("session", JSONUtil.parseObj("{\"num\": \"第四节\", \"time\": \"11:05~11:50\"}"));
