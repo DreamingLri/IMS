@@ -4,17 +4,13 @@ import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
-import com.example.imsbackend.entity.Courses;
-import com.example.imsbackend.entity.Exams;
-import com.example.imsbackend.entity.UserCourse;
+import com.example.imsbackend.entity.*;
 import com.example.imsbackend.entity.dto.InsertCourseDTO;
 import com.example.imsbackend.entity.vo.CourseVO;
 import com.example.imsbackend.handler.exception.DeleteCourseException;
 import com.example.imsbackend.handler.exception.InsertCourseException;
 import com.example.imsbackend.handler.exception.UpdateCourseException;
-import com.example.imsbackend.mapper.CoursesMapper;
-import com.example.imsbackend.mapper.ExamsMapper;
-import com.example.imsbackend.mapper.UserCourseMapper;
+import com.example.imsbackend.mapper.*;
 import com.example.imsbackend.mapper.struct.BeanCopyUtil;
 import com.example.imsbackend.service.CoursesService;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +20,8 @@ import org.springframework.util.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import static com.example.imsbackend.constants.OtherConstants.TEACHER_ID;
 
 /**
  * (Courses)表服务实现类
@@ -37,6 +35,7 @@ public class CoursesServiceImpl extends ServiceImpl<CoursesMapper, Courses> impl
 
     private final UserCourseMapper userCourseMapper;
     private final ExamsMapper examsMapper;
+    private final UserLevelMapper userLevelMapper;
     @Override
     public List<Courses> listCourse(String name) {
         LambdaQueryWrapper<Courses> like = new LambdaQueryWrapper<Courses>()
@@ -108,10 +107,19 @@ public class CoursesServiceImpl extends ServiceImpl<CoursesMapper, Courses> impl
 
     @Override
     public boolean deleteCourseById(Integer id) {
-        UserCourse userCourse = userCourseMapper.selectOne(new LambdaQueryWrapper<UserCourse>().eq(UserCourse::getCourseId, id));
-        if(!ObjectUtil.isEmpty(userCourse)){
+
+        List<UserCourse> userCourse = userCourseMapper.selectList(new LambdaQueryWrapper<UserCourse>().eq(UserCourse::getCourseId, id));
+        int teacherNum = 0;
+        for (UserCourse course : userCourse) {
+            UserLevel userLevel = userLevelMapper.selectOne(new LambdaQueryWrapper<UserLevel>().eq(UserLevel::getUserId, course.getUserId()));
+            if(!ObjectUtil.isEmpty(userLevel)){
+                teacherNum = 1;
+            }
+        }
+        if(userCourse.size() - teacherNum != 0){
             throw new DeleteCourseException("已有人选课，不能删除该课程");
         }
+
         return baseMapper.deleteById(id) == 1;
     }
 
