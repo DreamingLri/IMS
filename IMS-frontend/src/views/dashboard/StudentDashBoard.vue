@@ -420,7 +420,7 @@ onMounted(()=>{
 }
 
 .class_panel{
-  height: 1400px;
+  height: 1500px;
   width: 100%;
   background-color: white;
   border-radius: 4px;

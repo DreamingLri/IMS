@@ -15,6 +15,7 @@ import {
 import ClassTable from "@/views/components/admin/ClassTable.vue";
 import router from "@/router"
 import request from "@/utils/request";
+import TeacherClassTable from "@/views/components/teacher/TeacherClassTable.vue";
 
 const userInfo = useInfoStore()
 console.log(localStorage.getItem("user"))
@@ -333,7 +334,7 @@ function formatDate(data){
             </div>
           </template>
           <div>
-            <class-table/>
+            <teacher-class-table/>e
           </div>
         </el-card>
       </el-col>
