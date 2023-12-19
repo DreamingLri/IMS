@@ -189,7 +189,7 @@ function closeHelpDialog(){
           </el-header>
           <el-main class="main">
             <el-input class="inputID" v-model="loginForm.username" placeholder="NetId" />
-            <el-input class="inputPW" v-model="loginForm.password" placeholder="密 码" />
+            <el-input class="inputPW" v-model="loginForm.password" placeholder="密 码" show-password/>
             <el-button class="loginBtn" type="success" @click="login">登 录</el-button>
             <el-divider/>
             <el-row :gutter="20">
