@@ -94,7 +94,7 @@ const resetForm = (formEl) => {
 function formatScore(row, col){
   let data = row[col.property]
   if(data == null)
-    return null
+    return "暂未评分"
   if(data === 1){
     return "平时分60%, 考试分40%"
   } else if(data === 2){
