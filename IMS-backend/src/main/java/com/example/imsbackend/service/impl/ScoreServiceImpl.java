@@ -205,28 +205,28 @@ public class ScoreServiceImpl extends ServiceImpl<ScoreMapper, Score> implements
 
     @Override
     public List<StudentScoreVo> listStudentWithScoreByCourseId(Integer courseId) {
-            List<StudentScoreVo> list = new ArrayList<>();
+        List<StudentScoreVo> list = new ArrayList<>();
             List<UserCourse> userCourses = userCourseMapper.selectList(new LambdaQueryWrapper<UserCourse>()
-                    .eq(UserCourse::getCourseId, courseId));
+                .eq(UserCourse::getCourseId, courseId));
             userCourses.stream()
-                    .filter(userCourse -> {
-                        UserLevel userLevel = userLevelMapper.selectOne(new LambdaQueryWrapper<UserLevel>()
-                                .eq(UserLevel::getUserId, userCourse.getUserId()));
-                        return userLevel.getLevelId().equals(STUDENT_ID);
-                    })
-                    .forEach(userCourse -> {
-                        Score score = baseMapper.selectOne(new LambdaQueryWrapper<Score>()
-                                .eq(Score::getUserId, userCourse.getUserId())
-                                .eq(Score::getCourseId, userCourse.getCourseId()));
-                        User user = userMapper.selectOne(new LambdaQueryWrapper<User>()
-                                .eq(User::getId, userCourse.getUserId()));
+                .filter(userCourse -> {
+                    UserLevel userLevel = userLevelMapper.selectOne(new LambdaQueryWrapper<UserLevel>()
+                        .eq(UserLevel::getUserId, userCourse.getUserId()));
+                    return userLevel.getLevelId().equals(STUDENT_ID);
+                })
+                .forEach(userCourse -> {
+                    Score score = baseMapper.selectOne(new LambdaQueryWrapper<Score>()
+                        .eq(Score::getUserId, userCourse.getUserId())
+                        .eq(Score::getCourseId, userCourse.getCourseId()));
+                    User user = userMapper.selectOne(new LambdaQueryWrapper<User>()
+                        .eq(User::getId, userCourse.getUserId()));
 
-                        StudentScoreVo studentScoreVo = new StudentScoreVo();
-                        studentScoreVo.setName(user.getUsername());
-                        studentScoreVo.setNetId(user.getNetId());
-                        studentScoreVo.setCode(user.getCode());
-                        studentScoreVo.setId(user.getId());
-
+                    StudentScoreVo studentScoreVo = new StudentScoreVo();
+                    studentScoreVo.setName(user.getUsername());
+                    studentScoreVo.setNetId(user.getNetId());
+                    studentScoreVo.setCode(user.getCode());
+                    studentScoreVo.setId(user.getId());
+                    if(!ObjectUtil.isEmpty(score)){
                         if(score.getStudyScore() != null
                                 && score.getExamScore() != null
                                 && score.getTotalScore() != null
@@ -236,9 +236,10 @@ public class ScoreServiceImpl extends ServiceImpl<ScoreMapper, Score> implements
                             studentScoreVo.setTotalScore(score.getTotalScore());
                             studentScoreVo.setScoreFunction(score.getScoreFunction());
                         }
-                        list.add(studentScoreVo);
-                    });
-            return list;
+                    }
+                    list.add(studentScoreVo);
+                });
+        return list;
     }
 
     @Override
