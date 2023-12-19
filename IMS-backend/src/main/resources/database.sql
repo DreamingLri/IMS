@@ -129,7 +129,9 @@ create table user
     update_by           varchar(255)     null,
     del_flag            char default '0' null,
     constraint user_code
-        unique (code)
+        unique (code),
+    constraint user_pk
+        unique (net_id)
 );
 
 create table user_course
