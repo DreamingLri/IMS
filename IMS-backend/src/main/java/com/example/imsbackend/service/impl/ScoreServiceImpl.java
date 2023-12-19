@@ -62,7 +62,7 @@ public class ScoreServiceImpl extends ServiceImpl<ScoreMapper, Score> implements
                 User user = userMapper.selectOne(new LambdaQueryWrapper<User>()
                         .eq(User::getId, score.getUserId()));
                 Courses course = coursesMapper.selectOne(new LambdaQueryWrapper<Courses>()
-                        .eq(Courses::getCredit, score.getCourseId()));
+                        .eq(Courses::getId, score.getCourseId()));
                 if(user.getEarnedCredit() == null){
                     user.setEarnedCredit(0.0);
                 }
