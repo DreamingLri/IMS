@@ -22,6 +22,11 @@ function getScoreList(){
 onMounted(()=>{
   getScoreList()
 })
+
+function formatGradePoints(row, col){
+  let data = row[col.property]
+  return data.toFixed()
+}
 </script>
 
 <template>
@@ -44,7 +49,7 @@ onMounted(()=>{
         <el-table-column prop="studyScore" label="平时分" width="130" />
         <el-table-column prop="examScore" label="考试分" width="130" />
         <el-table-column prop="totalScore" label="总分" width="130"/>
-        <el-table-column prop="gradePoint" label="绩点"/>
+        <el-table-column prop="gradePoint" label="绩点" :formatter="formatGradePoints"/>
       </el-table>
     </el-scrollbar>
   </div>
