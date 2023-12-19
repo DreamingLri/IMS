@@ -56,7 +56,7 @@ public class ScoreServiceImpl extends ServiceImpl<ScoreMapper, Score> implements
         Score checkScore = baseMapper.selectOne(new LambdaQueryWrapper<Score>()
                 .eq(Score::getCourseId, score.getCourseId())
                 .eq(Score::getUserId, score.getUserId()));
-        if(ObjectUtil.isEmpty(checkScore)){
+        if(!ObjectUtil.isEmpty(checkScore)){
             //学分自增
             {
                 User user = userMapper.selectOne(new LambdaQueryWrapper<User>()
