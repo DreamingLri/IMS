@@ -29,6 +29,7 @@ public class GlobalExceptionHandler {
                 return ResultBean.error(HTTP_STATUS_422, exception.getFieldError().getDefaultMessage());
         if (e instanceof BindException exception)
             return ResultBean.error(HTTP_STATUS_422, exception.getMessage());
+        e.printStackTrace();
         return ResultBean.error(HttpMessage.SYSTEM_ERROR);
     }
 }

@@ -128,6 +128,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public boolean insertStudent(InsertUserDTO insertUserDTO) {
         User user = BeanCopyUtil.INSTANCE.toUser(insertUserDTO);
+        user.setEarnedCredit(0.0);
+        user.setGradePoints(0.0);
         if(baseMapper.insert(user) == 0){
             throw new InsertStudentException("创建学生失败，学号重复或NetId重复");
         }
