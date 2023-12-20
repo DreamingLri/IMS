@@ -295,7 +295,7 @@ function closeHelpDialog(){
           </el-select>
         </el-form-item>
         <el-form-item label="用户等级" prop="level">
-          <el-select v-model="addUserForm.level" placeholder="请选择您的用户等级(这也太op了)">
+          <el-select v-model="addUserForm.level" placeholder="请选择您的用户等级(这也太op了)"> <!-- 为便于测试，可随意选择用户等级 -->
             <el-option label="管理员" value="1" />
             <el-option label="教师" value="2" />
             <el-option label="学生" value="3" />
