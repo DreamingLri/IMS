@@ -25,7 +25,7 @@ onMounted(()=>{
 
 function formatGradePoints(row, col){
   let data = row[col.property]
-  return data.toFixed()
+  return data.toFixed(2)
 }
 </script>
 
