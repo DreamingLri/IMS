@@ -39,10 +39,10 @@ public class UserCourseServiceImpl extends ServiceImpl<UserCourseMapper, UserCou
 
     @Override
     public boolean withdrawCourse(UserCourse userCourse) {
-        try{
             Score checkScore = scoreMapper.selectOne(new LambdaQueryWrapper<Score>()
                     .eq(Score::getUserId, userCourse.getUserId())
-                    .eq(Score::getCourseId, userCourse.getCourseId()));
+                    .eq(Score::getCourseId, userCourse.getCourseId())
+                    .isNull(Score::getEvaluationScore));
             if(ObjectUtil.isEmpty(checkScore)){
                 if(baseMapper.delete(new LambdaQueryWrapper<UserCourse>()
                         .eq(UserCourse::getCourseId, userCourse.getCourseId())
@@ -63,10 +63,6 @@ public class UserCourseServiceImpl extends ServiceImpl<UserCourseMapper, UserCou
                 }
                 throw new WithdrawCourseException();
             }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return true;
     }
 
     @Override

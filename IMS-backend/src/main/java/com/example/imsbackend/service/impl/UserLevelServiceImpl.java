@@ -30,7 +30,7 @@ public class UserLevelServiceImpl extends ServiceImpl<UserLevelMapper, UserLevel
                         .ne(User::getId, userId);
         userMapper.selectList(like)
                 .forEach(user -> {
-                    UserWithLevelVO userWithLevelVO;
+                    UserWithLevelVO userWithLevelVO = new UserWithLevelVO();
                     int level = userLevelMapper.selectOne(new LambdaQueryWrapper<UserLevel>()
                             .eq(UserLevel::getUserId, user.getId())).getLevelId();
                     userWithLevelVO = BeanCopyUtil.INSTANCE.toUserWithLevelVO(user);
