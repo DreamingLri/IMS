@@ -111,10 +111,6 @@ onMounted(()=>{
   padding: 20px;
 }
 
-.header-wrapper{
-  width: 100%;
-  height: 30%;
-}
 .table-wrapper{
   height: 68%;
   width: 100%;
