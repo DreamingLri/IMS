@@ -1,13 +1,16 @@
 package com.example.imsbackend.service.impl;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.imsbackend.entity.Courses;
 import com.example.imsbackend.entity.Exams;
 import com.example.imsbackend.entity.UserExams;
 import com.example.imsbackend.entity.dto.ExamAddStudentDTO;
 import com.example.imsbackend.handler.exception.DeleteExamException;
 import com.example.imsbackend.handler.exception.InsertExamException;
 import com.example.imsbackend.handler.exception.UpdateExamException;
+import com.example.imsbackend.mapper.CoursesMapper;
 import com.example.imsbackend.mapper.ExamsMapper;
 import com.example.imsbackend.mapper.UserExamsMapper;
 import com.example.imsbackend.service.ExamsService;
@@ -29,6 +32,7 @@ import java.util.Objects;
 public class ExamsServiceImpl extends ServiceImpl<ExamsMapper, Exams> implements ExamsService {
 
     private final UserExamsMapper userExamsMapper;
+    private final CoursesMapper coursesMapper;
     @Override
     public List<Exams> listExam(String name) {
         LambdaQueryWrapper<Exams> like = new LambdaQueryWrapper<Exams>()
@@ -68,9 +72,21 @@ public class ExamsServiceImpl extends ServiceImpl<ExamsMapper, Exams> implements
 
     @Override
     public boolean deleteExamById(Integer id) {
+        Exams exams = baseMapper.selectOne(new LambdaQueryWrapper<Exams>().eq(Exams::getId, id));
+        if(!ObjectUtil.isEmpty(exams)){
+            if(exams.getCourseId() != null){
+                int courseId = exams.getCourseId();
+                Courses courses = coursesMapper.selectOne(new LambdaQueryWrapper<Courses>().eq(Courses::getId, courseId));
+                if(!ObjectUtil.isEmpty(courses)){
+                    throw new DeleteExamException("此为自动创建考试，不能在此页面删除");
+                }
+            }
+        }
         if(baseMapper.deleteById(id) == 0)
-            throw new DeleteExamException();
-        return true;
+            throw new DeleteExamException("删除失败");
+        else {
+            return true;
+        }
     }
 
     @Override

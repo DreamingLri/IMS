@@ -299,7 +299,7 @@ function formatTime(row, col){
           <el-input v-model="addExamForm.examDuration" />
         </el-form-item>
         <el-form-item label="监考老师" prop="invigilator">
-          <el-select v-model="updateExamForm.invigilator" class="m-2" placeholder="请选择监考老师">
+          <el-select v-model="addExamForm.invigilator" class="m-2" placeholder="请选择监考老师">
             <el-option
                 v-for="item in teacherList"
                 :key="item.id"
