@@ -10,9 +10,7 @@ import {useInfoStore} from "@/stores/pinna"
 const login = () =>{
   request.post("/login", loginForm).then(res =>{
     if(res.code === 200){
-      request.get("/score/getGradePointByUserId?userId="+res.data.id).then(res=>{
-        localStorage.setItem("gradePoints", res.data)
-      })
+      localStorage.clear()
       localStorage.setItem("user", JSON.stringify(res.data))
       getScoreList(res.data.id)
       ElMessage.success("登录成功")
@@ -75,6 +73,7 @@ const addUserForm = reactive({
   affiliatedSchool: '',
   qualification: '',
   researchDirection: '',
+  totalCredit: '',
 })
 const addUserDialog = ref(false)
 const ruleForm = ref()
@@ -116,6 +115,22 @@ const rules = reactive({
   ],
   level: [
     { required: true, message: '等级权限不能为空', trigger: 'blur' }
+  ],
+  totalCredit: [
+    { required: true, message: '总学分不能为空', trigger: 'blur' },
+    {
+      transform(value) {
+        return Number(value);
+      },
+      validator(rule, value, callback) {
+        if (Number.isFinite(value) && value > 0) {
+          callback();
+        } else {
+          callback(new Error("请输入大于0的数字"));
+        }
+      },
+      trigger: "blur",
+    }
   ]
 })
 
@@ -135,6 +150,7 @@ function closeAddDialog(){
   addUserForm.qualification = ''
   addUserForm.researchDirection = ''
   addUserForm.level = ''
+  addUserForm.totalCredit = ''
 }
 
 const SignUp = async (formEl) => {
@@ -248,6 +264,9 @@ function closeHelpDialog(){
             <el-option label="女" value="女" />
             <el-option label="未知" value="未知" />
           </el-select>
+        </el-form-item>
+        <el-form-item label="总学分" prop="totalCredit">
+          <el-input v-model="addUserForm.totalCredit" />
         </el-form-item>
         <el-form-item label="入学日期" prop="entryTime">
           <el-date-picker

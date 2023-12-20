@@ -17,6 +17,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -57,22 +58,30 @@ public class ScoreServiceImpl extends ServiceImpl<ScoreMapper, Score> implements
                 .eq(Score::getCourseId, score.getCourseId())
                 .eq(Score::getUserId, score.getUserId())
                 .isNull(Score::getEvaluationScore));
+        User user = userMapper.selectOne(new LambdaQueryWrapper<User>()
+                .eq(User::getId, score.getUserId()));
+        Courses course = coursesMapper.selectOne(new LambdaQueryWrapper<Courses>()
+                .eq(Courses::getId, score.getCourseId()));
         if(ObjectUtil.isEmpty(checkScore)){
             //学分自增
             {
-                User user = userMapper.selectOne(new LambdaQueryWrapper<User>()
-                        .eq(User::getId, score.getUserId()));
-                Courses course = coursesMapper.selectOne(new LambdaQueryWrapper<Courses>()
-                        .eq(Courses::getId, score.getCourseId()));
                 if(user.getEarnedCredit() == null){
                     user.setEarnedCredit(0.0);
                 }
                 user.setEarnedCredit(user.getEarnedCredit()+course.getCredit());
+                userMapper.updateById(user);
+                getGradePointByUserId(user.getId());
             }
             return baseMapper.insert(score) == 1;
         } else {
             score.setId(checkScore.getId());
             score.setTotalScore(totalScore);
+            if(user.getEarnedCredit() == null){
+                user.setEarnedCredit(0.0);
+            }
+            user.setEarnedCredit(user.getEarnedCredit()+course.getCredit());
+            userMapper.updateById(user);
+            getGradePointByUserId(user.getId());
             return baseMapper.updateById(score) == 1;
         }
     }
@@ -152,6 +161,7 @@ public class ScoreServiceImpl extends ServiceImpl<ScoreMapper, Score> implements
 
     //获得平均绩点
     public Double getGradePointByUserId(Integer userId) {
+        User user = userMapper.selectById(userId);
         double gradePoints = 0;
         int count = 0;
         List<Score> scores = baseMapper.selectList(new LambdaQueryWrapper<Score>()
@@ -163,8 +173,10 @@ public class ScoreServiceImpl extends ServiceImpl<ScoreMapper, Score> implements
             }
         }
         if(count != 0){
-            double result = new BigDecimal(gradePoints / count).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-            return result;
+            BigDecimal bigDecimal = new BigDecimal(gradePoints / count).setScale(2, RoundingMode.HALF_UP);
+            user.setGradePoints(bigDecimal.doubleValue());
+            userMapper.updateById(user);
+            return bigDecimal.doubleValue();
         }
         return null;
     }

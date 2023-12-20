@@ -9,7 +9,6 @@ import request from "@/utils/request";
 
 const userInfo = useInfoStore()
 let user = JSON.parse(localStorage.getItem("user"))
-let gradePoints = localStorage.getItem("gradePoints")
 
 // function getGradePoints(){
 //   request.get("score/getGradePointByUserId?userId="+user.id).then(res=>{
@@ -80,7 +79,7 @@ const option = ref({
         show: false,
         distance: 50
       },
-      data: [{value: gradePoints , name: '当前平均绩点'}],
+      data: [{value: user.gradePoints , name: '当前平均绩点'}],
       title: {
         fontSize: 20
       },

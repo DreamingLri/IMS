@@ -5,9 +5,8 @@
 </template>
 
 <script setup>
-
-let score = JSON.parse(localStorage.getItem("score"))
-console.log(score)
+  let score = JSON.parse(localStorage.getItem("score"))
+  console.log(score)
 
 import { use } from 'echarts/core';
 import { CanvasRenderer } from 'echarts/renderers';
