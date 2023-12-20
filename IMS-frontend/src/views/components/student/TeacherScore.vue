@@ -82,6 +82,22 @@ const resetForm = (formEl) => {
 const rules = reactive({
   suggestion: [
     { max: 200, message: '评教建议最长为200词'}
+  ],
+  evaluationScore: [
+    { required: true, message: '评教分不能为空', trigger: 'blur' },
+    {
+      transform(value) {
+        return Number(value);
+      },
+      validator(rule, value, callback) {
+        if (Number.isFinite(value) && value >= 0 && value <= 100) {
+          callback();
+        } else {
+          callback(new Error("请输入0-100的数字"));
+        }
+      },
+      trigger: "blur",
+    }
   ]
 })
 

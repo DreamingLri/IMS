@@ -105,6 +105,41 @@ function formatScore(row, col){
   }
 }
 
+const rules = reactive({
+  examScore: [
+    { required: true, message: '考试分不能为空', trigger: 'blur' },
+    {
+      transform(value) {
+        return Number(value);
+      },
+      validator(rule, value, callback) {
+        if (Number.isFinite(value) && value >= 0 && value <= 100) {
+          callback();
+        } else {
+          callback(new Error("请输入0-100的数字"));
+        }
+      },
+      trigger: "blur",
+    }
+  ],
+  studyScore: [
+    { required: true, message: '平时分不能为空', trigger: 'blur' },
+    {
+      transform(value) {
+        return Number(value);
+      },
+      validator(rule, value, callback) {
+        if (Number.isFinite(value) && value >= 0 && value <= 100) {
+          callback();
+        } else {
+          callback(new Error("请输入0-100的数字"));
+        }
+      },
+      trigger: "blur",
+    }
+  ]
+})
+
 </script>
 
 <template>
@@ -156,11 +191,11 @@ function formatScore(row, col){
       style="border-radius: 8px"
   >
     <div style="margin-right: 20%">
-      <el-form :model="addScoreForm" label-width="120px" ref="ruleForm">
-        <el-form-item label="平时分" prop="name">
+      <el-form :model="addScoreForm" label-width="120px" ref="ruleForm" :rules="rules">
+        <el-form-item label="平时分" prop="studyScore">
           <el-input v-model="addScoreForm.studyScore" />
         </el-form-item>
-        <el-form-item label="考试分" prop="name">
+        <el-form-item label="考试分" prop="examScore">
           <el-input v-model="addScoreForm.examScore" />
         </el-form-item>
         <el-form-item label="评分模式">
