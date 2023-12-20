@@ -296,7 +296,13 @@ function formatTime(row, col){
           <el-input v-model="addExamForm.examPlace" />
         </el-form-item>
         <el-form-item label="考试时长" prop="examDuration">
-          <el-input v-model="addExamForm.examDuration" />
+          <el-select v-model="addExamForm.examDuration" placeholder="请选择考试时长">
+            <el-option label="1小时" value="1" />
+            <el-option label="1.5小时" value="1.5" />
+            <el-option label="2小时" value="2" />
+            <el-option label="2.5小时" value="2.5" />
+            <el-option label="3小时" value="3" />
+          </el-select>
         </el-form-item>
         <el-form-item label="监考老师" prop="invigilator">
           <el-select v-model="addExamForm.invigilator" class="m-2" placeholder="请选择监考老师">
