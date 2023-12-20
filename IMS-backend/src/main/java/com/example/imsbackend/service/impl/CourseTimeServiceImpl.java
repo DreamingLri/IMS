@@ -62,7 +62,8 @@ public class CourseTimeServiceImpl extends ServiceImpl<CourseTimeMapper, CourseT
     public boolean insertCourseTime(CourseTime courseTime) {
         List<CourseTime> courseTimes = baseMapper.selectList(new LambdaQueryWrapper<CourseTime>()
                 .eq(CourseTime::getSession, courseTime.getSession())
-                .eq(CourseTime::getWeekday, courseTime.getWeekday()));
+                .eq(CourseTime::getWeekday, courseTime.getWeekday())
+                .eq(CourseTime::getCourseId, courseTime.getId()));
         if(!ObjectUtil.isEmpty(courseTimes))
             return false;
         else {
