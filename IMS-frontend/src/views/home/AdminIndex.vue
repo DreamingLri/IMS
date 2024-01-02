@@ -22,7 +22,7 @@ function logout(){
 <template>
   <div class="common-layout">
     <el-container style="height: 100vh">
-      <el-aside width="200px" style="border-right: 1px solid #ccc"  v-if="sideBarView">
+      <el-aside width="200px" style="border-right: 1px solid #ccc">
         <div style="height: 55px; display: flex; justify-content: center; align-items: center">
           后台管理系统
           <el-icon style="margin-left: 10px"><Position /></el-icon>

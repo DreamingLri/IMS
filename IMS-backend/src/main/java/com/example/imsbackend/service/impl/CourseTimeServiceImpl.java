@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * (CourseTime)表服务实现类
@@ -42,7 +43,7 @@ public class CourseTimeServiceImpl extends ServiceImpl<CourseTimeMapper, CourseT
         for(UserCourse i : userCourses){
             List<CourseTime> courseTimes = baseMapper.selectList(new LambdaQueryWrapper<>())
                     .stream()
-                    .filter(courseTime -> courseTime.getCourseId() == i.getCourseId())
+                    .filter(courseTime -> Objects.equals(courseTime.getCourseId(), i.getCourseId()))
                     .toList();
             list.addAll(courseTimes);
         }
