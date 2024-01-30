@@ -64,7 +64,7 @@ function rejectLeave(row){
       ElMessage.success("驳回成功")
       getLeaveList()
     } else {
-      ElMessage.error("失败失败")
+      ElMessage.error("驳回失败")
     }
   })
 }

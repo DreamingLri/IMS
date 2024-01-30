@@ -12,14 +12,12 @@ import com.example.imsbackend.entity.vo.TeacherScoreVO;
 import com.example.imsbackend.mapper.*;
 import com.example.imsbackend.mapper.struct.BeanCopyUtil;
 import com.example.imsbackend.service.ScoreService;
-import com.example.imsbackend.service.UserCourseService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
